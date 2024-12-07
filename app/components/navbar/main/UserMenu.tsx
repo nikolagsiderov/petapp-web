@@ -12,6 +12,7 @@ import useBecomeSitterModal from "@/app/hooks/useBecomeSitterModal";
 import { useRouter } from "next/navigation";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import useOnClickOutsideComponent from "@/app/hooks/useOnClickOutsideComponent";
+import ReactCountryFlag from "react-country-flag";
 
 interface UserMenuProps {
   currentUser?: SafeUser | null;
@@ -45,18 +46,39 @@ const UserMenu: React.FC<UserMenuProps> = ({
 
   return (
     <div className="relative">
-      <div className="flex flex-row items-center text-center gap-3">
+      <div className="flex flex-row items-center text-center gap-2">
+        <div className="block text-sm font-semibold p-2 rounded-full hover:bg-neutral-100 transition cursor-pointer">
+          {/* TODO: Implement localization both in BE & FE
+           <ReactCountryFlag
+            countryCode="BG"
+            svg
+            style={{
+              width: "1.4em",
+              height: "1.4em",
+            }}
+            title="Bulgaria"
+          /> */}
+          <ReactCountryFlag
+            countryCode="US"
+            svg
+            style={{
+              width: "1.4em",
+              height: "1.4em",
+            }}
+            title="United States"
+          />
+        </div>
         {hasUserAlreadyListed ? (
           <div
             onClick={() => router.push("/manage")}
-            className="hidden md:block text-sm font-semibold p-2 rounded-full hover:bg-neutral-100 transition cursor-pointer"
+            className="block text-sm font-semibold p-2 rounded-full hover:bg-neutral-100 transition cursor-pointer"
           >
             <MdOutlineAdminPanelSettings size={28} className="fill-sky-900" />
           </div>
         ) : (
           <div
             onClick={becomeSitter}
-            className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
+            className="block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
           >
             Стани гледач
           </div>

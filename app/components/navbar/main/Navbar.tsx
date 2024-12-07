@@ -9,7 +9,7 @@ import UserMenu from "./UserMenu";
 import { SafeUser } from "@/app/types";
 import { usePathname } from "next/navigation";
 import FindFilter from "./find/FindFilter";
-import FindCategories from "./find/FindCategories";
+import FindMiniBar from "./find/FindMiniBar";
 
 interface NavbarProps {
   currentUser?: SafeUser | null;
@@ -54,7 +54,7 @@ const Navbar: React.FC<NavbarProps> = ({
         </MainContainer>
       </div>
       {currentPathIsPetSitting && <PetSittingCategories />}
-      {currentPathIsFind && <FindCategories />}
+      {currentPathIsFind && <FindMiniBar />}
     </div>
   );
 };
