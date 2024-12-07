@@ -5,8 +5,18 @@ import { IoMdLocate } from "react-icons/io";
 import { FaDog } from "react-icons/fa";
 import { IoMdPaw } from "react-icons/io";
 import { useRouter, usePathname } from "next/navigation";
+import { useTranslation } from "react-i18next";
+import { useAppSelector } from "@/app/context/hooks";
+import { useEffect } from "react";
 
 const NavigationMenu = () => {
+  const { t, i18n } = useTranslation();
+  const bgLocalization = useAppSelector((state) => state.bgLocalization.value);
+
+  useEffect(() => {
+    i18n.changeLanguage(bgLocalization);
+  }, [bgLocalization]);
+
   const router = useRouter();
   const params = usePathname();
 
@@ -26,7 +36,7 @@ const NavigationMenu = () => {
         >
           <div className="flex flex-row gap-1 justify-center items-center">
             <IoMdPaw size={24} className="fill-rose-500" />
-            Гледане на домашни любимци
+            {t("PetSitting")}
           </div>
         </div>
         <div
@@ -37,7 +47,7 @@ const NavigationMenu = () => {
         >
           <div className="flex flex-row gap-1 justify-center items-center">
             <FaDog size={24} className="fill-rose-500" />
-            Намери дом
+            {t("FindAHome")}
           </div>
         </div>
         <div
@@ -48,7 +58,7 @@ const NavigationMenu = () => {
         >
           <div className="flex flex-row gap-1 justify-center items-center">
             <IoMdLocate size={24} className="fill-rose-500" />
-            Търси се/Намерено
+            {t("LostFound")}
           </div>
         </div>
         <div
@@ -59,7 +69,7 @@ const NavigationMenu = () => {
         >
           <div className="flex flex-row gap-1 justify-center items-center">
             <IoMdHeart size={24} className="fill-rose-500" />
-            Намери партньор
+            {t("FindAPartner")}
           </div>
         </div>
       </div>

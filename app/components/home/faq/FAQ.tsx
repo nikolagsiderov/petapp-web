@@ -1,72 +1,72 @@
 "use client";
 
+import { useAppSelector } from "@/app/context/hooks";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { FaCirclePlus } from "react-icons/fa6";
 
 const FAQ = () => {
+  const { t, i18n } = useTranslation();
+  const bgLocalization = useAppSelector((state) => state.bgLocalization.value);
+
+  useEffect(() => {
+    i18n.changeLanguage(bgLocalization);
+  }, [bgLocalization]);
+
   return (
     <div className="justify-center items-center flex flex-col">
-      <p className="text-xl font-extrabold pb-8">Често задавани въпроси</p>
+      <p className="text-xl font-extrabold pb-8">{t("FAQ")}</p>
       <div className="w-3/4">
         <details className="border border-slate-200 rounded-lg pt-2 pb-3 px-3 relative open:shadow-lg mb-3 bg-none open:bg-white duration-300">
           <summary className="list-none font-semibold relative text-sm cursor-pointer pr-7">
-            Как мога да стана гледач на домашни любимци?
+            {t("FAQuestion1")}
             <div className="absolute top-0 right-0 px-1 py-0.5 cursor-pointer visible open:invisible">
               <FaCirclePlus size={24} className="fill-neutral-800" />
             </div>
           </summary>
           <p className="text-xs pt-3">
-            Лесно. Регистрирай се в платформата, ако все още нямате регистрация.
-            Имате възможност и да се регистрирате, ползвайки вашия Google или
-            Facebook акаунт за по-удобно.
+            {t("FAQuestion1Answer1")}
             <br />
             <br />
-            Следвайте стъпките в страницата „Стани гледач“ и попълнете
-            необходимите данни.
+            {t("FAQuestion1Answer2")}
           </p>
         </details>
         <details className="border border-slate-200 rounded-lg pt-2 pb-3 px-3 relative open:shadow-lg mb-3 bg-none open:bg-white duration-300">
           <summary className="list-none font-semibold relative text-sm cursor-pointer pr-7">
-            Как да платя резервация?
+            {t("FAQuestion2")}
             <div className="absolute top-0 right-0 px-1 py-0.5 cursor-pointer visible open:invisible">
               <FaCirclePlus size={24} className="fill-neutral-800" />
             </div>
           </summary>
-          <p className="text-xs pt-3">
-            След като резервирате гледач на домашен любимец чрез нашата
-            платформа и след като избраният гледач се е съгласил с резервацията,
-            което може да отнеме до 48 часа.
-          </p>
+          <p className="text-xs pt-3">{t("FAQuestion2Answer")}</p>
         </details>
         <details className="border border-slate-200 rounded-lg pt-2 pb-3 px-3 relative open:shadow-lg mb-3 bg-none open:bg-white duration-300">
           <summary className="list-none font-semibold relative text-sm cursor-pointer pr-7">
-            Какво ще стане, ако трябва да анулирам резервация?
+            {t("FAQuestion3")}
             <div className="absolute top-0 right-0 px-1 py-0.5 cursor-pointer visible open:invisible">
               <FaCirclePlus size={24} className="fill-neutral-800" />
             </div>
           </summary>
           <p className="text-xs pt-3">
-            Ако промените плановете или решението си, моля, следвайте нашите{" "}
+            {t("FAQuestion3Answer")}{" "}
             <span className="cursor-pointer underline">
-              Правила за анулиране
+              {t("CancellationPolicy")}
             </span>
             .
           </p>
         </details>
         <details className="border border-slate-200 rounded-lg pt-2 pb-3 px-3 relative open:shadow-lg mb-3 bg-none open:bg-white duration-300">
           <summary className="list-none font-semibold relative text-sm cursor-pointer pr-7">
-            Каква е типичната цена на ден за гледане на домашен любимец?
+            {t("FAQuestion4")}
             <div className="absolute top-0 right-0 px-1 py-0.5 cursor-pointer visible open:invisible">
               <FaCirclePlus size={24} className="fill-neutral-800" />
             </div>
           </summary>
           <p className="text-xs pt-3">
-            Зависи индивидуално от всеки гледач и варира в зависимост от
-            критерии като личен опит с домашни любимци, тип настаняване,
-            местоположение, заетост, рейтинг и т.н.
+            {t("FAQuestion4Answer1")}
             <br />
             <br />
-            Със сигурност можем да ви посъветваме, така че да бъдете
-            конкурентоспособни, но и справедливо възнаградени.
+            {t("FAQuestion4Answer2")}
           </p>
         </details>
       </div>

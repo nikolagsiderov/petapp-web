@@ -4,8 +4,18 @@ import { IoMdHeart } from "react-icons/io";
 import { IoMdLocate } from "react-icons/io";
 import { FaDog } from "react-icons/fa";
 import { IoMdPaw } from "react-icons/io";
+import { useTranslation } from "react-i18next";
+import { useAppSelector } from "@/app/context/hooks";
+import { useEffect } from "react";
 
 const Middle = () => {
+  const { t, i18n } = useTranslation();
+  const bgLocalization = useAppSelector((state) => state.bgLocalization.value);
+
+  useEffect(() => {
+    i18n.changeLanguage(bgLocalization);
+  }, [bgLocalization]);
+
   return (
     <section className="relative">
       <div
@@ -36,11 +46,8 @@ const Middle = () => {
           >
             <IoMdPaw size={64} className="fill-rose-500" />
           </div>
-          <h3 className="text-3xl font-bold">Престой</h3>
-          <p>
-            Разгледай одобрени гледачи за твоя любимец близо до теб и резервирай
-            престоят им в техния уютен дом, докато теб те няма.
-          </p>
+          <h3 className="text-3xl font-bold">{t("Stay")}</h3>
+          <p>{t("StayDescription")}</p>
         </div>
         <div
           className="
@@ -59,10 +66,8 @@ const Middle = () => {
           >
             <FaDog size={64} className="fill-rose-500" />
           </div>
-          <h3 className="text-3xl font-bold">Намери дом</h3>
-          <p>
-            Намери дом на твоя домашен любимец като осиновиш, продадеш или подариш.
-          </p>
+          <h3 className="text-3xl font-bold">{t("FindAHome")}</h3>
+          <p>{t("FindAHomeDescription")}</p>
         </div>
         <div
           className="
@@ -81,11 +86,8 @@ const Middle = () => {
           >
             <IoMdLocate size={64} className="fill-rose-500" />
           </div>
-          <h3 className="text-3xl font-bold">Търси се/Намерено</h3>
-          <p>
-            Помогни на обществото на хората с домашни любимци като сигнализираш
-            за намерен домашен любимец.
-          </p>
+          <h3 className="text-3xl font-bold">{t("LostFound")}</h3>
+          <p>{t("LostFoundDescription")}</p>
         </div>
         <div
           className="
@@ -104,10 +106,8 @@ const Middle = () => {
           >
             <IoMdHeart size={64} className="fill-rose-500" />
           </div>
-          <h3 className="text-3xl font-bold">Намери партньор</h3>
-          <p>
-            Намери си подходящ партньор или приятел за твоя домашен любимец.
-          </p>
+          <h3 className="text-3xl font-bold">{t("FindAPartner")}</h3>
+          <p>{t("FindAPartnerDescription")}</p>
         </div>
       </div>
     </section>

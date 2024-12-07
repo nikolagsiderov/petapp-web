@@ -1,9 +1,19 @@
 "use client";
 
+import { useTranslation } from "react-i18next";
 import MainContainer from "../MainContainer";
 import { FaSquareFacebook, FaInstagram, FaTiktok } from "react-icons/fa6";
+import { useAppSelector } from "@/app/context/hooks";
+import { useEffect } from "react";
 
 const Footer = () => {
+  const { t, i18n } = useTranslation();
+  const bgLocalization = useAppSelector((state) => state.bgLocalization.value);
+
+  useEffect(() => {
+    i18n.changeLanguage(bgLocalization);
+  }, [bgLocalization]);
+
   return (
     <div className="hidden md:block fixed bottom-0 w-full z-30 bg-white/20 backdrop-blur">
       <div className="py-1 border-t-[1px]">
@@ -12,15 +22,15 @@ const Footer = () => {
             <div>© {new Date().getFullYear()} PawPal v1.0.0-alpha</div>
             <div className="font-black">·</div>
             <div className="hover:underline cursor-pointer">
-              Условия за ползване
+              {t("TermsOfUse")}
             </div>
             <div className="font-black">·</div>
             <div className="hover:underline cursor-pointer">
-              Политика за поверителност и бисквитки
+              {t("PrivacyAndCookiesPolicy")}
             </div>
             <div className="font-black">·</div>
             <div className="flex flex-row gap-1 overflow-hidden">
-              <div className="mt-1">Изработка и дизайн: </div>
+              <div className="mt-1">{t("DesignAndDevelopment")}</div>
               <a
                 href="https://nikolagsiderov.dev/"
                 target="blank"
@@ -38,7 +48,7 @@ const Footer = () => {
             </div>
             <div className="font-black">·</div>
             <div className="flex flex-row overflow-hidden justify-center items-center gap-2">
-              <div>Последвай ни в социалните мрежи</div>
+              <div>{t("FollowUsOnSocialMedia")}</div>
               <div className="cursor-pointer">
                 <FaSquareFacebook size={18} className="text-blue-500" />
               </div>
