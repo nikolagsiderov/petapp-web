@@ -5,6 +5,7 @@ import { IoMdLocate } from "react-icons/io";
 import { FaDog } from "react-icons/fa";
 import { IoMdPaw } from "react-icons/io";
 import { useRouter, usePathname } from "next/navigation";
+import "@/app/i18n";
 import { useTranslation } from "react-i18next";
 import { useAppSelector } from "@/app/context/hooks";
 import { useEffect } from "react";
@@ -13,9 +14,7 @@ const NavigationMenu = () => {
   const { t, i18n } = useTranslation();
   const bgLocalization = useAppSelector((state) => state.bgLocalization.value);
 
-  useEffect(() => {
-    i18n.changeLanguage(bgLocalization);
-  }, [bgLocalization]);
+  useEffect(() => {}, [bgLocalization]);
 
   const router = useRouter();
   const params = usePathname();

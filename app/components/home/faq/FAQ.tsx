@@ -2,6 +2,7 @@
 
 import { useAppSelector } from "@/app/context/hooks";
 import { useEffect } from "react";
+import "@/app/i18n";
 import { useTranslation } from "react-i18next";
 import { FaCirclePlus } from "react-icons/fa6";
 

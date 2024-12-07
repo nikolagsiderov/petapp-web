@@ -10,7 +10,6 @@ import { signOut } from "next-auth/react";
 import { SafeUser } from "@/app/types";
 import useBecomeSitterModal from "@/app/hooks/useBecomeSitterModal";
 import { useRouter } from "next/navigation";
-import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import useOnClickOutsideComponent from "@/app/hooks/useOnClickOutsideComponent";
 import ReactCountryFlag from "react-country-flag";
 import { useAppDispatch, useAppSelector } from "@/app/context/hooks";
@@ -56,7 +55,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
   return (
     <div className="relative">
       <div className="flex flex-row items-center text-center gap-2">
-        <div className="block text-sm font-semibold p-2 rounded-full hover:bg-neutral-100 transition cursor-pointer">
+        <div className="block text-sm font-semibold p-3 rounded-full hover:bg-neutral-100 transition cursor-pointer">
           {bgLocalization === "bg" ? (
             <div onClick={() => handleSetBGLocalization("en")}>
               <ReactCountryFlag
@@ -83,14 +82,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
             </div>
           )}
         </div>
-        {hasUserAlreadyListed ? (
-          <div
-            onClick={() => router.push("/manage")}
-            className="block text-sm font-semibold p-2 rounded-full hover:bg-neutral-100 transition cursor-pointer"
-          >
-            <MdOutlineAdminPanelSettings size={28} className="fill-sky-900" />
-          </div>
-        ) : (
+        {!hasUserAlreadyListed && (
           <div
             onClick={becomeSitter}
             className="block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"

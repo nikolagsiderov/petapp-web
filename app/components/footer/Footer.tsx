@@ -1,5 +1,6 @@
 "use client";
 
+import "@/app/i18n";
 import { useTranslation } from "react-i18next";
 import MainContainer from "../MainContainer";
 import { FaSquareFacebook, FaInstagram, FaTiktok } from "react-icons/fa6";

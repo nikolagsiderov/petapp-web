@@ -1,5 +1,6 @@
 "use client";
 
+import "@/app/i18n";
 import { useAppSelector } from "@/app/context/hooks";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";

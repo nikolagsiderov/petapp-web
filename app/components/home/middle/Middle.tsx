@@ -4,6 +4,7 @@ import { IoMdHeart } from "react-icons/io";
 import { IoMdLocate } from "react-icons/io";
 import { FaDog } from "react-icons/fa";
 import { IoMdPaw } from "react-icons/io";
+import "@/app/i18n";
 import { useTranslation } from "react-i18next";
 import { useAppSelector } from "@/app/context/hooks";
 import { useEffect } from "react";
