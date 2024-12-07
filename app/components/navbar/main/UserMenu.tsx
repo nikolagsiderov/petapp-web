@@ -65,7 +65,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
               width: "1.4em",
               height: "1.4em",
             }}
-            title="United States"
+            title="Switch language to English"
           />
         </div>
         {hasUserAlreadyListed ? (
