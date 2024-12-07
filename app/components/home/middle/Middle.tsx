@@ -46,8 +46,8 @@ const Middle = () => {
           >
             <IoMdPaw size={64} className="fill-rose-500" />
           </div>
-          <h3 className="text-3xl font-bold">{t("Stay")}</h3>
-          <p>{t("StayDescription")}</p>
+          <h3 className="text-3xl font-bold">{t("PetSitting")}</h3>
+          <p>{t("PetSittingDescription")}</p>
         </div>
         <div
           className="
