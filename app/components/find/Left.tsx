@@ -2,13 +2,9 @@
 
 import { GoogleMap, MarkerF, useJsApiLoader } from "@react-google-maps/api";
 import { useRouter } from "next/navigation";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 
-interface LeftProps {
-  listings?: any;
-}
-
-const Left: React.FC<LeftProps> = ({ listings }) => {
+const Left = () => {
   const [userLocation, setUserLocation] = useState<any>(null);
   const router = useRouter();
 
@@ -47,32 +43,7 @@ const Left: React.FC<LeftProps> = ({ listings }) => {
             gestureHandling: "cooperative",
             minZoom: 7.2,
           }}
-        >
-          {listings?.map((listing: any) => {
-            return (
-              <div key={listing.id}>
-                <MarkerF
-                  icon={{
-                    path: google.maps.SymbolPath.CIRCLE,
-                    scale: 10,
-                  }}
-                  position={{
-                    lat: listing.lat + 0.001,
-                    lng: listing.lng - 0.001,
-                  }}
-                  label={{
-                    text: `${listing.price.toFixed(2)} лв`,
-                    color: "white",
-                    fontSize: "14px",
-                    className:
-                      "bg-rose-500 font-bold py-2 px-3 rounded-full cursor-pointer",
-                  }}
-                  onClick={() => handleMapSelect(listing.id)}
-                ></MarkerF>
-              </div>
-            );
-          })}
-        </GoogleMap>
+        ></GoogleMap>
       </div>
     </div>
   ) : (

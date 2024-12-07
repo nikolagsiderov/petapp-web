@@ -8,11 +8,10 @@ import { useState } from "react";
 import { SafeListing, SafeUser } from "../../types";
 
 interface FindClientProps {
-  listings?: Array<SafeListing> | null | undefined | any;
   currentUser?: SafeUser | null | undefined;
 }
 
-const FindClient: React.FC<FindClientProps> = ({ listings, currentUser }) => {
+const FindClient: React.FC<FindClientProps> = ({ currentUser }) => {
   const [mapView, setMapView] = useState(true);
 
   const toggleView = () => {
@@ -38,8 +37,8 @@ const FindClient: React.FC<FindClientProps> = ({ listings, currentUser }) => {
         </div>
       </div>
 
-      {!mapView && <ListView listings={listings} currentUser={currentUser} />}
-      {mapView && <MapView listings={listings} currentUser={currentUser} />}
+      {!mapView && <ListView currentUser={currentUser} />}
+      {mapView && <MapView currentUser={currentUser} />}
     </MainContainer>
   );
 };

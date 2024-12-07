@@ -5,15 +5,14 @@ import Right from "../../components/find/Right";
 import { SafeUser } from "../../types";
 
 interface MapViewProps {
-  listings?: any;
   currentUser?: SafeUser | null | undefined;
 }
 
-const MapView: React.FC<MapViewProps> = ({ listings, currentUser }) => {
+const MapView: React.FC<MapViewProps> = ({ currentUser }) => {
   return (
     <div className="pt-64 gap-8 lg:grid lg:grid-cols-3">
-      <Left listings={listings} />
-      <Right listings={listings} currentUser={currentUser} />
+      <Left />
+      <Right currentUser={currentUser} />
     </div>
   );
 };

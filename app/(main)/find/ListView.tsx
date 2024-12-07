@@ -1,14 +1,12 @@
 "use client";
 
-import ListingCard from "@/app/components/listings/ListingCard";
 import { SafeUser } from "../../types";
 
 interface ListViewProps {
-  listings?: any;
   currentUser?: SafeUser | null | undefined;
 }
 
-const ListView: React.FC<ListViewProps> = ({ listings, currentUser }) => {
+const ListView: React.FC<ListViewProps> = ({ currentUser }) => {
   return (
     <div
       className="
@@ -22,16 +20,7 @@ const ListView: React.FC<ListViewProps> = ({ listings, currentUser }) => {
             2xl:grid-cols-6
             gap-8
           "
-    >
-      {listings?.map((listing: any) => (
-        <ListingCard
-          currentUser={currentUser}
-          key={listing.id}
-          data={listing}
-          listingUserName={listing.user.name}
-        />
-      ))}
-    </div>
+    ></div>
   );
 };
 
