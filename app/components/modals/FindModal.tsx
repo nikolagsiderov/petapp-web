@@ -16,7 +16,7 @@ enum STEPS {
   DATE = 1,
 }
 
-const SearchModal = () => {
+const FindModal = () => {
   const router = useRouter();
   const searchModal = useSearchModal();
   const params = useSearchParams();
@@ -64,7 +64,7 @@ const SearchModal = () => {
 
     const url = qs.stringifyUrl(
       {
-        url: "/petsitting",
+        url: "/find",
         query: updatedQuery,
       },
       { skipNull: true }
@@ -94,8 +94,8 @@ const SearchModal = () => {
   let bodyContent = (
     <div className="flex flex-col gap-8">
       <Heading
-        title="От къде сте?"
-        subtitle="Къде се намира вашия домашен любимец?"
+        title="Локация"
+        subtitle="Изберете локация, за която последно имате информация за домашен любимец."
       />
       <TownSelect
         value={townValue}
@@ -108,8 +108,8 @@ const SearchModal = () => {
     bodyContent = (
       <div className="flex flex-col gap-8">
         <Heading
-          title="Кога ще ви е необходим гледач?"
-          subtitle="Изберете дати, когато ще оставите вашия домашен любимец."
+          title="Време"
+          subtitle="Изберете последната дата и час, за която имате информация за домашен любимец."
         />
         <Calendar
           onChange={(value) => setDateRange(value.selection)}
@@ -122,7 +122,7 @@ const SearchModal = () => {
   return (
     <Modal
       isOpen={searchModal.isOpen}
-      title="Филтрирай"
+      title="Намери или помогни"
       actionLabel={actionLabel}
       onSubmit={onSubmit}
       secondaryActionLabel={secondaryActionLabel}
@@ -133,4 +133,4 @@ const SearchModal = () => {
   );
 };
 
-export default SearchModal;
+export default FindModal;

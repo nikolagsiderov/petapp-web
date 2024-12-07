@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Heading from "./Heading";
 import Button from "./Button";
 
@@ -16,6 +16,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({
   showReset,
 }) => {
   const router = useRouter();
+  const pathname = usePathname();
 
   return (
     <div className="h-[60vh] flex flex-col gap-2 justify-center items-center">
@@ -25,7 +26,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({
           <Button
             outline
             label="Премахни всички филтри"
-            onClick={() => router.push("/petsitting")}
+            onClick={() => router.push(pathname ? pathname : "/")}
           />
         )}
       </div>

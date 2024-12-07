@@ -10,6 +10,8 @@ import CategoryBox from "../../../CategoryBox";
 import { usePathname, useSearchParams } from "next/navigation";
 import { MdPestControlRodent } from "react-icons/md";
 
+// TODO: Consider moving all categories outside of FE
+// Maybe store them in DB
 export const categories = [
   {
     label: "Кучета",
@@ -49,31 +51,31 @@ export const categories = [
   },
 ];
 
-const Categories = () => {
+const PetSittingCategories = () => {
   const params = useSearchParams();
   const category = params?.get("category");
   const pathname = usePathname();
 
   const isPetSittingPage = pathname === "/petsitting";
 
-  if (!isPetSittingPage) {
-    return null;
+  if (isPetSittingPage) {
+    return (
+      <MainContainer>
+        <div className="flex flex-row items-center justify-between overflow-x-auto">
+          {categories.map((item) => (
+            <CategoryBox
+              key={item.label}
+              label={item.label}
+              selected={category === item.label}
+              imageSrc={item.imageSrc}
+            />
+          ))}
+        </div>
+      </MainContainer>
+    );
   }
 
-  return (
-    <MainContainer>
-      <div className="flex flex-row items-center justify-between overflow-x-auto">
-        {categories.map((item) => (
-          <CategoryBox
-            key={item.label}
-            label={item.label}
-            selected={category === item.label}
-            imageSrc={item.imageSrc}
-          />
-        ))}
-      </div>
-    </MainContainer>
-  );
+  return null;
 };
 
-export default Categories;
+export default PetSittingCategories;

@@ -14,7 +14,7 @@ import {
   SafeUser,
 } from "@/app/types";
 import MainContainer from "@/app/components/MainContainer";
-import { categories } from "@/app/components/navbar/main/petsitting/Categories";
+import { categories } from "@/app/components/navbar/main/petsitting/PetSittingCategories";
 import ListingHead from "@/app/components/listings/ListingHead";
 import ListingInfo from "@/app/components/listings/ListingInfo";
 import ListingReservation from "@/app/components/listings/ListingReservation";

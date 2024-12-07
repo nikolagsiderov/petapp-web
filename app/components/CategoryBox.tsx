@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 import { IconType } from "react-icons";
 import qs from "query-string";
@@ -8,9 +8,10 @@ import Avatar from "./Avatar";
 
 interface CategoryBoxProps {
   icon?: IconType | null;
-  label: string;
-  imageSrc?: string;
-  selected?: boolean;
+  label: string | null;
+  imageSrc?: string | null;
+  selected?: boolean | null;
+  urgencyClassName?: string | null;
 }
 
 const CategoryBox: React.FC<CategoryBoxProps> = ({
@@ -18,8 +19,10 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({
   label,
   imageSrc,
   selected,
+  urgencyClassName,
 }) => {
   const router = useRouter();
+  const pathname = usePathname();
   const params = useSearchParams();
 
   const handleClick = useCallback(() => {
@@ -40,7 +43,7 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({
 
     const url = qs.stringifyUrl(
       {
-        url: "/petsitting",
+        url: pathname ? pathname : "/",
         query: updatedQuery,
       },
       { skipNull: true }
@@ -57,16 +60,27 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({
       }
     ${selected ? "text-rose-500" : "text-neutral-700"}`}
     >
-      {Icon && <Icon size={26} />}
-      {imageSrc && (
-        <Avatar
-          src={imageSrc}
-          roundedClass="rounded-none"
-          width={35}
-          height={35}
-        />
+      {pathname === "/petsitting" && (
+        <>
+          {Icon && <Icon size={26} />}
+          {imageSrc && (
+            <Avatar
+              src={imageSrc}
+              roundedClass="rounded-none"
+              width={35}
+              height={35}
+            />
+          )}
+          <div className="font-semibold -mt-1">{label}</div>
+        </>
       )}
-      <div className="font-semibold -mt-1">{label}</div>
+      {pathname === "/find" && (
+        <span
+          className={`px-2 py-1 text-sm font-semibold rounded text-white ${urgencyClassName}`}
+        >
+          {label}
+        </span>
+      )}
     </div>
   );
 };

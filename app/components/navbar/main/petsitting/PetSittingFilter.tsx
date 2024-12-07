@@ -7,7 +7,7 @@ import { useMemo } from "react";
 import { BiSearch } from "react-icons/bi";
 import { differenceInDays } from "date-fns";
 
-const Search = () => {
+const PetSittingFilter = () => {
   const searchModal = useSearchModal();
   const params = useSearchParams();
   const { getByValue } = useTowns();
@@ -138,4 +138,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default PetSittingFilter;
