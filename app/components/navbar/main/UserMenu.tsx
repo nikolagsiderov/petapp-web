@@ -2,7 +2,7 @@
 
 import { AiOutlineMenu } from "react-icons/ai";
 import Avatar from "../../Avatar";
-import { useCallback, useState, useRef } from "react";
+import { useCallback, useState, useRef, Dispatch, SetStateAction } from "react";
 import MenuItem from "./MenuItem";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useLoginModal from "@/app/hooks/useLoginModal";
@@ -13,6 +13,8 @@ import { useRouter } from "next/navigation";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import useOnClickOutsideComponent from "@/app/hooks/useOnClickOutsideComponent";
 import ReactCountryFlag from "react-country-flag";
+import { useAppDispatch, useAppSelector } from "@/app/context/hooks";
+import { set as setBGLocalization } from "@/app/context/features/bgLocalizationReducer";
 
 interface UserMenuProps {
   currentUser?: SafeUser | null;
@@ -23,6 +25,13 @@ const UserMenu: React.FC<UserMenuProps> = ({
   currentUser,
   hasUserAlreadyListed,
 }) => {
+  const dispatch = useAppDispatch();
+  const bgLocalization = useAppSelector((state) => state.bgLocalization.value);
+
+  const handleSetBGLocalization = (payload: string) => {
+    dispatch(setBGLocalization(payload));
+  };
+
   const ref = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
   const registerModal = useRegisterModal();
@@ -48,25 +57,31 @@ const UserMenu: React.FC<UserMenuProps> = ({
     <div className="relative">
       <div className="flex flex-row items-center text-center gap-2">
         <div className="block text-sm font-semibold p-2 rounded-full hover:bg-neutral-100 transition cursor-pointer">
-          {/* TODO: Implement localization both in BE & FE
-           <ReactCountryFlag
-            countryCode="BG"
-            svg
-            style={{
-              width: "1.4em",
-              height: "1.4em",
-            }}
-            title="Bulgaria"
-          /> */}
-          <ReactCountryFlag
-            countryCode="US"
-            svg
-            style={{
-              width: "1.4em",
-              height: "1.4em",
-            }}
-            title="Switch language to English"
-          />
+          {bgLocalization === "bg" ? (
+            <div onClick={() => handleSetBGLocalization("en")}>
+              <ReactCountryFlag
+                countryCode="US"
+                svg
+                style={{
+                  width: "1.4em",
+                  height: "1.4em",
+                }}
+                title="English"
+              />
+            </div>
+          ) : (
+            <div onClick={() => handleSetBGLocalization("bg")}>
+              <ReactCountryFlag
+                countryCode="BG"
+                svg
+                style={{
+                  width: "1.4em",
+                  height: "1.4em",
+                }}
+                title="Български"
+              />
+            </div>
+          )}
         </div>
         {hasUserAlreadyListed ? (
           <div

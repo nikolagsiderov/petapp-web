@@ -1,16 +1,25 @@
 "use client";
 
 import { FaInstagram, FaSquareFacebook, FaTiktok } from "react-icons/fa6";
+import "@/app/i18n";
+import { useTranslation } from "react-i18next";
+import { useEffect } from "react";
+import { useAppSelector } from "@/app/context/hooks";
 
 const Hero = () => {
+  const { t, i18n } = useTranslation();
+  const bgLocalization = useAppSelector((state) => state.bgLocalization.value);
+
+  useEffect(() => {
+    i18n.changeLanguage(bgLocalization);
+  }, [bgLocalization]);
+
   return (
     <div className="mb-4">
       <div className="text-4xl lg:text-6xl leading-tight lg:leading-tight">
-        Добре дошли в
+        {t("WelcomeTo")}
         <br />
-        <h1 className="text-rose-500 font-black tracking-tighter">
-          PawPal
-        </h1>
+        <h1 className="text-rose-500 font-black tracking-tighter">PawPal</h1>
       </div>
       <br />
       <h6 className="font-light text-sm">Последвайте ни в социалните мрежи:</h6>
