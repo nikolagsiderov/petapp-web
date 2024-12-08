@@ -6,13 +6,13 @@ import { usePathname } from "next/navigation";
 const useBottomNavigation = () => {
   const pathname = usePathname();
   const [isPetSitting, setIsPetSittingActive] = useState(false);
-  const [isBuyingActive, setIsBuyingActive] = useState(false);
+  const [isAdoptActive, setIsAdoptActive] = useState(false);
   const [isFindActive, setIsFindActive] = useState(false);
   const [isLoveActive, setIsLoveActive] = useState(false);
 
   useEffect(() => {
     setIsPetSittingActive(false);
-    setIsBuyingActive(false);
+    setIsAdoptActive(false);
     setIsFindActive(false);
     setIsLoveActive(false);
 
@@ -20,8 +20,8 @@ const useBottomNavigation = () => {
       case "/petsitting":
         setIsPetSittingActive(true);
         break;
-      case "/buying":
-        setIsBuyingActive(true);
+      case "/adopt":
+        setIsAdoptActive(true);
         break;
       case "/find":
         setIsFindActive(true);
@@ -37,7 +37,7 @@ const useBottomNavigation = () => {
 
   return {
     isPetSitting,
-    isBuyingActive,
+    isAdoptActive,
     isFindActive,
     isLoveActive,
   };

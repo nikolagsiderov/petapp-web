@@ -14,7 +14,7 @@ const BottomNav = () => {
   const scrollDirection = useScrollingEffect();
   const navClass = scrollDirection === "up" ? "" : "opacity-25 duration-200";
 
-  const { isPetSitting, isBuyingActive, isFindActive, isLoveActive } =
+  const { isPetSitting, isAdoptActive, isFindActive, isLoveActive } =
     useBottomNavigation();
 
   return (
@@ -33,10 +33,10 @@ const BottomNav = () => {
           )}
         </div>
         <div
-          onClick={() => router.push("/buying")}
+          onClick={() => router.push("/adopt")}
           className="flex items-center"
         >
-          {isBuyingActive ? (
+          {isAdoptActive ? (
             <FaDog className="fill-rose-500" size={24} />
           ) : (
             <FaDog size={24} />

@@ -19,7 +19,7 @@ const NavigationMenu = () => {
   const router = useRouter();
   const params = usePathname();
 
-  const currentPathIsBuying = params?.includes("buying");
+  const currentPathIsAdopt = params?.includes("adopt");
   const currentPathIsFind = params?.includes("find");
   const currentPathIsLove = params?.includes("love");
   const currentPathIsPetSitting = params?.includes("petsitting");
@@ -39,9 +39,9 @@ const NavigationMenu = () => {
           </div>
         </div>
         <div
-          onClick={() => router.push("/buying")}
+          onClick={() => router.push("/adopt")}
           className={`hidden md:block text-sm ${
-            currentPathIsBuying ? "font-bold" : "font-light"
+            currentPathIsAdopt ? "font-bold" : "font-light"
           } py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer`}
         >
           <div className="flex flex-row gap-1 justify-center items-center">

@@ -4,7 +4,7 @@ import useBecomeSitterModal from "@/app/hooks/useBecomeSitterModal";
 import Modal from "./Modal";
 import { useMemo, useState } from "react";
 import Heading from "../Heading";
-import { categories } from "../navbar/main/petsitting/PetSittingCategories";
+import { categories } from "../navbar/main/Categories";
 import CategoryInput from "../inputs/CategoryInput";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import ImageUpload from "../inputs/ImageUpload";

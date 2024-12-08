@@ -7,7 +7,7 @@ import Button from "../Button";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { categories } from "../navbar/main/petsitting/PetSittingCategories";
+import { categories } from "../navbar/main/Categories";
 import CategoryInput from "../inputs/CategoryInput";
 import Input from "../inputs/Input";
 import LocationInput from "../inputs/LocationInput";

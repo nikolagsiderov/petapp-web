@@ -1,7 +1,7 @@
 "use client";
 
 import MainContainer from "../../MainContainer";
-import PetSittingCategories from "./petsitting/PetSittingCategories";
+import Categories from "./Categories";
 import Logo from "../Logo";
 import NavigationMenu from "./NavigationMenu";
 import PetSittingFilter from "./petsitting/PetSittingFilter";
@@ -22,7 +22,7 @@ const Navbar: React.FC<NavbarProps> = ({
 }) => {
   const params = usePathname();
 
-  const currentPathIsBuying = params?.includes("buying");
+  const currentPathIsAdopt = params?.includes("adopt");
   const currentPathIsFind = params?.includes("find");
   const currentPathIsLove = params?.includes("love");
   const currentPathIsPetSitting = params?.includes("petsitting");
@@ -50,10 +50,15 @@ const Navbar: React.FC<NavbarProps> = ({
                 <FindFilter />
               </div>
             )}
+            {currentPathIsAdopt && (
+              <div className="flex flex-row items-center justify-center gap-3 md:gap-0">
+                <PetSittingFilter />
+              </div>
+            )}
           </div>
         </MainContainer>
       </div>
-      {currentPathIsPetSitting && <PetSittingCategories />}
+      {(currentPathIsPetSitting || currentPathIsAdopt) && <Categories />}
       {currentPathIsFind && <FindMiniBar />}
     </div>
   );
