@@ -1,8 +1,8 @@
 "use client";
 
-import { AiOutlineMenu } from "react-icons/ai";
+import { AiOutlineHeart, AiOutlineMenu } from "react-icons/ai";
 import Avatar from "../../Avatar";
-import { useCallback, useState, useRef, Dispatch, SetStateAction } from "react";
+import { useCallback, useState, useRef } from "react";
 import MenuItem from "./MenuItem";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useLoginModal from "@/app/hooks/useLoginModal";
@@ -14,6 +14,7 @@ import useOnClickOutsideComponent from "@/app/hooks/useOnClickOutsideComponent";
 import ReactCountryFlag from "react-country-flag";
 import { useAppDispatch, useAppSelector } from "@/app/context/hooks";
 import { set as setBGLocalization } from "@/app/context/features/bgLocalizationReducer";
+import { FiTag, FiUser, FiGrid, FiLogOut } from "react-icons/fi";
 
 interface UserMenuProps {
   currentUser?: SafeUser | null;
@@ -32,6 +33,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
   };
 
   const ref = useRef<HTMLDivElement | null>(null);
+  const additionalRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
@@ -50,10 +52,10 @@ const UserMenu: React.FC<UserMenuProps> = ({
     becomeSitterModal.onOpen();
   }, [currentUser, loginModal, becomeSitterModal]);
 
-  useOnClickOutsideComponent(ref, () => setIsOpen(false));
+  useOnClickOutsideComponent(ref, () => setIsOpen(false), additionalRef);
 
   return (
-    <div className="relative">
+    <div className="relative" ref={additionalRef}>
       <div className="flex flex-row items-center text-center gap-2">
         <div className="block text-sm font-semibold p-3 rounded-full hover:bg-neutral-100 transition cursor-pointer">
           {bgLocalization === "bg" ? (
@@ -104,37 +106,38 @@ const UserMenu: React.FC<UserMenuProps> = ({
       {isOpen && (
         <div
           ref={ref}
-          className="absolute rounded-xl shadow-md w-[40svw] md:w-full bg-white overflow-hidden right-0 top-12 text-sm"
+          className="absolute rounded-xl shadow-md w-[40svw] md:w-[25svw] xl:w-[10svw] bg-white overflow-hidden right-0 top-12 text-sm"
         >
           <div className="flex flex-col cursor-pointer">
             {currentUser ? (
               <>
                 <MenuItem
                   onClick={() => router.push("/favorites")}
+                  Icon={AiOutlineHeart}
                   label="Запазени"
                 />
                 <MenuItem
                   onClick={() => router.push("/reservations")}
+                  Icon={FiTag}
                   label="Резервации"
-                />
-                <MenuItem
-                  onClick={() => router.push("/reservations")}
-                  label="Още история"
                 />
                 <hr />
                 <MenuItem
                   onClick={() => router.push("/manage")}
+                  Icon={FiGrid}
                   label="Управление"
                   fontWeightClass={"font-md"}
                 />
                 <MenuItem
-                  onClick={() => signOut()}
+                  onClick={() => router.push("/profile")}
+                  Icon={FiUser}
                   label="Профил"
                   fontWeightClass={"font-md"}
                 />
                 <hr />
                 <MenuItem
                   onClick={() => signOut()}
+                  Icon={FiLogOut}
                   label="Излез"
                   fontWeightClass={"font-light"}
                 />
