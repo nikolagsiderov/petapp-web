@@ -1,7 +1,7 @@
 "use client";
 
 import "@/app/i18n";
-import { useAppSelector } from "@/app/context/hooks";
+import { useAppSelector } from "@/app/context/state/hooks";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { FaApple } from "react-icons/fa6";
@@ -13,7 +13,7 @@ const RightBottom = () => {
 
   useEffect(() => {
     i18n.changeLanguage(bgLocalization);
-  }, [bgLocalization]);
+  }, [i18n, bgLocalization]);
 
   return (
     <div className="col-span-1 relative">

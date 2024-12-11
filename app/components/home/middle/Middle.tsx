@@ -6,7 +6,7 @@ import { FaDog } from "react-icons/fa";
 import { IoMdPaw } from "react-icons/io";
 import "@/app/i18n";
 import { useTranslation } from "react-i18next";
-import { useAppSelector } from "@/app/context/hooks";
+import { useAppSelector } from "@/app/context/state/hooks";
 import { useEffect } from "react";
 
 const Middle = () => {
@@ -15,7 +15,7 @@ const Middle = () => {
 
   useEffect(() => {
     i18n.changeLanguage(bgLocalization);
-  }, [bgLocalization]);
+  }, [i18n, bgLocalization]);
 
   return (
     <section className="relative">

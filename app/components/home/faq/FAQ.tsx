@@ -1,6 +1,6 @@
 "use client";
 
-import { useAppSelector } from "@/app/context/hooks";
+import { useAppSelector } from "@/app/context/state/hooks";
 import { useEffect } from "react";
 import "@/app/i18n";
 import { useTranslation } from "react-i18next";
@@ -12,7 +12,7 @@ const FAQ = () => {
 
   useEffect(() => {
     i18n.changeLanguage(bgLocalization);
-  }, [bgLocalization]);
+  }, [i18n, bgLocalization]);
 
   return (
     <div className="justify-center items-center flex flex-col">
