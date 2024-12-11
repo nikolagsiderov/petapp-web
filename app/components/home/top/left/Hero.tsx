@@ -4,7 +4,7 @@ import { FaInstagram, FaSquareFacebook, FaTiktok } from "react-icons/fa6";
 import "@/app/i18n";
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
-import { useAppSelector } from "@/app/context/hooks";
+import { useAppSelector } from "@/app/context/state/hooks";
 
 const Hero = () => {
   const { t, i18n } = useTranslation();
@@ -12,7 +12,7 @@ const Hero = () => {
 
   useEffect(() => {
     i18n.changeLanguage(bgLocalization);
-  }, [bgLocalization]);
+  }, [i18n, bgLocalization]);
 
   return (
     <div className="mb-4">

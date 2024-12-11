@@ -12,8 +12,8 @@ import useBecomeSitterModal from "@/app/hooks/useBecomeSitterModal";
 import { useRouter } from "next/navigation";
 import useOnClickOutsideComponent from "@/app/hooks/useOnClickOutsideComponent";
 import ReactCountryFlag from "react-country-flag";
-import { useAppDispatch, useAppSelector } from "@/app/context/hooks";
-import { set as setBGLocalization } from "@/app/context/features/bgLocalizationReducer";
+import { useAppDispatch, useAppSelector } from "@/app/context/state/hooks";
+import { set as setBGLocalization } from "@/app/context/state/features/bgLocalizationReducer";
 import { FiTag, FiUser, FiGrid, FiLogOut } from "react-icons/fi";
 
 interface UserMenuProps {
