@@ -96,15 +96,16 @@ const ListingCard: React.FC<ListingCardProps> = ({
             className="object-cover h-full w-full group-hover:scale-110 transition"
             fill
           />
-          {!reservation && (
-            <div className="absolute top-3 left-3">
-              <RiVipDiamondLine
-                size={28}
-                className="fill-white absolute -top-[2px] -left-[2px]"
-              />
-              <RiVipDiamondFill size={24} className="fill-amber-400" />
-            </div>
-          )}
+          {/* {!reservation && (
+            // TODO: #47: Implement premium listings option
+            // <div className="absolute top-3 left-3">
+            //   <RiVipDiamondLine
+            //     size={28}
+            //     className="fill-white absolute -top-[2px] -left-[2px]"
+            //   />
+            //   <RiVipDiamondFill size={24} className="fill-amber-400" />
+            // </div>
+          )} */}
           <div className="absolute bottom-3 left-3">
             <span className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 tracking-tighter">
               Настанява <span className="lowercase ml-1">{data.category}</span>
@@ -125,11 +126,11 @@ const ListingCard: React.FC<ListingCardProps> = ({
                 ? !reservation
                   ? "col-span-9"
                   : "col-span-12"
-                : "row-span-10"
+                : "row-span-9"
             }
           >
             <div className="font-semibold text-lg">{listingUserName}</div>
-            <div className="font-light text-sm w-64 overflow-hidden truncate">{data.address}</div>
+            <div className="font-light text-sm w-56 overflow-hidden truncate">{data.address}</div>
             <div className="font-light text-neutral-500">
               {reservation && reservationDate}
             </div>
