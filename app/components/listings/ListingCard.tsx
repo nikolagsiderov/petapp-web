@@ -84,7 +84,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
             src={
               data.imageSrc
                 ? data.imageSrc
-                : "/images/review page background.png"
+                : "/images/listing-default-image.png"
             }
             className="object-cover h-full w-full group-hover:scale-110 transition"
             fill

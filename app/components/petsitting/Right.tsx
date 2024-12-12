@@ -19,7 +19,7 @@ const Right: React.FC<RightProps> = ({ listings, currentUser }) => {
               currentUser={currentUser}
               key={listing.id}
               data={listing}
-              listingUserName={listing.user.name}
+              listingUserName={`${listing.user.firstName} ${listing.user.lastName}`}
             />
           ))}
         </div>
@@ -31,7 +31,7 @@ const Right: React.FC<RightProps> = ({ listings, currentUser }) => {
               currentUser={currentUser}
               key={listing.id}
               data={listing}
-              listingUserName={listing.user.name}
+              listingUserName={`${listing.user.firstName} ${listing.user.lastName}`}
             />
           ))}
         </div>
