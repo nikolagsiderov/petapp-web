@@ -1,0 +1,65 @@
+import axios from "axios";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
+
+async function getSession() {
+  return await getServerSession(authOptions);
+}
+
+export async function createPrivateInstanceWithoutCredentials() {
+  return axios.create({
+    baseURL: process.env.NEXT_PUBLIC_USERS_API as string,
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  });
+}
+
+export async function createPrivateInstanceWithCredentials() {
+  try {
+    const session = await getSession();
+
+    const privateAxios = axios.create({
+      baseURL: process.env.NEXT_PUBLIC_USERS_API as string,
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+    });
+
+    if (session) {
+      // Add jwt token to request headers authorization
+      privateAxios.interceptors.request.use(
+        (config) => {
+          config.headers.Authorization = `Bearer ${session.user.jwt}`;
+          return config;
+        },
+        (error) => Promise.reject(error)
+      );
+    }
+
+    // // Handle errors, globally
+    // privateAxios.interceptors.response.use(
+    //   (response) => response,
+    //   (error) => {
+    //     // Handle specific error responses (e.g: 401 Unauthorized)
+    //     if (error.response?.status === 401) {
+    //       console.error("Unauthorized! Redirecting to login...");
+    //       // Optionally redirect to login page
+    //     }
+    //     return Promise.reject(error);
+    //   }
+    // );
+
+    return privateAxios;
+  } catch (error: any) {
+    return axios.create({
+      baseURL: process.env.NEXT_PUBLIC_USERS_API as string,
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+    });
+  }
+}

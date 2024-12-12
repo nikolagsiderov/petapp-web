@@ -1,12 +1,10 @@
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import NextAuth, { AuthOptions } from "next-auth";
-import prisma from "@/app/libs/prismadb";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcrypt";
+import { authenticate } from "@/app/actions/users/client";
+import axios from "axios";
+import NextAuth, { AuthOptions, Session } from "next-auth";
 
 export const authOptions: AuthOptions = {
-  adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -20,32 +18,48 @@ export const authOptions: AuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error("Невалидни данни за вход");
+          throw new Error("Моля въведи емайл и парола за вход.");
         }
 
-        const user = await prisma.user.findUnique({
-          where: {
-            email: credentials.email,
-          },
+        const response = await authenticate({
+          email: credentials.email,
+          password: credentials.password,
         });
 
-        if (!user || !user?.hashedPassword) {
-          throw new Error("Невалидни данни за вход");
+        const config = {
+          headers: { Authorization: `Bearer ${response.jwt}` },
+        };
+
+        const user = await axios
+          .get(
+            process.env.NEXT_PUBLIC_USERS_API + "/api/v1/users/current",
+            config
+          )
+          .then((response) => {
+            return response?.data;
+          })
+          .catch((error) => {
+            return null;
+          });
+        if (response?.success && user) {
+          return { ...user, jwt: response.jwt as string };
         }
-
-        const isCorrectPassword = await bcrypt.compare(
-          credentials.password,
-          user.hashedPassword
-        );
-
-        if (!isCorrectPassword) {
-          throw new Error("Невалидни данни за вход");
-        }
-
-        return user;
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.jwt = user.jwt;
+      }
+
+      return token;
+    },
+    async session({ session, token }: { session: Session; token: any }) {
+      session.user.jwt = token.jwt;
+      return session;
+    },
+  },
   pages: {
     signIn: "/",
   },

@@ -17,7 +17,7 @@ const LoginModal = () => {
   const router = useRouter();
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const {
     register,
@@ -31,13 +31,13 @@ const LoginModal = () => {
   });
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    setIsLoading(true);
+    setLoading(true);
 
     signIn("credentials", {
       ...data,
       redirect: false,
     }).then((callback) => {
-      setIsLoading(false);
+      setLoading(false);
 
       if (callback?.ok) {
         toast.success("Добре дошли!");
@@ -58,14 +58,11 @@ const LoginModal = () => {
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
-      <Heading
-        title="Добре дошли в PawPal"
-        subtitle="Влез в своя акаунт!"
-      />
+      <Heading title="Добре дошли в PawPal" subtitle="Влез в своя акаунт!" />
       <Input
         id="email"
         label="Имейл"
-        disabled={isLoading}
+        disabled={loading}
         register={register}
         errors={errors}
         required
@@ -74,7 +71,7 @@ const LoginModal = () => {
         id="password"
         type="password"
         label="Парола"
-        disabled={isLoading}
+        disabled={loading}
         register={register}
         errors={errors}
         required
@@ -107,7 +104,7 @@ const LoginModal = () => {
 
   return (
     <Modal
-      disabled={isLoading}
+      disabled={loading}
       isOpen={loginModal.isOpen}
       title="Влез"
       actionLabel="Продължи"
