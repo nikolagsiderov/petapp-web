@@ -1,4 +1,3 @@
-import { hasUserAlreadyListed } from "../actions/listings/listingsValidations";
 import getCurrentUser from "../actions/users/getCurrentUser";
 import ClientOnly from "../components/ClientOnly";
 import LoginModal from "../components/modals/LoginModal";
@@ -6,10 +5,7 @@ import RegisterModal from "../components/modals/RegisterModal";
 import BottomNav from "../components/navbar/main/BottomNav";
 import Navbar from "../components/navbar/main/Navbar";
 import Footer from "../components/footer/Footer";
-
-interface IParams {
-  userId?: string;
-}
+import { getCurrentUserListings } from "../actions/listings/client";
 
 export default async function RootLayout({
   children,
@@ -17,9 +13,13 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const currentUser = await getCurrentUser();
-  const params: IParams = { userId: currentUser?.id };
-  const userHasAlreadyListed = currentUser
-    ? await hasUserAlreadyListed(params)
+  const currentUserListings = currentUser
+    ? await getCurrentUserListings()
+    : null;
+  const userHasAlreadyListed = currentUserListings
+    ? currentUserListings.success
+      ? currentUserListings.data?.length > 0
+      : false
     : false;
 
   return (

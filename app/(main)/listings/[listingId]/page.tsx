@@ -3,7 +3,7 @@ import EmptyState from "@/app/components/EmptyState";
 import ListingClient from "./ListingClient";
 import ClientOnly from "@/app/components/ClientOnly";
 import BecomeSitterModal from "@/app/components/modals/BecomeSitterModal";
-import { getListingById } from "@/app/actions/listings/getActions";
+import { getListingById } from "@/app/actions/listings-legacy/getActions";
 import { getReservations, getReviews } from "@/app/actions/reservations/getActions";
 
 interface IParams {

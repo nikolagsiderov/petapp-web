@@ -1,19 +1,17 @@
 "use client";
 
-import { SafeListing, SafeReservation, User } from "@/app/types";
+import { Listing, SafeReservation, User } from "@/app/types";
 import { useRouter } from "next/navigation";
 import { ReactNode, useCallback, useMemo } from "react";
 import { format } from "date-fns";
 import Image from "next/image";
 import HeartButton from "../HeartButton";
 import Button from "../Button";
-import { RiVipDiamondFill, RiVipDiamondLine } from "react-icons/ri";
 import { FaStar } from "react-icons/fa6";
-import useTowns from "@/app/hooks/useTowns";
 
 interface ListingCardProps {
   horizontal?: boolean;
-  data: SafeListing;
+  data: Listing;
   reservation?: SafeReservation | null;
   onAction?: (id: string) => void;
   disabled?: boolean;
@@ -21,10 +19,6 @@ interface ListingCardProps {
   actionId?: string;
   currentUser?: User | null;
   listingUserName: string;
-}
-
-interface IParams {
-  listingId?: string;
 }
 
 const ListingCard: React.FC<ListingCardProps> = ({
@@ -39,7 +33,6 @@ const ListingCard: React.FC<ListingCardProps> = ({
   listingUserName,
 }) => {
   const router = useRouter();
-  const { getByValue } = useTowns();
 
   const handleAction = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -130,7 +123,9 @@ const ListingCard: React.FC<ListingCardProps> = ({
             }
           >
             <div className="font-semibold text-lg">{listingUserName}</div>
-            <div className="font-light text-sm w-56 overflow-hidden truncate">{data.address}</div>
+            <div className="font-light text-sm w-56 overflow-hidden truncate">
+              {data.address}
+            </div>
             <div className="font-light text-neutral-500">
               {reservation && reservationDate}
             </div>

@@ -2,11 +2,11 @@
 
 import MainContainer from "@/app/components/MainContainer";
 import ListView from "./ListView";
-import { SafeListing, User } from "../../types";
+import { Listing, User } from "../../types";
 
 interface AdoptClientProps {
   currentUser?: User | null | undefined;
-  listings?: Array<SafeListing> | null | undefined | any;
+  listings?: Array<Listing> | null | undefined | any;
 }
 
 const AdoptClient: React.FC<AdoptClientProps> = ({ currentUser, listings }) => {

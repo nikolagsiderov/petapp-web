@@ -15,9 +15,10 @@ export const authenticate = async (payload: {
     return {
       ...response?.data,
       success:
-        response?.status && response.status >= 200 && response.status < 300,
+        response?.status && response.status >= 200 && response.status < 300, // TODO: Handle success response...
     };
   } catch (error: any) {
+    // TODO: Handle error or responses different from 'success'
     if (axios.isAxiosError(error)) {
       console.error("Error:", error.response?.data.message || error.message);
     }
@@ -36,9 +37,10 @@ export const register = async (payload: {
     return {
       ...response?.data,
       success:
-        response?.status && response.status >= 200 && response.status < 300,
+        response?.status && response.status >= 200 && response.status < 300, // TODO: Handle success response...
     };
   } catch (error: any) {
+    // TODO: Handle error or responses different from 'success'
     if (axios.isAxiosError(error)) {
       console.error("Error:", error.response?.data.message || error.message);
     }
@@ -55,9 +57,10 @@ export const requestCurrent = async () => {
     return {
       ...response?.data,
       success:
-        response?.status && response.status >= 200 && response.status < 300,
+        response?.status && response.status >= 200 && response.status < 300, // TODO: Handle success response...
     };
   } catch (error: any) {
+    // TODO: Handle error or responses different from 'success'
     if (axios.isAxiosError(error)) {
       console.error("Error:", error.response?.data.message || error.message);
     }

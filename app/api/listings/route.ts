@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/app/libs/prismadb";
 import getCurrentUser from "@/app/actions/users/getCurrentUser";
-import { hasUserAlreadyListed } from "@/app/actions/listings/listingsValidations";
+import { hasUserAlreadyListed } from "@/app/actions/listings-legacy/listingsValidations";
 
 interface IParams {
   userId?: string;

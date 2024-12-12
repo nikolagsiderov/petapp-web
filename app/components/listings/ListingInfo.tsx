@@ -1,12 +1,12 @@
 "use client";
 
 import { IconType } from "react-icons";
-import { SafeReview, SafeUser } from "@/app/types";
+import { User } from "@/app/types";
 import Avatar from "../Avatar";
 import ListingCategory from "./ListingCategory";
 
 interface ListingInfoProps {
-  user: SafeUser;
+  user: User;
   description: string;
   category:
     | {

@@ -2,7 +2,7 @@ import EmptyState from "@/app/components/EmptyState";
 import getCurrentUser from "@/app/actions/users/getCurrentUser";
 import ListingClient from "./ListingClient";
 import ClientOnly from "@/app/components/ClientOnly";
-import { getListingByUserId } from "@/app/actions/listings/getActions";
+import { getListingByUserId } from "@/app/actions/listings-legacy/getActions";
 
 const MyListingsPage = async () => {
   const currentUser = await getCurrentUser();
@@ -30,7 +30,7 @@ const MyListingsPage = async () => {
 
   return (
     <ClientOnly>
-      <ListingClient listing={listing} currentUser={currentUser} />
+      <ListingClient listing={listing} />
     </ClientOnly>
   );
 };

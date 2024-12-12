@@ -1,10 +1,10 @@
 "use client";
 
 import ListingCard from "@/app/components/listings/ListingCard";
-import { User } from "@/app/types";
+import { Listing, User } from "@/app/types";
 
 interface RightProps {
-  listings?: any;
+  listings?: Array<Listing> | null;
   currentUser?: User | null | undefined;
 }
 

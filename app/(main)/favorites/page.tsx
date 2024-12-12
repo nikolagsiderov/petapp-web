@@ -2,7 +2,7 @@ import EmptyState from "@/app/components/EmptyState";
 import getCurrentUser from "@/app/actions/users/getCurrentUser";
 import FavoritesClient from "./FavoritesClient";
 import ClientOnly from "@/app/components/ClientOnly";
-import { getFavoriteListings } from "../../actions/listings/getActions";
+import { getFavoriteListings } from "../../actions/listings-legacy/getActions";
 
 const ListingPage = async () => {
   const listings = await getFavoriteListings();

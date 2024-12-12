@@ -1,8 +1,22 @@
-import { Listing, Reservation, Review } from "@prisma/client";
+import { Reservation, Review } from "@prisma/client";
 
-export type SafeListing = Omit<Listing, "createdAt" | "user"> & {
-  createdAt: string;
-  user: User;
+export type Listing = {
+  id: string;
+  description: string;
+  address: string;
+  category: string;
+  latitude: number;
+  longitude: number;
+  imageSrc: string;
+  price: number;
+  createdAt: number;
+  updatedAt: number;
+  user: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    name: string;
+  };
 };
 
 export type SafeReservation = Omit<
@@ -12,7 +26,7 @@ export type SafeReservation = Omit<
   createdAt: string;
   startDate: string;
   endDate: string;
-  listing: SafeListing;
+  listing: Listing;
   reviews: SafeReview[];
   user: User;
 };

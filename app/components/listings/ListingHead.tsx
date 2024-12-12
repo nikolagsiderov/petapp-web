@@ -4,7 +4,6 @@ import Image from "next/image";
 import { User } from "@/app/types";
 import Heading from "../Heading";
 import HeartButton from "../HeartButton";
-import { FaStar } from "react-icons/fa6";
 
 interface ListingHeadProps {
   address: string;

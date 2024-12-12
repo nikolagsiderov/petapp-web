@@ -7,18 +7,12 @@ import { Range } from "react-date-range";
 import { useRouter } from "next/navigation";
 import { differenceInDays, eachDayOfInterval } from "date-fns";
 import useLoginModal from "@/app/hooks/useLoginModal";
-import {
-  SafeListing,
-  SafeReservation,
-  SafeReview,
-  User,
-} from "@/app/types";
+import { Listing, SafeReservation, SafeReview, User } from "@/app/types";
 import MainContainer from "@/app/components/MainContainer";
 import { categories } from "@/app/components/navbar/main/Categories";
 import ListingHead from "@/app/components/listings/ListingHead";
 import ListingInfo from "@/app/components/listings/ListingInfo";
 import ListingReservation from "@/app/components/listings/ListingReservation";
-import useTowns from "@/app/hooks/useTowns";
 import ListingReviews from "@/app/components/listings/ListingReviews";
 import ListingMap from "@/app/components/listings/ListingMap";
 
@@ -31,9 +25,7 @@ const initialDateRange = {
 interface ListingClientProps {
   reservations?: SafeReservation[] | null | undefined;
   reviews: SafeReview[] | null | undefined;
-  listing: SafeListing & {
-    user: User;
-  };
+  listing: Listing;
   currentUser?: User | null;
 }
 
@@ -45,7 +37,6 @@ const ListingClient: React.FC<ListingClientProps> = ({
 }) => {
   const loginModal = useLoginModal();
   const router = useRouter();
-  const { getByValue } = useTowns();
 
   const disabledDates = useMemo(() => {
     let dates: Date[] = [];

@@ -8,7 +8,7 @@ async function getSession() {
 
 export async function createPrivateInstanceWithoutCredentials() {
   return axios.create({
-    baseURL: process.env.NEXT_PUBLIC_USERS_API as string,
+    baseURL: process.env.NEXT_PUBLIC_LISTINGS_API as string,
     headers: {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
@@ -21,7 +21,7 @@ export async function createPrivateInstanceWithCredentials() {
     const session = await getSession();
 
     const privateAxios = axios.create({
-      baseURL: process.env.NEXT_PUBLIC_USERS_API as string,
+      baseURL: process.env.NEXT_PUBLIC_LISTINGS_API as string,
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",

@@ -3,20 +3,18 @@ import getCurrentUser from "@/app/actions/users/getCurrentUser";
 import ClientOnly from "@/app/components/ClientOnly";
 import FilterPetSittersModal from "../../components/modals/FilterPetSittersModal";
 import BecomeSitterModal from "../../components/modals/BecomeSitterModal";
-import {
-  IListingsParams,
-  getListings,
-} from "../../actions/listings/getActions";
+import { IGetParams, get } from "../../actions/listings/client";
 import AdoptClient from "./AdoptClient";
 
 export const dynamic = "force-dynamic";
 
 interface AdoptProps {
-  searchParams: IListingsParams;
+  searchParams: IGetParams;
 }
 
 const AdoptPage = async ({ searchParams }: AdoptProps) => {
-  const listings = await getListings(searchParams);
+  const response = await get(searchParams);
+  const listings = response.success ? response.collection : [];
   const currentUser = await getCurrentUser();
 
   if (listings.length === 0) {

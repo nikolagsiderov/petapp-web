@@ -1,15 +1,7 @@
 import prisma from "@/app/libs/prismadb";
 import getCurrentUser from "../users/getCurrentUser";
 
-export interface IListingsParams {
-  userId?: string;
-  startDate?: string;
-  endDate?: string;
-  address?: string;
-  category?: string;
-}
-
-export async function getListings(params: IListingsParams) {
+export async function getListings(params: any) {
   try {
     const { userId, address, startDate, endDate, category } = params;
 
@@ -56,14 +48,7 @@ export async function getListings(params: IListingsParams) {
       },
     });
 
-    const safeListings = listings.map((listing) => ({
-      ...listing,
-      createdAt: listing.createdAt.toISOString(),
-      user: {
-        ...listing.user,
-        createdAt: listing.user.createdAt.toISOString(),
-      },
-    }));
+    const safeListings: any = [];
 
     return safeListings;
   } catch (error: any) {
