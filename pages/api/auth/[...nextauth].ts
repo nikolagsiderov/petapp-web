@@ -41,22 +41,43 @@ export const authOptions: AuthOptions = {
           .catch((error) => {
             return null;
           });
+
         if (response?.success && user) {
-          return { ...user, jwt: response.jwt as string };
+          user.jwt = response.jwt as string;
+          return user;
         }
       },
     }),
   ],
   callbacks: {
+    /**
+     * async jwt() & async session() callback functions are returned by `useSession`, `getSession` & `getServerSession`
+     */
     async jwt({ token, user }) {
       if (user) {
         token.jwt = user.jwt;
+        token.id = user.id;
+        token.email = user.email;
+        token.firstName = user.firstName;
+        token.lastName = user.lastName;
+        token.name = `${user.firstName} ${user.lastName}`;
+        token.image = user.image;
+        token.createdAt = user.createdAt;
+        token.updatedAt = user.updatedAt;
       }
 
       return token;
     },
     async session({ session, token }: { session: Session; token: any }) {
       session.user.jwt = token.jwt;
+      session.user.id = token.id;
+      session.user.email = token.email;
+      session.user.firstName = token.firstName;
+      session.user.lastName = token.lastName;
+      session.user.name = `${token.firstName} ${token.lastName}`;
+      session.user.image = token.image;
+      session.user.createdAt = token.createdAt;
+      session.user.updatedAt = token.updatedAt;
       return session;
     },
   },

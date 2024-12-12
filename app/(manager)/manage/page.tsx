@@ -1,5 +1,5 @@
 import EmptyState from "@/app/components/EmptyState";
-import getCurrentUser from "@/app/actions/getCurrentUser";
+import getCurrentUser from "@/app/actions/users/getCurrentUser";
 import ManageClient from "./ManageClient";
 import ClientOnly from "@/app/components/ClientOnly";
 

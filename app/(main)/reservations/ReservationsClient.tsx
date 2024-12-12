@@ -4,7 +4,7 @@ import { toast } from "react-hot-toast";
 import axios from "axios";
 import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
-import { SafeReservation, SafeUser } from "@/app/types";
+import { SafeReservation, User } from "@/app/types";
 import Heading from "@/app/components/Heading";
 import MainContainer from "@/app/components/MainContainer";
 import ListingCard from "@/app/components/listings/ListingCard";
@@ -12,7 +12,7 @@ import ListingCard from "@/app/components/listings/ListingCard";
 interface ReservationsClientProps {
   upcomingReservations: Array<SafeReservation> | null | undefined | any;
   pastReservations: Array<SafeReservation> | null | undefined | any;
-  currentUser?: SafeUser | null;
+  currentUser?: User | null;
 }
 
 const ReservationsClient: React.FC<ReservationsClientProps> = ({

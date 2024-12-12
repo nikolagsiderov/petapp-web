@@ -1,12 +1,12 @@
 "use client";
 
-import { SafeUser } from "@/app/types";
+import { User } from "@/app/types";
 import Heading from "@/app/components/Heading";
 import ManageContainer from "@/app/components/ManageContainer";
 import Image from "next/image";
 
 interface ManageClientProps {
-  currentUser?: SafeUser | null;
+  currentUser?: User | null;
 }
 
 const ManageClient: React.FC<ManageClientProps> = ({ currentUser }) => {

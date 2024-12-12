@@ -2,10 +2,10 @@
 
 import Left from "../../components/find/Left";
 import Right from "../../components/find/Right";
-import { SafeUser } from "../../types";
+import { User } from "../../types";
 
 interface MapViewProps {
-  currentUser?: SafeUser | null | undefined;
+  currentUser?: User | null | undefined;
 }
 
 const MapView: React.FC<MapViewProps> = ({ currentUser }) => {

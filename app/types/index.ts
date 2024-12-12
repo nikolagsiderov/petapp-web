@@ -1,8 +1,8 @@
-import { Listing, Reservation, Review, User } from "@prisma/client";
+import { Listing, Reservation, Review } from "@prisma/client";
 
 export type SafeListing = Omit<Listing, "createdAt" | "user"> & {
   createdAt: string;
-  user: SafeUser;
+  user: User;
 };
 
 export type SafeReservation = Omit<
@@ -14,19 +14,22 @@ export type SafeReservation = Omit<
   endDate: string;
   listing: SafeListing;
   reviews: SafeReview[];
-  user: SafeUser;
+  user: User;
 };
 
 export type SafeReview = Omit<Review, "createdAt" | "user"> & {
   createdAt: string;
-  user: SafeUser;
+  user: User;
 };
 
-export type SafeUser = Omit<
-  User,
-  "createdAt" | "updatedAt" | "emailVerified"
-> & {
+export type User = {
+  jwt: string;
+  id: string;
+  firstName: string;
+  lastName: string;
+  name: string;
+  email: string;
+  image: string; // TODO: Need a way to obtain user profile image. Either a new microservice for image handling or something else...
   createdAt: string;
   updatedAt: string;
-  emailVerified: string | null;
 };

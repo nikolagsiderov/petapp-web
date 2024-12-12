@@ -1,6 +1,6 @@
 import prisma from "@/app/libs/prismadb";
 import { SafeReservation, SafeReview } from "@/app/types";
-import getCurrentUser from "../getCurrentUser";
+import getCurrentUser from "../users/getCurrentUser";
 
 interface IReservationsParams {
   listingId?: string;

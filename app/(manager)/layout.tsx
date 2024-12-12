@@ -1,4 +1,4 @@
-import getCurrentUser from "@/app/actions/getCurrentUser";
+import getCurrentUser from "@/app/actions/users/getCurrentUser";
 import ClientOnly from "../components/ClientOnly";
 import Sidebar from "../components/navbar/manage/Sidebar";
 import { getReservationRequests } from "@/app/actions/reservations/getActions";

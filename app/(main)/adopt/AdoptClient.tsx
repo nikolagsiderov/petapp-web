@@ -2,10 +2,10 @@
 
 import MainContainer from "@/app/components/MainContainer";
 import ListView from "./ListView";
-import { SafeListing, SafeUser } from "../../types";
+import { SafeListing, User } from "../../types";
 
 interface AdoptClientProps {
-  currentUser?: SafeUser | null | undefined;
+  currentUser?: User | null | undefined;
   listings?: Array<SafeListing> | null | undefined | any;
 }
 

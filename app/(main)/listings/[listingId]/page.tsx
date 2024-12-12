@@ -1,4 +1,4 @@
-import getCurrentUser from "@/app/actions/getCurrentUser";
+import getCurrentUser from "@/app/actions/users/getCurrentUser";
 import EmptyState from "@/app/components/EmptyState";
 import ListingClient from "./ListingClient";
 import ClientOnly from "@/app/components/ClientOnly";

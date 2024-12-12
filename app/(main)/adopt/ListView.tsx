@@ -1,11 +1,11 @@
 "use client";
 
 import ListingCard from "@/app/components/listings/ListingCard";
-import { SafeUser } from "../../types";
+import { User } from "../../types";
 
 interface ListViewProps {
   listings?: any;
-  currentUser?: SafeUser | null | undefined;
+  currentUser?: User | null | undefined;
 }
 
 const ListView: React.FC<ListViewProps> = ({ listings, currentUser }) => {

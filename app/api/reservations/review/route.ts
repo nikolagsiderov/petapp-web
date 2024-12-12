@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/app/libs/prismadb";
-import getCurrentUser from "@/app/actions/getCurrentUser";
+import getCurrentUser from "@/app/actions/users/getCurrentUser";
 import { hasUserAlreadyReviewed } from "@/app/actions/reservations/reservationsValidations";
 
 interface IParams {

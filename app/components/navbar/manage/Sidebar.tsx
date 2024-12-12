@@ -12,13 +12,13 @@ import SidebarOption from "./SidebarOption";
 import SidebarTitleSection from "./SidebarTitleSection";
 import SidebarToggleClose from "./SidebarToggleClose";
 import SidebarReturn from "./SidebarReturn";
-import { SafeUser } from "@/app/types";
+import { User } from "@/app/types";
 
 const Sidebar = ({
   currentUser,
   requestsCount,
 }: {
-  currentUser: SafeUser | null;
+  currentUser: User | null;
   requestsCount: number;
 }) => {
   const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth);

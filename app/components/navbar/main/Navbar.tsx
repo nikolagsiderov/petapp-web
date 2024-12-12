@@ -6,13 +6,13 @@ import Logo from "../Logo";
 import NavigationMenu from "./NavigationMenu";
 import PetSittingFilter from "./petsitting/PetSittingFilter";
 import UserMenu from "./UserMenu";
-import { SafeUser } from "@/app/types";
+import { User } from "@/app/types";
 import { usePathname } from "next/navigation";
 import FindFilter from "./find/FindFilter";
 import FindMiniBar from "./find/FindMiniBar";
 
 interface NavbarProps {
-  currentUser?: SafeUser | null;
+  currentUser?: User | null;
   hasUserAlreadyListed?: boolean;
 }
 

@@ -7,7 +7,7 @@ import MenuItem from "./MenuItem";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import { signOut } from "next-auth/react";
-import { SafeUser } from "@/app/types";
+import { User } from "@/app/types";
 import useBecomeSitterModal from "@/app/hooks/useBecomeSitterModal";
 import { useRouter } from "next/navigation";
 import useOnClickOutsideComponent from "@/app/hooks/useOnClickOutsideComponent";
@@ -17,7 +17,7 @@ import { set as setBGLocalization } from "@/app/context/state/features/bgLocaliz
 import { FiTag, FiUser, FiGrid, FiLogOut } from "react-icons/fi";
 
 interface UserMenuProps {
-  currentUser?: SafeUser | null;
+  currentUser?: User | null;
   hasUserAlreadyListed?: boolean;
 }
 

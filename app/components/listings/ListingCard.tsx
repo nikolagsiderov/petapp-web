@@ -1,6 +1,6 @@
 "use client";
 
-import { SafeListing, SafeReservation, SafeUser } from "@/app/types";
+import { SafeListing, SafeReservation, User } from "@/app/types";
 import { useRouter } from "next/navigation";
 import { ReactNode, useCallback, useMemo } from "react";
 import { format } from "date-fns";
@@ -19,7 +19,7 @@ interface ListingCardProps {
   disabled?: boolean;
   actionLabel?: ReactNode;
   actionId?: string;
-  currentUser?: SafeUser | null;
+  currentUser?: User | null;
   listingUserName: string;
 }
 

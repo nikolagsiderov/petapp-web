@@ -1,12 +1,12 @@
 "use client";
 
-import { SafeListing, SafeUser } from "@/app/types";
+import { SafeListing, User } from "@/app/types";
 import ListingEdit from "@/app/components/listings/ListingEdit";
 import ManageContainer from "@/app/components/ManageContainer";
 
 interface ListingClientProps {
   listing: SafeListing | null | undefined;
-  currentUser?: SafeUser | null;
+  currentUser?: User | null;
 }
 
 const ListingClient: React.FC<ListingClientProps> = ({

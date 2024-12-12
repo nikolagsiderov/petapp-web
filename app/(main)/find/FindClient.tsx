@@ -2,10 +2,10 @@
 
 import MainContainer from "@/app/components/MainContainer";
 import MapView from "./MapView";
-import { SafeUser } from "../../types";
+import { User } from "../../types";
 
 interface FindClientProps {
-  currentUser?: SafeUser | null | undefined;
+  currentUser?: User | null | undefined;
 }
 
 const FindClient: React.FC<FindClientProps> = ({ currentUser }) => {

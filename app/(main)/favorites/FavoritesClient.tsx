@@ -1,11 +1,11 @@
-import { SafeListing, SafeUser } from "@/app/types";
+import { SafeListing, User } from "@/app/types";
 import Heading from "@/app/components/Heading";
 import MainContainer from "@/app/components/MainContainer";
 import ListingCard from "@/app/components/listings/ListingCard";
 
 interface FavoritesClientProps {
   listings: Array<SafeListing> | null | undefined | any;
-  currentUser?: SafeUser | null;
+  currentUser?: User | null;
 }
 
 const FavoritesClient: React.FC<FavoritesClientProps> = ({

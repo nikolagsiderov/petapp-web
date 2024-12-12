@@ -1,5 +1,5 @@
 import EmptyState from "@/app/components/EmptyState";
-import getCurrentUser from "@/app/actions/getCurrentUser";
+import getCurrentUser from "@/app/actions/users/getCurrentUser";
 import ReviewClient from "./ReviewClient";
 import ClientOnly from "@/app/components/ClientOnly";
 import { getReservationById } from "@/app/actions/reservations/getActions";

@@ -1,9 +1,9 @@
 "use client";
 
-import { SafeUser } from "@/app/types";
+import { User } from "@/app/types";
 
 interface RightProps {
-  currentUser?: SafeUser | null | undefined;
+  currentUser?: User | null | undefined;
 }
 
 const Right: React.FC<RightProps> = ({ currentUser }) => {

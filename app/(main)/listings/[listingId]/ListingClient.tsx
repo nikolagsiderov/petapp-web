@@ -11,7 +11,7 @@ import {
   SafeListing,
   SafeReservation,
   SafeReview,
-  SafeUser,
+  User,
 } from "@/app/types";
 import MainContainer from "@/app/components/MainContainer";
 import { categories } from "@/app/components/navbar/main/Categories";
@@ -32,9 +32,9 @@ interface ListingClientProps {
   reservations?: SafeReservation[] | null | undefined;
   reviews: SafeReview[] | null | undefined;
   listing: SafeListing & {
-    user: SafeUser;
+    user: User;
   };
-  currentUser?: SafeUser | null;
+  currentUser?: User | null;
 }
 
 const ListingClient: React.FC<ListingClientProps> = ({

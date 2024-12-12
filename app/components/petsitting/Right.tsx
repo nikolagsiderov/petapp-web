@@ -1,11 +1,11 @@
 "use client";
 
 import ListingCard from "@/app/components/listings/ListingCard";
-import { SafeUser } from "@/app/types";
+import { User } from "@/app/types";
 
 interface RightProps {
   listings?: any;
-  currentUser?: SafeUser | null | undefined;
+  currentUser?: User | null | undefined;
 }
 
 const Right: React.FC<RightProps> = ({ listings, currentUser }) => {
