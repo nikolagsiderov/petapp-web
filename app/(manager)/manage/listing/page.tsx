@@ -2,7 +2,7 @@ import EmptyState from "@/app/components/EmptyState";
 import getCurrentUser from "@/app/actions/users/getCurrentUser";
 import ListingClient from "./ListingClient";
 import ClientOnly from "@/app/components/ClientOnly";
-import { getListingByUserId } from "@/app/actions/listings-legacy/getActions";
+import { get } from "@/app/actions/listings/client";
 
 const MyListingsPage = async () => {
   const currentUser = await getCurrentUser();
@@ -15,7 +15,9 @@ const MyListingsPage = async () => {
     );
   }
 
-  const listing = await getListingByUserId({ userId: currentUser.id });
+  const response = await get({ userId: currentUser.id });
+  const listing =
+    response.success & response.collection ? response.collection[0] : null;
 
   if (!listing) {
     return (
