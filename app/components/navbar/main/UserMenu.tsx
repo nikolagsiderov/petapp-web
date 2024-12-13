@@ -57,6 +57,14 @@ const UserMenu: React.FC<UserMenuProps> = ({
   return (
     <div className="relative" ref={additionalRef}>
       <div className="flex flex-row items-center text-center gap-2">
+        {!hasUserAlreadyListed && (
+          <div
+            onClick={becomeSitter}
+            className="block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
+          >
+            Стани гледач
+          </div>
+        )}
         <div className="block text-sm font-semibold p-3 rounded-full hover:bg-neutral-100 transition cursor-pointer">
           {bgLocalization === "bg" ? (
             <div onClick={() => handleSetBGLocalization("en")}>
@@ -84,14 +92,6 @@ const UserMenu: React.FC<UserMenuProps> = ({
             </div>
           )}
         </div>
-        {!hasUserAlreadyListed && (
-          <div
-            onClick={becomeSitter}
-            className="block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
-          >
-            Стани гледач
-          </div>
-        )}
         <div
           onClick={toggleOpen}
           className="p-4 md:py-1 md:px-2 border-[1px] border-neutral-200 flex flex-row items-center gap-3 rounded-full cursor-pointer shadow-lg hover:shadow-xl transition"

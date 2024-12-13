@@ -21,7 +21,7 @@ const Avatar: React.FC<AvatarProps> = ({
       height={height ? height : 30}
       width={width ? width : 30}
       alt="Avatar"
-      src={src || "/images/cat-profile.png"}
+      src={src || "/images/placeholder.jpg"}
     />
   );
 };
