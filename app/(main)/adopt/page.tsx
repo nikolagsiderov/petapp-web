@@ -2,7 +2,6 @@ import EmptyState from "@/app/components/EmptyState";
 import getCurrentUser from "@/app/actions/users/getCurrentUser";
 import ClientOnly from "@/app/components/ClientOnly";
 import FilterPetSittersModal from "../../components/modals/FilterPetSittersModal";
-import BecomeSitterModal from "../../components/modals/BecomeSitterModal";
 import { IGetParams, get } from "../../actions/listings/client";
 import AdoptClient from "./AdoptClient";
 
@@ -21,7 +20,6 @@ const AdoptPage = async ({ searchParams }: AdoptProps) => {
     return (
       <ClientOnly>
         <FilterPetSittersModal />
-        <BecomeSitterModal />
         <div className="lg:pt-32 pt-48">
           <EmptyState showReset />
         </div>
@@ -32,7 +30,6 @@ const AdoptPage = async ({ searchParams }: AdoptProps) => {
   return (
     <ClientOnly>
       <FilterPetSittersModal />
-      <BecomeSitterModal />
       <AdoptClient listings={listings} currentUser={currentUser} />
     </ClientOnly>
   );

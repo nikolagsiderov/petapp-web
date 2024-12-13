@@ -38,6 +38,7 @@ const Navbar: React.FC<NavbarProps> = ({
               <UserMenu
                 currentUser={currentUser}
                 hasUserAlreadyListed={hasUserAlreadyListed}
+                currentPathIsPetSitting={currentPathIsPetSitting}
               />
             </div>
             {currentPathIsPetSitting && (

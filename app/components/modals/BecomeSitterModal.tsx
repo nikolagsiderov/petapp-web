@@ -13,6 +13,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import LocationInput from "../inputs/LocationInput";
+import { create } from "@/app/actions/listings/client";
 
 enum STEPS {
   CATEGORY = 0,
@@ -66,7 +67,7 @@ const BecomeSitterModal = () => {
     setStep((value) => value + 1);
   };
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     if (step !== STEPS.PRICE) {
       return onNext();
     } else {
@@ -75,6 +76,8 @@ const BecomeSitterModal = () => {
         data.category == "" ||
         data.location == null ||
         data.location == "" ||
+        data.location?.lat == null ||
+        data.location?.lng == null ||
         data.description == null ||
         data.description == "" ||
         data.price == null ||
@@ -86,33 +89,35 @@ const BecomeSitterModal = () => {
         );
       } else {
         setIsLoading(true);
+        const response = await create({
+          category: data.category,
+          description: data.description,
+          address: location.address,
+          latitude: data.location.lat,
+          longitude: data.location.lng,
+          price: toFixedNumber(parseFloat(data.price)),
+        });
 
-        axios
-          .post("/api/listings", data)
-          .then(() => {
-            toast.success("Обявата е успешно създадена!");
-            router.refresh();
-            reset();
-            setStep(STEPS.CATEGORY);
-            becomeSitterModal.onClose();
-          })
-          .catch((error) => {
-            if (
-              error &&
-              error.response &&
-              error.response.data &&
-              error.response.data.message
-            ) {
-              toast.error(error.response.data.message);
-            } else {
-              toast.error("Нещо се обърка.");
-            }
-          })
-          .finally(() => {
-            setIsLoading(false);
-          });
+        if (response.success) {
+          toast.success("Обявата е успешно създадена!");
+          router.refresh();
+          reset();
+          setStep(STEPS.CATEGORY);
+          becomeSitterModal.onClose();
+        } else {
+          // TODO: Handle unsuccessful response better
+          toast.error("Нещо се обърка...");
+        }
+
+        setIsLoading(false);
       }
     }
+  };
+
+  // TODO: Move function as a helper
+  const toFixedNumber = (num: number) => {
+    const pow = Math.pow(10, 2);
+    return Math.round(num * pow) / pow;
   };
 
   const actionLabel = useMemo(() => {
@@ -142,8 +147,9 @@ const BecomeSitterModal = () => {
           <div key={item.label} className="col-span-1">
             <CategoryInput
               onClick={(category) => setCustomValue("category", category)}
-              selected={category === item.label}
+              selected={category === item.value}
               label={item.label}
+              value={item.value}
               icon={item.icon}
             />
           </div>

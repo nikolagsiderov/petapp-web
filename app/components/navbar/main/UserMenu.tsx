@@ -19,11 +19,13 @@ import { FiTag, FiUser, FiGrid, FiLogOut } from "react-icons/fi";
 interface UserMenuProps {
   currentUser?: User | null;
   hasUserAlreadyListed?: boolean;
+  currentPathIsPetSitting?: boolean;
 }
 
 const UserMenu: React.FC<UserMenuProps> = ({
   currentUser,
   hasUserAlreadyListed,
+  currentPathIsPetSitting,
 }) => {
   const dispatch = useAppDispatch();
   const bgLocalization = useAppSelector((state) => state.bgLocalization.value);
@@ -57,7 +59,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
   return (
     <div className="relative" ref={additionalRef}>
       <div className="flex flex-row items-center text-center gap-2">
-        {!hasUserAlreadyListed && (
+        {!hasUserAlreadyListed && currentPathIsPetSitting && (
           <div
             onClick={becomeSitter}
             className="block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
