@@ -6,33 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { BiSearch } from "react-icons/bi";
 import { differenceInDays } from "date-fns";
-
-export const categories = [
-  {
-    label: "Кучета",
-    value: "Dogs",
-  },
-  {
-    label: "Котета",
-    value: "Cats",
-  },
-  {
-    label: "Зайчета",
-    value: "Rabbits",
-  },
-  {
-    label: "Птици",
-    value: "Birds",
-  },
-  {
-    label: "Рибки",
-    value: "Fish",
-  },
-  {
-    label: "Гризачи",
-    value: "Rodents",
-  },
-];
+import { categories } from "../Categories";
 
 const PetSittingFilter = () => {
   const searchModal = useSearchModal();

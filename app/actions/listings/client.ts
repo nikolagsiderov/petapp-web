@@ -49,7 +49,6 @@ export const get = async (params: IGetParams) => {
     // If we look at 'request.ToDate < DateTime.UtcNow' and assume we want to request today
     // The 'ToDate's value is today's date & current time, but by the time the request is handled by BE
     // The 'DateTime.UtcNow's value is today's date & THE CURRENT TIME WHEN THE REQUEST WAS RECEIVED
-    const minutesToAdd = 5;
 
     // TODO: Шибаните timezone-и, figure out how the dayjs() timezones API works...
     // Then remove this .add(2, "hours") shit...
@@ -89,7 +88,7 @@ export const get = async (params: IGetParams) => {
 export const getById = async (id: string) => {
   try {
     const users = await createPrivateInstanceWithoutCredentials();
-    const response = await users?.post(`/api/v1/listings/${id}`);
+    const response = await users?.get(`/api/v1/listings/${id}`);
     return {
       ...response?.data,
       success:
