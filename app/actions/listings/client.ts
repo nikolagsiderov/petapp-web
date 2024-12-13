@@ -60,8 +60,6 @@ export const get = async (params: IGetParams) => {
       ? dayjs(params.endDate).add(2, "hours").add(5, "minutes")
       : null;
 
-    console.log(fromDate?.toString());
-
     const listings = await createPrivateInstanceWithoutCredentials();
     const response = await listings?.get("/api/v1/listings", {
       params: {

@@ -7,6 +7,33 @@ import { useMemo } from "react";
 import { BiSearch } from "react-icons/bi";
 import { differenceInDays } from "date-fns";
 
+export const categories = [
+  {
+    label: "Кучета",
+    value: "Dogs",
+  },
+  {
+    label: "Котета",
+    value: "Cats",
+  },
+  {
+    label: "Зайчета",
+    value: "Rabbits",
+  },
+  {
+    label: "Птици",
+    value: "Birds",
+  },
+  {
+    label: "Рибки",
+    value: "Fish",
+  },
+  {
+    label: "Гризачи",
+    value: "Rodents",
+  },
+];
+
 const PetSittingFilter = () => {
   const searchModal = useSearchModal();
   const params = useSearchParams();
@@ -97,7 +124,7 @@ const PetSittingFilter = () => {
 
   const categoryLabel = useMemo(() => {
     if (category) {
-      return `${category}`;
+      return `${categories.filter((c) => c.value === category)[0].label}`;
     }
 
     return "Домашен любимец";
