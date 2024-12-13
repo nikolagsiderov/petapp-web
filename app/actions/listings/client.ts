@@ -3,6 +3,7 @@ import {
   createPrivateInstanceWithoutCredentials,
 } from "@/app/actions/listings/privateAxios";
 import axios from "axios";
+import dayjs from "dayjs";
 
 export const create = async (payload: {
   category: string;
@@ -31,17 +32,46 @@ export const create = async (payload: {
 };
 
 export interface IGetParams {
-  userId?: string;
-  startDate?: string;
-  endDate?: string;
-  address?: string;
-  category?: string;
+  userId?: string | null;
+  startDate?: string | null;
+  endDate?: string | null;
+  address?: string | null;
+  category?: string | null;
 }
 
 export const get = async (params: IGetParams) => {
   try {
+    // Adding 5 minutes to dates request
+    // As currently, they are actually date & time request
+    // And when we request today's date & current time
+    // By the time the request is sent to BE, the current time value is already past
+    // This is the BE validation logic: if (request.ToDate < DateTime.UtcNow || request.FromDate < DateTime.UtcNow)
+    // If we look at 'request.ToDate < DateTime.UtcNow' and assume we want to request today
+    // The 'ToDate's value is today's date & current time, but by the time the request is handled by BE
+    // The 'DateTime.UtcNow's value is today's date & THE CURRENT TIME WHEN THE REQUEST WAS RECEIVED
+    const minutesToAdd = 5;
+
+    // TODO: Шибаните timezone-и, figure out how the dayjs() timezones API works...
+    // Then remove this .add(2, "hours") shit...
+    const fromDate = params.startDate
+      ? dayjs(params.startDate).add(2, "hours").add(5, "minutes")
+      : null;
+    const toDate = params.endDate
+      ? dayjs(params.endDate).add(2, "hours").add(5, "minutes")
+      : null;
+
+    console.log(fromDate?.toString());
+
     const listings = await createPrivateInstanceWithoutCredentials();
-    const response = await listings?.get("/api/v1/listings");
+    const response = await listings?.get("/api/v1/listings", {
+      params: {
+        userId: params.userId,
+        fromDate: fromDate,
+        toDate: toDate,
+        address: params.address,
+        category: params.category,
+      },
+    });
 
     return {
       collection: response?.data,
