@@ -1,6 +1,6 @@
 "use client";
 
-import { Listing, SafeReservation, User } from "@/app/types";
+import { Listing, Reservation, User } from "@/app/types";
 import { useRouter } from "next/navigation";
 import { ReactNode, useCallback, useMemo } from "react";
 import { format } from "date-fns";
@@ -13,7 +13,7 @@ import { categories } from "../navbar/main/Categories";
 interface ListingCardProps {
   horizontal?: boolean;
   data: Listing;
-  reservation?: SafeReservation | null;
+  reservation?: Reservation | null;
   onAction?: (id: string) => void;
   disabled?: boolean;
   actionLabel?: ReactNode;
@@ -65,8 +65,8 @@ const ListingCard: React.FC<ListingCardProps> = ({
       return null;
     }
 
-    const start = new Date(reservation.startDate);
-    const end = new Date(reservation.endDate);
+    const start = new Date(reservation.fromDate);
+    const end = new Date(reservation.toDate);
 
     return `${format(start, "PP")} - ${format(end, "PP")}`;
   }, [reservation]);
@@ -172,7 +172,8 @@ const ListingCard: React.FC<ListingCardProps> = ({
                   : "row-span-10"
               }
             >
-              {reservation.approved ? (
+              {/* TODO: Create const status enums */}
+              {reservation.status === "Approved" ? (
                 <div className="font-light text-emerald-800 text-sm">
                   <span>Резервацията е одобрена</span>
                 </div>

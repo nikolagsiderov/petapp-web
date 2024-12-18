@@ -1,10 +1,10 @@
 "use client";
 
-import { SafeReservation } from "@/app/types";
+import { Reservation } from "@/app/types";
 import ReservationsTableRows from "./ReservationsTableRows";
 
 interface ReservationsTableProps {
-  reservationRequests: SafeReservation[];
+  reservationRequests: Reservation[];
 }
 
 const ReservationsTable: React.FC<ReservationsTableProps> = ({

@@ -1,6 +1,6 @@
 "use client";
 
-import { Listing, SafeReservation } from "@/app/types";
+import { Listing, Reservation } from "@/app/types";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
 import Button from "../Button";
@@ -14,7 +14,7 @@ import LocationInput from "../inputs/LocationInput";
 
 interface ListingEditProps {
   listing: Listing;
-  reservation?: SafeReservation | null;
+  reservation?: Reservation | null;
 }
 
 const ListingEdit: React.FC<ListingEditProps> = ({ listing, reservation }) => {
@@ -123,6 +123,7 @@ const ListingEdit: React.FC<ListingEditProps> = ({ listing, reservation }) => {
                 selected={category === item.label}
                 label={item.label}
                 icon={item.icon}
+                value={item.value}
               />
             </div>
           ))}

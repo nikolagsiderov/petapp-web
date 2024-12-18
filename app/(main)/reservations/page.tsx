@@ -2,7 +2,7 @@ import EmptyState from "@/app/components/EmptyState";
 import getCurrentUser from "@/app/actions/users/getCurrentUser";
 import ReservationsClient from "./ReservationsClient";
 import ClientOnly from "@/app/components/ClientOnly";
-import { getReservations } from "../../actions/reservations/getActions";
+import { getReservations } from "@/app/actions/listings/client";
 
 const ReservationsPage = async () => {
   const currentUser = await getCurrentUser();
@@ -15,16 +15,23 @@ const ReservationsPage = async () => {
     );
   }
 
-  const upcomingReservations = await getReservations({
-    userId: currentUser.id,
-    upcoming: true,
-  });
-  const pastReservations = await getReservations({
-    userId: currentUser.id,
-    past: true,
-  });
+  const reservations = await getReservations();
+  // TODO: Create API endpoint for /api/v1/reservations/past/current-user & /api/v1/reservations/upcoming/current-user
+  // const upcomingReservations = await getReservations({
+  //   userId: currentUser.id,
+  //   upcoming: true,
+  // });
+  // const pastReservations = await getReservations({
+  //   userId: currentUser.id,
+  //   past: true,
+  // });
 
-  if (upcomingReservations.length === 0 && pastReservations.length === 0) {
+  if (
+    reservations === null ||
+    reservations?.success === null ||
+    reservations?.success === false ||
+    reservations?.collection.length === 0
+  ) {
     return (
       <ClientOnly>
         <EmptyState
@@ -38,8 +45,8 @@ const ReservationsPage = async () => {
   return (
     <ClientOnly>
       <ReservationsClient
-        upcomingReservations={upcomingReservations}
-        pastReservations={pastReservations}
+        upcomingReservations={reservations.collection}
+        pastReservations={reservations.collection}
         currentUser={currentUser}
       />
     </ClientOnly>

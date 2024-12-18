@@ -1,19 +1,20 @@
 "use client";
 
-import { SafeReservation } from "@/app/types";
+import { Reservation } from "@/app/types";
 import Heading from "@/app/components/Heading";
 import ManageContainer from "@/app/components/ManageContainer";
 import ReservationsTable from "@/app/components/manage/ReservationsTable";
 
 interface ReservationRequestsClientProps {
-  reservationRequests: SafeReservation[];
+  reservationRequests: Reservation[];
 }
 
 const ReservationRequests: React.FC<ReservationRequestsClientProps> = ({
   reservationRequests,
 }) => {
+  // TODO: Create const status enums
   const awaitingApproval = reservationRequests.filter(
-    (request) => request.approved === false
+    (request) => request.status === "Pending"
   );
 
   return (

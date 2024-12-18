@@ -4,14 +4,14 @@ import { toast } from "react-hot-toast";
 import axios from "axios";
 import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
-import { SafeReservation, User } from "@/app/types";
+import { Reservation, User } from "@/app/types";
 import Heading from "@/app/components/Heading";
 import MainContainer from "@/app/components/MainContainer";
 import ListingCard from "@/app/components/listings/ListingCard";
 
 interface ReservationsClientProps {
-  upcomingReservations: Array<SafeReservation> | null | undefined | any;
-  pastReservations: Array<SafeReservation> | null | undefined | any;
+  upcomingReservations: Array<Reservation> | null | undefined | any;
+  pastReservations: Array<Reservation> | null | undefined | any;
   currentUser?: User | null;
 }
 

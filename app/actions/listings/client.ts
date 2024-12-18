@@ -16,8 +16,8 @@ export const create = async (payload: {
   price: number;
 }) => {
   try {
-    const listings = await createPrivateInstanceWithCredentials();
-    const response = await listings?.post("/api/v1/listings", payload);
+    const server = await createPrivateInstanceWithCredentials();
+    const response = await server?.post("/api/v1/listings", payload);
     return {
       ...response?.data,
       success:
@@ -61,8 +61,8 @@ export const get = async (params: IGetParams) => {
       ? dayjs(params.endDate).add(2, "hours").add(5, "minutes")
       : null;
 
-    const listings = await createPrivateInstanceWithoutCredentials();
-    const response = await listings?.get("/api/v1/listings", {
+    const server = await createPrivateInstanceWithoutCredentials();
+    const response = await server?.get("/api/v1/listings", {
       params: {
         userId: params.userId,
         fromDate: fromDate,
@@ -89,8 +89,8 @@ export const get = async (params: IGetParams) => {
 
 export const getById = async (id: string) => {
   try {
-    const users = await createPrivateInstanceWithoutCredentials();
-    const response = await users?.get(`/api/v1/listings/${id}`);
+    const server = await createPrivateInstanceWithoutCredentials();
+    const response = await server?.get(`/api/v1/listings/${id}`);
     return {
       ...response?.data,
       success:
@@ -108,8 +108,8 @@ export const getById = async (id: string) => {
 
 export const getCurrentUserListings = async () => {
   try {
-    const users = await createPrivateInstanceWithCredentials();
-    const response = await users?.get("/api/v1/listings/current-user");
+    const server = await createPrivateInstanceWithCredentials();
+    const response = await server?.get("/api/v1/listings/current-user");
 
     return {
       ...response?.data,
@@ -132,10 +132,29 @@ export const createReservation = async (payload: {
   toDate: Date;
 }) => {
   try {
-    const users = await createPrivateInstanceWithCredentials();
-    const response = await users?.post("/api/v1/reservations", payload);
+    const server = await createPrivateInstanceWithCredentials();
+    const response = await server?.post("/api/v1/reservations", payload);
     return {
       ...response?.data,
+      success:
+        response?.status && response.status >= 200 && response.status < 300,
+    };
+  } catch (error: any) {
+    // TODO: Handle error or responses different from 'success'
+    if (axios.isAxiosError(error)) {
+      console.error("Error:", error.response?.data.message || error.message);
+    }
+
+    return error;
+  }
+};
+
+export const getReservations = async () => {
+  try {
+    const server = await createPrivateInstanceWithCredentials();
+    const response = await server?.get("/api/v1/reservations/current-user");
+    return {
+      collection: response?.data,
       success:
         response?.status && response.status >= 200 && response.status < 300,
     };
@@ -154,8 +173,8 @@ export const updateReservationStatus = async (payload: {
   status: string;
 }) => {
   try {
-    const users = await createPrivateInstanceWithCredentials();
-    const response = await users?.put("/api/v1/reservations", payload);
+    const server = await createPrivateInstanceWithCredentials();
+    const response = await server?.put("/api/v1/reservations", payload);
     return {
       ...response?.data,
       success:

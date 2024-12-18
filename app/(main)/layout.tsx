@@ -12,13 +12,14 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // TODO: Revise the 'userHasAlreadyListed' logic
   const currentUser = await getCurrentUser();
   const currentUserListings = currentUser
     ? await getCurrentUserListings()
     : null;
   const userHasAlreadyListed = currentUserListings
     ? currentUserListings.success
-      ? currentUserListings.data?.length > 0
+      ? currentUserListings[0]?.id !== null
       : false
     : false;
 
