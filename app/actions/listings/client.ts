@@ -150,22 +150,13 @@ export const createReservation = async (payload: {
 };
 
 export const getReservations = async () => {
-  try {
-    const server = await createPrivateInstanceWithCredentials();
-    const response = await server?.get("/api/v1/reservations/current-user");
-    return {
-      collection: response?.data,
-      success:
-        response?.status && response.status >= 200 && response.status < 300,
-    };
-  } catch (error: any) {
-    // TODO: Handle error or responses different from 'success'
-    if (axios.isAxiosError(error)) {
-      console.error("Error:", error.response?.data.message || error.message);
-    }
-
-    return error;
-  }
+  const server = await createPrivateInstanceWithCredentials();
+  const response = await server?.get("/api/v1/reservations/current-user");
+  return {
+    collection: response?.data,
+    success:
+      response?.status && response.status >= 200 && response.status < 300,
+  };
 };
 
 export const updateReservationStatus = async (payload: {

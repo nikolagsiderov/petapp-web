@@ -1,6 +1,9 @@
+"use server";
+
 import axios from "axios";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { Agent } from "https";
 
 async function getSession() {
   return await getServerSession(authOptions);
@@ -13,6 +16,10 @@ export async function createPrivateInstanceWithoutCredentials() {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
     },
+    // Below setting is only for development purposes
+    httpsAgent: new Agent({
+      rejectUnauthorized: false,
+    }),
   });
 }
 
@@ -26,6 +33,10 @@ export async function createPrivateInstanceWithCredentials() {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
       },
+      // Below setting is only for development purposes
+      httpsAgent: new Agent({
+        rejectUnauthorized: false,
+      }),
     });
 
     if (session) {
@@ -60,6 +71,10 @@ export async function createPrivateInstanceWithCredentials() {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
       },
+      // Below setting is only for development purposes
+      httpsAgent: new Agent({
+        rejectUnauthorized: false,
+      }),
     });
   }
 }

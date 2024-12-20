@@ -30,7 +30,8 @@ const ReservationsPage = async () => {
     reservations === null ||
     reservations?.success === null ||
     reservations?.success === false ||
-    reservations?.collection.length === 0
+    !reservations?.collection?.length ||
+    reservations?.collection?.length === 0
   ) {
     return (
       <ClientOnly>

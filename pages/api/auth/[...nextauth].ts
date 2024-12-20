@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { authenticate } from "@/app/actions/users/client";
 import axios from "axios";
 import NextAuth, { AuthOptions, Session } from "next-auth";
+import { Agent } from "https";
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -28,6 +29,10 @@ export const authOptions: AuthOptions = {
 
         const config = {
           headers: { Authorization: `Bearer ${response.jwt}` },
+          // Below setting is only for development purposes
+          httpsAgent: new Agent({
+            rejectUnauthorized: false,
+          }),
         };
 
         const user = await axios
@@ -82,11 +87,12 @@ export const authOptions: AuthOptions = {
     },
   },
   pages: {
-    signIn: "/",
+    signIn: "/auth",
   },
   debug: process.env.NODE_ENV === "development",
   session: {
     strategy: "jwt",
+    maxAge: 60, // maxAge: 2 * 60 * 60, // 2 hours, should be always synced with BE
   },
   secret: process.env.NEXTAUTH_SECRET,
 };

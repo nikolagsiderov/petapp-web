@@ -1,6 +1,9 @@
+"use server";
+
 import axios from "axios";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { redirect } from "next/navigation";
 
 async function getSession() {
   return await getServerSession(authOptions);
@@ -40,17 +43,17 @@ export async function createPrivateInstanceWithCredentials() {
     }
 
     // TODO: Handle errors, globally
-    // privateAxios.interceptors.response.use(
-    //   (response) => response,
-    //   (error) => {
-    //     // Handle specific error responses (e.g: 401 Unauthorized)
-    //     if (error.response?.status === 401) {
-    //       console.error("Unauthorized! Redirecting to login...");
-    //       // Optionally redirect to login page
-    //     }
-    //     return Promise.reject(error);
-    //   }
-    // );
+    privateAxios.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        // Handle specific error responses (e.g: 401 Unauthorized)
+        if (error.response?.status === 401) {
+          console.error("Unauthorized! Redirecting to login...");
+          redirect("/auth");
+        }
+        return Promise.reject(error);
+      }
+    );
 
     return privateAxios;
   } catch (error: any) {
