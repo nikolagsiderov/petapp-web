@@ -12,14 +12,17 @@ export const categories = [
   {
     label: "Намерено",
     className: "bg-emerald-500 uppercase",
+    value: "Found",
   },
   {
     label: "Забелязано",
     className: "bg-amber-500 uppercase",
+    value: "Spotted"
   },
   {
     label: "Изгубено",
     className: "bg-rose-900 uppercase",
+    value: "Lost"
   },
 ];
 
@@ -48,6 +51,7 @@ const FindMiniBar = () => {
                 label={item.label}
                 urgencyClassName={item.className}
                 selected={category === item.label}
+                value={item.value}
               />
             ))}
           </div>

@@ -1,13 +1,13 @@
 "use client";
 
-import { SafeReview } from "@/app/types";
+import { Review } from "@/app/types";
 import Avatar from "../Avatar";
 import { FaStar } from "react-icons/fa";
 import { FaStarHalfAlt } from "react-icons/fa";
 import { format } from "date-fns";
 
 interface ListingReviewsProps {
-  reviews?: SafeReview[] | null | undefined;
+  reviews?: Review[] | null | undefined;
 }
 
 const ListingReviews: React.FC<ListingReviewsProps> = ({ reviews }) => {
@@ -108,7 +108,7 @@ const ListingReviews: React.FC<ListingReviewsProps> = ({ reviews }) => {
     );
   };
 
-  const getCreatedAtDateFormatted = (review: SafeReview) => {
+  const getCreatedAtDateFormatted = (review: Review) => {
     if (!review.createdAt) {
       return null;
     }
@@ -142,7 +142,7 @@ const ListingReviews: React.FC<ListingReviewsProps> = ({ reviews }) => {
                   {reviews.length > 1 ? "отзива" : "отзив"}
                 </div>
               </div>
-              {reviews.map((review: SafeReview) => (
+              {reviews.map((review: Review) => (
                 <div key={review.id} className="mb-4">
                   <div
                     className="
@@ -153,7 +153,7 @@ const ListingReviews: React.FC<ListingReviewsProps> = ({ reviews }) => {
                         <Avatar
                           width={50}
                           height={50}
-                          src={review.user.image}
+                          // src={review.user.image} // TODO: GET user image once images microservice is implemented...
                         />
                         {review.user.name}
                       </div>

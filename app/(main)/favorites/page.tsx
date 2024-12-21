@@ -1,6 +1,6 @@
 import EmptyState from "@/app/components/EmptyState";
 import getCurrentUser from "@/app/actions/users/getCurrentUser";
-import FavoritesClient from "./FavoritesClient";
+import FavoritesClient from "./FavoritesClient"; // TODO: Uncomment after BE implementations...
 import ClientOnly from "@/app/components/ClientOnly";
 
 const ListingPage = async () => {

@@ -14,7 +14,8 @@ const useFavorite = ({ listingId, currentUser }: IUseFavorite) => {
   const router = useRouter();
   const loginModal = useLoginModal();
   const hasFavorited = useMemo(() => {
-    const list = currentUser?.favoriteIds || [];
+    // const list = currentUser?.favoriteIds || []; // TODO: Handle after favorites microservice implementations...
+    const list: any = [];
 
     return list.includes(listingId);
   }, [currentUser, listingId]);

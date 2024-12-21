@@ -1,13 +1,12 @@
 "use client";
 
-import axios from "axios";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Range } from "react-date-range";
 import { useRouter } from "next/navigation";
 import { differenceInDays, eachDayOfInterval } from "date-fns";
 import useLoginModal from "@/app/hooks/useLoginModal";
-import { Listing, Reservation, SafeReview, User } from "@/app/types";
+import { Listing, Reservation, Review, User } from "@/app/types";
 import MainContainer from "@/app/components/MainContainer";
 import { categories } from "@/app/components/navbar/main/Categories";
 import ListingHead from "@/app/components/listings/ListingHead";
@@ -24,35 +23,18 @@ const initialDateRange = {
 };
 
 interface ListingClientProps {
-  reservations?: Reservation[] | null | undefined;
-  reviews: SafeReview[] | null | undefined;
+  reviews: Review[] | null | undefined;
   listing: Listing;
   currentUser?: User | null;
 }
 
 const ListingClient: React.FC<ListingClientProps> = ({
   listing,
-  reservations = [],
   reviews,
   currentUser,
 }) => {
   const loginModal = useLoginModal();
   const router = useRouter();
-
-  const disabledDates = useMemo(() => {
-    let dates: Date[] = [];
-
-    reservations?.forEach((reservation: any) => {
-      const range = eachDayOfInterval({
-        start: new Date(reservation.startDate),
-        end: new Date(reservation.endDate),
-      });
-
-      dates = [...dates, ...range];
-    });
-
-    return dates;
-  }, [reservations]);
 
   const category = useMemo(() => {
     return categories.find((c) => c.value === listing.category);
@@ -152,6 +134,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
               "
             >
               <div className="lg:sticky lg:top-[7rem]">
+
                 <ListingReservation
                   price={listing.price}
                   totalPrice={totalPrice}
@@ -159,7 +142,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
                   dateRange={dateRange}
                   onSubmit={onCreateReservation}
                   disabled={isLoading}
-                  disabledDates={disabledDates}
+                  disabledDates={[]} // TODO: Dates where user does not have availability or have reservations on them... Retrieve info from BE
                 />
               </div>
             </div>

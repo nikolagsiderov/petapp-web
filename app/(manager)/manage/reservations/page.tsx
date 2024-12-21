@@ -1,8 +1,7 @@
 import EmptyState from "@/app/components/EmptyState";
 import getCurrentUser from "@/app/actions/users/getCurrentUser";
 import ClientOnly from "@/app/components/ClientOnly";
-import { getReservationRequests } from "@/app/actions/reservations/getActions";
-import ReservationRequests from "./ReservationRequests";
+// import ReservationRequests from "./ReservationRequests"; // TODO: Uncomment after BE implementations...
 
 const MyListingsPage = async () => {
   const currentUser = await getCurrentUser();
@@ -15,23 +14,26 @@ const MyListingsPage = async () => {
     );
   }
 
-  const reservationRequests = await getReservationRequests();
+  // TODO: Uncomment after BE implementations...
+  // const reservationRequests = await getReservationRequests();
 
-  if (!reservationRequests) {
+  // TODO: Uncomment after BE implementations...
+  // if (!reservationRequests) {
     return (
       <ClientOnly>
         <EmptyState title="Няма резервации чакащи одобрение" />
       </ClientOnly>
     );
-  }
+  // }
 
-  return (
-    <ClientOnly>
-      <ReservationRequests
-        reservationRequests={reservationRequests}
-      />
-    </ClientOnly>
-  );
+  // TODO: Uncomment after BE implementations...
+  // return (
+  //   <ClientOnly>
+  //     <ReservationRequests
+  //       reservationRequests={reservationRequests}
+  //     />
+  //   </ClientOnly>
+  // );
 };
 
 export default MyListingsPage;

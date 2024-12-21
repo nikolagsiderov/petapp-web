@@ -1,5 +1,3 @@
-import { Review } from "@prisma/client";
-
 export type Listing = {
   id: string;
   description: string;
@@ -28,11 +26,6 @@ export type Reservation = {
   listing: Listing;
 };
 
-export type SafeReview = Omit<Review, "createdAt" | "user"> & {
-  createdAt: string;
-  user: User;
-};
-
 export type User = {
   jwt: string;
   id: string;
@@ -43,4 +36,20 @@ export type User = {
   image: string; // TODO: Need a way to obtain user profile image. Either a new microservice for image handling or something else...
   createdAt: string;
   updatedAt: string;
+};
+
+export type Review = {
+  id: string;
+  createdAt: string;
+  communicationScore: number;
+  accuracyScore: number;
+  publicMessage: string;
+  privateMessage: string;
+  user: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    name: string;
+  };
+  reservation: Reservation;
 };
