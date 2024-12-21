@@ -159,6 +159,16 @@ export const getReservations = async () => {
   };
 };
 
+export const getPetsitterReservations = async () => {
+  const server = await createPrivateInstanceWithCredentials();
+  const response = await server?.get("/api/v1/listings/reservations");
+  return {
+    collection: response?.data,
+    success:
+      response?.status && response.status >= 200 && response.status < 300,
+  };
+};
+
 export const updateReservationStatus = async (payload: {
   reservationId: string;
   status: string;

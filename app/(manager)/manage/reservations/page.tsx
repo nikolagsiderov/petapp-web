@@ -1,39 +1,29 @@
 import EmptyState from "@/app/components/EmptyState";
-import getCurrentUser from "@/app/actions/users/getCurrentUser";
 import ClientOnly from "@/app/components/ClientOnly";
-// import ReservationRequests from "./ReservationRequests"; // TODO: Uncomment after BE implementations...
+import { getPetsitterReservations } from "@/app/actions/listings/client";
+import ReservationRequests from "./ReservationRequests";
 
 const MyListingsPage = async () => {
-  const currentUser = await getCurrentUser();
+  const reservations = await getPetsitterReservations();
 
-  if (!currentUser) {
+  if (
+    reservations &&
+    reservations.success &&
+    reservations.collection &&
+    reservations.collection.length > 0
+  ) {
     return (
       <ClientOnly>
-        <EmptyState title="Нямате достъп" subtitle="Влезте в своя профил" />
+        <ReservationRequests reservationRequests={reservations.collection} />
       </ClientOnly>
     );
   }
 
-  // TODO: Uncomment after BE implementations...
-  // const reservationRequests = await getReservationRequests();
-
-  // TODO: Uncomment after BE implementations...
-  // if (!reservationRequests) {
-    return (
-      <ClientOnly>
-        <EmptyState title="Няма резервации чакащи одобрение" />
-      </ClientOnly>
-    );
-  // }
-
-  // TODO: Uncomment after BE implementations...
-  // return (
-  //   <ClientOnly>
-  //     <ReservationRequests
-  //       reservationRequests={reservationRequests}
-  //     />
-  //   </ClientOnly>
-  // );
+  return (
+    <ClientOnly>
+      <EmptyState title="Нямате резервации" />
+    </ClientOnly>
+  );
 };
 
 export default MyListingsPage;
