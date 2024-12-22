@@ -8,8 +8,11 @@ const MyListingsPage = async () => {
   const currentUser = await getCurrentUser();
 
   const response = await get({ userId: currentUser!.id });
-  const listing =
-    response.success & response.collection ? response.collection[0] : null;
+  const listing = response.success
+    ? response.collection
+      ? response.collection[0]
+      : null
+    : null;
 
   if (!listing) {
     return (

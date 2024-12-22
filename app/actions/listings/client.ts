@@ -65,7 +65,7 @@ export const get = async (params: IGetParams) => {
   return {
     collection: response?.data,
     success:
-      response?.status && response.status >= 200 && response.status < 300, // TODO: Handle success response...
+      response?.status !== null && response.status >= 200 && response.status < 300, // TODO: Handle success response...
   };
 };
 
