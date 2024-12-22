@@ -9,6 +9,7 @@ import HeartButton from "../HeartButton";
 import Button from "../Button";
 import { FaStar } from "react-icons/fa6";
 import { categories } from "../navbar/main/Categories";
+import reservationStatuses from "@/app/libs/reservationStatuses";
 
 interface ListingCardProps {
   horizontal?: boolean;
@@ -172,8 +173,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
                   : "row-span-10"
               }
             >
-              {/* TODO: Create const status enums */}
-              {reservation.status === "Approved" ? (
+              {reservation.status === reservationStatuses.approved ? (
                 <div className="font-light text-emerald-800 text-sm">
                   <span>Резервацията е одобрена</span>
                 </div>

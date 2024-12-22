@@ -1,6 +1,7 @@
 import getCurrentUser from "@/app/actions/users/getCurrentUser";
 import ClientOnly from "../components/ClientOnly";
 import Sidebar from "../components/navbar/manage/Sidebar";
+import { getPendingReservationsCount } from "../actions/listings/client";
 
 export default async function RootLayout({
   children,
@@ -8,14 +9,14 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const currentUser = await getCurrentUser();
-  // TODO: GET /api/v1/reservations/count
-  const reservationRequestsCount = 0;
+  const response = await getPendingReservationsCount();
+  const pendingReservationsCount = response?.success ? response.count : 0;
 
   return (
     <ClientOnly>
       <Sidebar
         currentUser={currentUser}
-        requestsCount={reservationRequestsCount}
+        requestsCount={pendingReservationsCount}
       />
       <div>{children}</div>
     </ClientOnly>

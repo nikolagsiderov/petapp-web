@@ -4,6 +4,7 @@ import { Reservation } from "@/app/types";
 import Heading from "@/app/components/Heading";
 import ManageContainer from "@/app/components/ManageContainer";
 import ReservationsTable from "@/app/components/manage/ReservationsTable";
+import reservationStatuses from "@/app/libs/reservationStatuses";
 
 interface ReservationRequestsClientProps {
   reservationRequests: Reservation[];
@@ -12,9 +13,8 @@ interface ReservationRequestsClientProps {
 const ReservationRequests: React.FC<ReservationRequestsClientProps> = ({
   reservationRequests,
 }) => {
-  // TODO: Create const status enums
   const awaitingApproval = reservationRequests.filter(
-    (request) => request.status === "Pending"
+    (request) => request.status === reservationStatuses.pending
   );
 
   return (

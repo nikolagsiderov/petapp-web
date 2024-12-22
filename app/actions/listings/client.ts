@@ -65,7 +65,9 @@ export const get = async (params: IGetParams) => {
   return {
     collection: response?.data,
     success:
-      response?.status !== null && response.status >= 200 && response.status < 300, // TODO: Handle success response...
+      response?.status !== null &&
+      response.status >= 200 &&
+      response.status < 300, // TODO: Handle success response...
   };
 };
 
@@ -130,6 +132,16 @@ export const updateReservationStatus = async (payload: {
 }) => {
   const server = await createPrivateInstanceWithCredentials();
   const response = await server?.put("/api/v1/reservations", payload);
+  return {
+    ...response?.data,
+    success:
+      response?.status && response.status >= 200 && response.status < 300,
+  };
+};
+
+export const getPendingReservationsCount = async () => {
+  const server = await createPrivateInstanceWithCredentials();
+  const response = await server?.get("/api/v1/reservations/count");
   return {
     ...response?.data,
     success:
