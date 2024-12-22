@@ -7,27 +7,38 @@ import { get } from "@/app/actions/listings/client";
 const MyListingsPage = async () => {
   const currentUser = await getCurrentUser();
 
-  const response = await get({ userId: currentUser!.id });
-  const listing = response.success
-    ? response.collection
-      ? response.collection[0]
-      : null
-    : null;
+  if (currentUser) {
+    const response = await get({ userId: currentUser.id });
+    const listing = response.success
+      ? response.collection
+        ? response.collection[0]
+        : null
+      : null;
 
-  if (!listing) {
+    if (!listing) {
+      return (
+        <ClientOnly>
+          <EmptyState
+            title="Нямате обявя"
+            subtitle="Все още не е имплементирана възможността да си създадеш от тук."
+          />
+        </ClientOnly>
+      );
+    }
+
     return (
       <ClientOnly>
-        <EmptyState
-          title="Нямате обявя"
-          subtitle="Все още не е имплементирана възможността да си създадеш от тук."
-        />
+        <ListingClient listing={listing} />
       </ClientOnly>
     );
   }
 
   return (
     <ClientOnly>
-      <ListingClient listing={listing} />
+      <EmptyState
+        title="Нямате достъп"
+        subtitle="Няма достъп до тази страница."
+      />
     </ClientOnly>
   );
 };
