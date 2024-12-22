@@ -10,13 +10,31 @@ async function getSession() {
 }
 
 export async function createPrivateInstanceWithoutCredentials() {
-  return axios.create({
+  const privateAxios = axios.create({
     baseURL: process.env.NEXT_PUBLIC_LISTINGS_API as string,
     headers: {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
     },
   });
+
+  privateAxios.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      // TODO: Handle specific error responses (e.g: 401 Unauthorized)
+      if (error.response?.status === 401) {
+        console.error("Unauthorized! Redirecting to login...");
+        redirect("/auth");
+      }
+      return {
+        success: false,
+        message: error.message,
+        status: error.response.status,
+      };
+    }
+  );
+
+  return privateAxios;
 }
 
 export async function createPrivateInstanceWithCredentials() {
@@ -42,16 +60,19 @@ export async function createPrivateInstanceWithCredentials() {
       );
     }
 
-    // TODO: Handle errors, globally
     privateAxios.interceptors.response.use(
       (response) => response,
       (error) => {
-        // Handle specific error responses (e.g: 401 Unauthorized)
+        // TODO: Handle specific error responses (e.g: 401 Unauthorized)
         if (error.response?.status === 401) {
           console.error("Unauthorized! Redirecting to login...");
           redirect("/auth");
         }
-        return Promise.reject(error);
+        return {
+          success: false,
+          message: error.message,
+          status: error.response.status,
+        };
       }
     );
 

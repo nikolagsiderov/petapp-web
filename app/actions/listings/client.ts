@@ -15,22 +15,13 @@ export const create = async (payload: {
   longitude: number;
   price: number;
 }) => {
-  try {
-    const server = await createPrivateInstanceWithCredentials();
-    const response = await server?.post("/api/v1/listings", payload);
-    return {
-      ...response?.data,
-      success:
-        response?.status && response.status >= 200 && response.status < 300,
-    };
-  } catch (error: any) {
-    // TODO: Handle error or responses different from 'success'
-    if (axios.isAxiosError(error)) {
-      console.error("Error:", error.response?.data.message || error.message);
-    }
-
-    return error;
-  }
+  const server = await createPrivateInstanceWithCredentials();
+  const response = await server?.post("/api/v1/listings", payload);
+  return {
+    ...response?.data,
+    success:
+      response?.status && response.status >= 200 && response.status < 300,
+  };
 };
 
 export interface IGetParams {
@@ -42,88 +33,61 @@ export interface IGetParams {
 }
 
 export const get = async (params: IGetParams) => {
-  try {
-    // Adding 5 minutes to dates request
-    // As currently, they are actually date & time request
-    // And when we request today's date & current time
-    // By the time the request is sent to BE, the current time value is already past
-    // This is the BE validation logic: if (request.ToDate < DateTime.UtcNow || request.FromDate < DateTime.UtcNow)
-    // If we look at 'request.ToDate < DateTime.UtcNow' and assume we want to request today
-    // The 'ToDate's value is today's date & current time, but by the time the request is handled by BE
-    // The 'DateTime.UtcNow's value is today's date & THE CURRENT TIME WHEN THE REQUEST WAS RECEIVED
+  // Adding 5 minutes to dates request
+  // As currently, they are actually date & time request
+  // And when we request today's date & current time
+  // By the time the request is sent to BE, the current time value is already past
+  // This is the BE validation logic: if (request.ToDate < DateTime.UtcNow || request.FromDate < DateTime.UtcNow)
+  // If we look at 'request.ToDate < DateTime.UtcNow' and assume we want to request today
+  // The 'ToDate's value is today's date & current time, but by the time the request is handled by BE
+  // The 'DateTime.UtcNow's value is today's date & THE CURRENT TIME WHEN THE REQUEST WAS RECEIVED
 
-    // TODO: Шибаните timezone-и, figure out how the dayjs() timezones API works...
-    // Then remove this .add(2, "hours") shit...
-    const fromDate = params.startDate
-      ? dayjs(params.startDate).add(2, "hours").add(5, "minutes")
-      : null;
-    const toDate = params.endDate
-      ? dayjs(params.endDate).add(2, "hours").add(5, "minutes")
-      : null;
+  // TODO: Шибаните timezone-и, figure out how the dayjs() timezones API works...
+  // Then remove this .add(2, "hours") shit...
+  const fromDate = params.startDate
+    ? dayjs(params.startDate).add(2, "hours").add(5, "minutes")
+    : null;
+  const toDate = params.endDate
+    ? dayjs(params.endDate).add(2, "hours").add(5, "minutes")
+    : null;
 
-    const server = await createPrivateInstanceWithoutCredentials();
-    const response = await server?.get("/api/v1/listings", {
-      params: {
-        userId: params.userId,
-        fromDate: fromDate,
-        toDate: toDate,
-        address: params.address,
-        category: params.category,
-      },
-    });
+  const server = await createPrivateInstanceWithoutCredentials();
+  const response = await server?.get("/api/v1/listings", {
+    params: {
+      userId: params.userId,
+      fromDate: fromDate,
+      toDate: toDate,
+      address: params.address,
+      category: params.category,
+    },
+  });
 
-    return {
-      collection: response?.data,
-      success:
-        response?.status && response.status >= 200 && response.status < 300, // TODO: Handle success response...
-    };
-  } catch (error: any) {
-    // TODO: Handle error or responses different from 'success'
-    if (axios.isAxiosError(error)) {
-      console.error("Error:", error.response?.data.message || error.message);
-    }
-
-    return error;
-  }
+  return {
+    collection: response?.data,
+    success:
+      response?.status && response.status >= 200 && response.status < 300, // TODO: Handle success response...
+  };
 };
 
 export const getById = async (id: string) => {
-  try {
-    const server = await createPrivateInstanceWithoutCredentials();
-    const response = await server?.get(`/api/v1/listings/${id}`);
-    return {
-      ...response?.data,
-      success:
-        response?.status && response.status >= 200 && response.status < 300,
-    };
-  } catch (error: any) {
-    // TODO: Handle error or responses different from 'success'
-    if (axios.isAxiosError(error)) {
-      console.error("Error:", error.response?.data.message || error.message);
-    }
-
-    return error;
-  }
+  const server = await createPrivateInstanceWithoutCredentials();
+  const response = await server?.get(`/api/v1/listings/${id}`);
+  return {
+    ...response?.data,
+    success:
+      response?.status && response.status >= 200 && response.status < 300,
+  };
 };
 
 export const getCurrentUserListings = async () => {
-  try {
-    const server = await createPrivateInstanceWithCredentials();
-    const response = await server?.get("/api/v1/listings/current-user");
+  const server = await createPrivateInstanceWithCredentials();
+  const response = await server?.get("/api/v1/listings/current-user");
 
-    return {
-      ...response?.data,
-      success:
-        response?.status && response.status >= 200 && response.status < 300,
-    };
-  } catch (error: any) {
-    // TODO: Handle error or responses different from 'success'
-    if (axios.isAxiosError(error)) {
-      console.error("Error:", error.response?.data.message || error.message);
-    }
-
-    return error;
-  }
+  return {
+    ...response?.data,
+    success:
+      response?.status && response.status >= 200 && response.status < 300,
+  };
 };
 
 export const createReservation = async (payload: {
@@ -131,22 +95,13 @@ export const createReservation = async (payload: {
   fromDate: Date;
   toDate: Date;
 }) => {
-  try {
-    const server = await createPrivateInstanceWithCredentials();
-    const response = await server?.post("/api/v1/reservations", payload);
-    return {
-      ...response?.data,
-      success:
-        response?.status && response.status >= 200 && response.status < 300,
-    };
-  } catch (error: any) {
-    // TODO: Handle error or responses different from 'success'
-    if (axios.isAxiosError(error)) {
-      console.error("Error:", error.response?.data.message || error.message);
-    }
-
-    return error;
-  }
+  const server = await createPrivateInstanceWithCredentials();
+  const response = await server?.post("/api/v1/reservations", payload);
+  return {
+    ...response?.data,
+    success:
+      response?.status && response.status >= 200 && response.status < 300,
+  };
 };
 
 export const getReservations = async () => {
@@ -173,20 +128,11 @@ export const updateReservationStatus = async (payload: {
   reservationId: string;
   status: string;
 }) => {
-  try {
-    const server = await createPrivateInstanceWithCredentials();
-    const response = await server?.put("/api/v1/reservations", payload);
-    return {
-      ...response?.data,
-      success:
-        response?.status && response.status >= 200 && response.status < 300,
-    };
-  } catch (error: any) {
-    // TODO: Handle error or responses different from 'success'
-    if (axios.isAxiosError(error)) {
-      console.error("Error:", error.response?.data.message || error.message);
-    }
-
-    return error;
-  }
+  const server = await createPrivateInstanceWithCredentials();
+  const response = await server?.put("/api/v1/reservations", payload);
+  return {
+    ...response?.data,
+    success:
+      response?.status && response.status >= 200 && response.status < 300,
+  };
 };
