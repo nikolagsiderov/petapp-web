@@ -78,12 +78,6 @@ export async function createPrivateInstanceWithCredentials() {
 
     return privateAxios;
   } catch (error: any) {
-    return axios.create({
-      baseURL: process.env.NEXT_PUBLIC_LISTINGS_API as string,
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-    });
+    return createPrivateInstanceWithoutCredentials();
   }
 }
