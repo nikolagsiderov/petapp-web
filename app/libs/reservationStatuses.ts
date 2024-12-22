@@ -1,7 +1,7 @@
 const reservationStatuses = {
   pending: "Pending",
-  approved: "Approved",
-  cancelled: "Cancelled",
+  accepted: "Accepted",
+  rejected: "Rejected",
 };
 
 export default reservationStatuses;

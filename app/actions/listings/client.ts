@@ -126,12 +126,11 @@ export const getPetsitterReservations = async () => {
   };
 };
 
-export const updateReservationStatus = async (payload: {
-  reservationId: string;
+export const updateReservationStatus = async (reservationId: string, payload: {
   status: string;
 }) => {
   const server = await createPrivateInstanceWithCredentials();
-  const response = await server?.put("/api/v1/reservations", payload);
+  const response = await server?.put(`/api/v1/reservations/${reservationId}/status`, payload);
   return {
     ...response?.data,
     success:

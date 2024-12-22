@@ -173,7 +173,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
                   : "row-span-10"
               }
             >
-              {reservation.status === reservationStatuses.approved ? (
+              {reservation.status === reservationStatuses.accepted ? (
                 <div className="font-light text-emerald-800 text-sm">
                   <span>Резервацията е одобрена</span>
                 </div>
