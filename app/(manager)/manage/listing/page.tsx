@@ -7,15 +7,7 @@ import { get } from "@/app/actions/listings/client";
 const MyListingsPage = async () => {
   const currentUser = await getCurrentUser();
 
-  if (!currentUser) {
-    return (
-      <ClientOnly>
-        <EmptyState title="Нямате достъп" subtitle="Влезте в своя профил" />
-      </ClientOnly>
-    );
-  }
-
-  const response = await get({ userId: currentUser.id });
+  const response = await get({ userId: currentUser!.id });
   const listing =
     response.success & response.collection ? response.collection[0] : null;
 

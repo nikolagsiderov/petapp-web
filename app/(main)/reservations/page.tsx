@@ -7,14 +7,6 @@ import { getReservations } from "@/app/actions/listings/client";
 const ReservationsPage = async () => {
   const currentUser = await getCurrentUser();
 
-  if (!currentUser) {
-    return (
-      <ClientOnly>
-        <EmptyState title="Нямате достъп" subtitle="Влезте в своя профил" />
-      </ClientOnly>
-    );
-  }
-
   const reservations = await getReservations();
   // TODO: Create API endpoint for /api/v1/reservations/past/current-user & /api/v1/reservations/upcoming/current-user
   // const upcomingReservations = await getReservations({
