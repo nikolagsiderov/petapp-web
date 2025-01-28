@@ -2,7 +2,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
 import { toast } from "react-hot-toast";
-import { User } from "../types";
+import { User } from "pawpal-fe-common";
 import useLoginModal from "./useLoginModal";
 
 interface IUseFavorite {

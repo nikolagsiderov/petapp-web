@@ -2,7 +2,7 @@
 
 import MainContainer from "@/app/components/MainContainer";
 import MapView from "./MapView";
-import { User } from "../../types";
+import { User } from "pawpal-fe-common
 
 interface FindClientProps {
   currentUser?: User | null | undefined;

@@ -1,7 +1,7 @@
 "use client";
 
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { User } from "../types";
+import { User } from "pawpal-fe-common";
 import useFavorite from "../hooks/useFavorite";
 
 interface HeartButtonProps {

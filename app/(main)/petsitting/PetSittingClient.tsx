@@ -5,7 +5,7 @@ import ListView from "./ListView";
 import MapView from "./MapView";
 import { FaMapLocationDot, FaListUl } from "react-icons/fa6";
 import { useState } from "react";
-import { Listing, User } from "../../types";
+import { Listing, User } from "pawpal-fe-common";
 
 interface PetSittingClientProps {
   listings?: Array<Listing> | null | undefined | any;

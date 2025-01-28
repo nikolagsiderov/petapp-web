@@ -2,7 +2,7 @@
 
 import Left from "../../components/petsitting/Left";
 import Right from "../../components/petsitting/Right";
-import { User } from "../../types";
+import { User } from "pawpal-fe-common";
 
 interface MapViewProps {
   listings?: any;

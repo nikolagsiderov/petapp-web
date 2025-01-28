@@ -2,7 +2,7 @@
 
 import MainContainer from "@/app/components/MainContainer";
 import ListView from "./ListView";
-import { Listing, User } from "../../types";
+import { Listing, User } from "pawpal-fe-common";
 
 interface AdoptClientProps {
   currentUser?: User | null | undefined;

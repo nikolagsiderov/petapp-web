@@ -1,7 +1,7 @@
 "use client";
 
 import ListingCard from "@/app/components/listings/ListingCard";
-import { User } from "../../types";
+import { User } from "pawpal-fe-common";
 
 interface ListViewProps {
   listings?: any;

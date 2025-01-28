@@ -2,7 +2,7 @@
 
 import Left from "../../components/find/Left";
 import Right from "../../components/find/Right";
-import { User } from "../../types";
+import { User } from "pawpal-fe-common";
 
 interface MapViewProps {
   currentUser?: User | null | undefined;
