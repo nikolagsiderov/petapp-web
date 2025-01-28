@@ -1,30 +1,26 @@
 "use client";
 
-import { SafeListing, SafeReservation, SafeUser } from "@/app/types";
+import { Listing, Reservation, User } from "pawpal-fe-common";
 import { useRouter } from "next/navigation";
 import { ReactNode, useCallback, useMemo } from "react";
 import { format } from "date-fns";
 import Image from "next/image";
 import HeartButton from "../HeartButton";
 import Button from "../Button";
-import { RiVipDiamondFill, RiVipDiamondLine } from "react-icons/ri";
 import { FaStar } from "react-icons/fa6";
-import useTowns from "@/app/hooks/useTowns";
+import { categories } from "../navbar/main/Categories";
+import reservationStatuses from "@/app/libs/reservationStatuses";
 
 interface ListingCardProps {
   horizontal?: boolean;
-  data: SafeListing;
-  reservation?: SafeReservation | null;
+  data: Listing;
+  reservation?: Reservation | null;
   onAction?: (id: string) => void;
   disabled?: boolean;
   actionLabel?: ReactNode;
   actionId?: string;
-  currentUser?: SafeUser | null;
+  currentUser?: User | null;
   listingUserName: string;
-}
-
-interface IParams {
-  listingId?: string;
 }
 
 const ListingCard: React.FC<ListingCardProps> = ({
@@ -39,7 +35,6 @@ const ListingCard: React.FC<ListingCardProps> = ({
   listingUserName,
 }) => {
   const router = useRouter();
-  const { getByValue } = useTowns();
 
   const handleAction = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -54,6 +49,10 @@ const ListingCard: React.FC<ListingCardProps> = ({
     [onAction, actionId, disabled]
   );
 
+  const category = useMemo(() => {
+    return categories.find((c) => c.value === data.category)?.label;
+  }, [data.category]);
+
   const price = useMemo(() => {
     if (reservation) {
       return reservation.totalPrice;
@@ -67,8 +66,8 @@ const ListingCard: React.FC<ListingCardProps> = ({
       return null;
     }
 
-    const start = new Date(reservation.startDate);
-    const end = new Date(reservation.endDate);
+    const start = new Date(reservation.fromDate);
+    const end = new Date(reservation.toDate);
 
     return `${format(start, "PP")} - ${format(end, "PP")}`;
   }, [reservation]);
@@ -91,7 +90,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
             src={
               data.imageSrc
                 ? data.imageSrc
-                : "/images/review page background.png"
+                : "/images/listing-default-image.png"
             }
             className="object-cover h-full w-full group-hover:scale-110 transition"
             fill
@@ -108,12 +107,12 @@ const ListingCard: React.FC<ListingCardProps> = ({
           )} */}
           <div className="absolute bottom-3 left-3">
             <span className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 tracking-tighter">
-              Настанява <span className="lowercase ml-1">{data.category}</span>
+              Настанява <span className="lowercase ml-1">{category}</span>
             </span>
           </div>
           {!reservation && (
             <div className="absolute top-3 right-3">
-              <HeartButton listingId={data.id} currentUser={currentUser} />
+              <HeartButton listing={data} currentUser={currentUser} />
             </div>
           )}
         </div>
@@ -130,7 +129,9 @@ const ListingCard: React.FC<ListingCardProps> = ({
             }
           >
             <div className="font-semibold text-lg">{listingUserName}</div>
-            <div className="font-light text-sm w-56 overflow-hidden truncate">{data.address}</div>
+            <div className="font-light text-sm w-56 overflow-hidden truncate">
+              {data.address}
+            </div>
             <div className="font-light text-neutral-500">
               {reservation && reservationDate}
             </div>
@@ -172,7 +173,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
                   : "row-span-10"
               }
             >
-              {reservation.approved ? (
+              {reservation.status === reservationStatuses.accepted ? (
                 <div className="font-light text-emerald-800 text-sm">
                   <span>Резервацията е одобрена</span>
                 </div>

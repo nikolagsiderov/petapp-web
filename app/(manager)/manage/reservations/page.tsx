@@ -1,35 +1,27 @@
 import EmptyState from "@/app/components/EmptyState";
-import getCurrentUser from "@/app/actions/getCurrentUser";
 import ClientOnly from "@/app/components/ClientOnly";
-import { getReservationRequests } from "@/app/actions/reservations/getActions";
+import { getPetsitterReservations } from "@/app/actions/listings/client";
 import ReservationRequests from "./ReservationRequests";
 
 const MyListingsPage = async () => {
-  const currentUser = await getCurrentUser();
+  const reservations = await getPetsitterReservations();
 
-  if (!currentUser) {
+  if (
+    reservations &&
+    reservations.success &&
+    reservations.collection &&
+    reservations.collection.length > 0
+  ) {
     return (
       <ClientOnly>
-        <EmptyState title="Нямате достъп" subtitle="Влезте в своя профил" />
-      </ClientOnly>
-    );
-  }
-
-  const reservationRequests = await getReservationRequests();
-
-  if (!reservationRequests) {
-    return (
-      <ClientOnly>
-        <EmptyState title="Няма резервации чакащи одобрение" />
+        <ReservationRequests reservationRequests={reservations.collection} />
       </ClientOnly>
     );
   }
 
   return (
     <ClientOnly>
-      <ReservationRequests
-        reservationRequests={reservationRequests}
-      />
+      <EmptyState title="Нямате резервации" />
     </ClientOnly>
   );
 };

@@ -1,19 +1,20 @@
 "use client";
 
-import { SafeReservation } from "@/app/types";
+import { Reservation } from "pawpal-fe-common";
 import Heading from "@/app/components/Heading";
 import ManageContainer from "@/app/components/ManageContainer";
 import ReservationsTable from "@/app/components/manage/ReservationsTable";
+import reservationStatuses from "@/app/libs/reservationStatuses";
 
 interface ReservationRequestsClientProps {
-  reservationRequests: SafeReservation[];
+  reservationRequests: Reservation[];
 }
 
 const ReservationRequests: React.FC<ReservationRequestsClientProps> = ({
   reservationRequests,
 }) => {
   const awaitingApproval = reservationRequests.filter(
-    (request) => request.approved === false
+    (request) => request.status === reservationStatuses.pending
   );
 
   return (

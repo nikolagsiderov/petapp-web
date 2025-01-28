@@ -1,11 +1,11 @@
 "use client";
 
 import ListingCard from "@/app/components/listings/ListingCard";
-import { SafeUser } from "../../types";
+import { User } from "pawpal-fe-common";
 
 interface ListViewProps {
   listings?: any;
-  currentUser?: SafeUser | null | undefined;
+  currentUser?: User | null | undefined;
 }
 
 const ListView: React.FC<ListViewProps> = ({ listings, currentUser }) => {
@@ -28,7 +28,7 @@ const ListView: React.FC<ListViewProps> = ({ listings, currentUser }) => {
           currentUser={currentUser}
           key={listing.id}
           data={listing}
-          listingUserName={listing.user.name}
+          listingUserName={`${listing.user.firstName} ${listing.user.lastName}`}
         />
       ))}
     </div>

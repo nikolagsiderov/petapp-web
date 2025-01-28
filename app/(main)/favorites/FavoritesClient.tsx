@@ -1,11 +1,13 @@
-import { SafeListing, SafeUser } from "@/app/types";
+"use client";
+
+import { Listing, User } from "pawpal-fe-common";
 import Heading from "@/app/components/Heading";
 import MainContainer from "@/app/components/MainContainer";
 import ListingCard from "@/app/components/listings/ListingCard";
 
 interface FavoritesClientProps {
-  listings: Array<SafeListing> | null | undefined | any;
-  currentUser?: SafeUser | null;
+  listings: Array<Listing> | null | undefined | any;
+  currentUser?: User | null;
 }
 
 const FavoritesClient: React.FC<FavoritesClientProps> = ({
@@ -18,7 +20,7 @@ const FavoritesClient: React.FC<FavoritesClientProps> = ({
         className="
           max-w-screen-lg 
           mx-auto
-          lg:pt-24 pt-32 pb-20
+          lg:pt-28 pt-36 pb-24
         "
       >
         <Heading title="Запазени обяви" subtitle="Списък със запазени обяви!" />
@@ -40,7 +42,7 @@ const FavoritesClient: React.FC<FavoritesClientProps> = ({
               currentUser={currentUser}
               key={listing.id}
               data={listing}
-              listingUserName={listing.user.name}
+              listingUserName={`${listing.user.firstName} ${listing.user.lastName}`}
             />
           ))}
         </div>

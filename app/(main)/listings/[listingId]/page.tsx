@@ -1,22 +1,20 @@
-import getCurrentUser from "@/app/actions/getCurrentUser";
+import getCurrentUser from "@/app/actions/users/getCurrentUser";
 import EmptyState from "@/app/components/EmptyState";
 import ListingClient from "./ListingClient";
 import ClientOnly from "@/app/components/ClientOnly";
 import BecomeSitterModal from "@/app/components/modals/BecomeSitterModal";
-import { getListingById } from "@/app/actions/listings/getActions";
-import { getReservations, getReviews } from "@/app/actions/reservations/getActions";
+import { getById } from "@/app/actions/listings/client";
 
 interface IParams {
-  listingId?: string;
+  listingId: string;
 }
 
 const ListingPage = async ({ params }: { params: IParams }) => {
-  const listing = await getListingById(params);
-  const reservations = await getReservations(params);
-  const reviews = await getReviews(params);
+  const listing = await getById(params.listingId);
+  // const reviews = await getReviews(params); // TODO: Implement reviews microservice in BE
   const currentUser = await getCurrentUser();
 
-  if (!listing) {
+  if (!listing || !listing.success) {
     return (
       <ClientOnly>
         <EmptyState />
@@ -29,8 +27,7 @@ const ListingPage = async ({ params }: { params: IParams }) => {
       <BecomeSitterModal />
       <ListingClient
         listing={listing}
-        reservations={reservations}
-        reviews={reviews}
+        reviews={[]} // TODO: After implementation of reviews microservice, replace with actual reviews data...
         currentUser={currentUser}
       />
     </ClientOnly>

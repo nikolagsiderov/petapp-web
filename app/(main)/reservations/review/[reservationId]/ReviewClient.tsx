@@ -4,7 +4,7 @@ import { toast } from "react-hot-toast";
 import axios from "axios";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { SafeReservation, SafeUser } from "@/app/types";
+import { Reservation } from "pawpal-fe-common";
 import Heading from "@/app/components/Heading";
 import MainContainer from "@/app/components/MainContainer";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -13,7 +13,7 @@ import Button from "@/app/components/Button";
 import Rating from "@/app/components/inputs/Rating";
 
 interface ReviewClientProps {
-  reservation?: SafeReservation | null | undefined | any;
+  reservation?: Reservation | null | undefined | any;
 }
 
 const ReviewClient: React.FC<ReviewClientProps> = ({ reservation }) => {

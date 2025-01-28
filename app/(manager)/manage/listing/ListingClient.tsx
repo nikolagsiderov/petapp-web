@@ -1,18 +1,14 @@
 "use client";
 
-import { SafeListing, SafeUser } from "@/app/types";
+import { Listing, User } from "pawpal-fe-common";
 import ListingEdit from "@/app/components/listings/ListingEdit";
 import ManageContainer from "@/app/components/ManageContainer";
 
 interface ListingClientProps {
-  listing: SafeListing | null | undefined;
-  currentUser?: SafeUser | null;
+  listing: Listing | null | undefined;
 }
 
-const ListingClient: React.FC<ListingClientProps> = ({
-  listing,
-  currentUser,
-}) => {
+const ListingClient: React.FC<ListingClientProps> = ({ listing }) => {
   return (
     <ManageContainer>
       {listing && <ListingEdit listing={listing} />}

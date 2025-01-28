@@ -1,11 +1,11 @@
 "use client";
 
-import { SafeListing } from "@/app/types";
+import { Listing } from "pawpal-fe-common";
 import { Circle, GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import Heading from "../Heading";
 
 interface ListingMapProps {
-  listing: SafeListing;
+  listing: Listing;
 }
 
 const ListingMap: React.FC<ListingMapProps> = ({ listing }) => {
@@ -21,8 +21,8 @@ const ListingMap: React.FC<ListingMapProps> = ({ listing }) => {
       <GoogleMap
         mapContainerClassName="w-full h-[36rem] rounded-2xl"
         center={{
-          lat: listing.lat + 0.001,
-          lng: listing.lng - 0.001,
+          lat: listing.latitude + 0.001,
+          lng: listing.longitude - 0.001,
         }}
         zoom={15}
         options={{
@@ -35,8 +35,8 @@ const ListingMap: React.FC<ListingMapProps> = ({ listing }) => {
       >
         <Circle
           center={{
-            lat: listing.lat + 0.001,
-            lng: listing.lng - 0.001,
+            lat: listing.latitude + 0.001,
+            lng: listing.longitude - 0.001,
           }}
           radius={300}
           options={{

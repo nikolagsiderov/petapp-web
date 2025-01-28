@@ -1,26 +1,20 @@
 "use client";
 
-import axios from "axios";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Range } from "react-date-range";
 import { useRouter } from "next/navigation";
 import { differenceInDays, eachDayOfInterval } from "date-fns";
 import useLoginModal from "@/app/hooks/useLoginModal";
-import {
-  SafeListing,
-  SafeReservation,
-  SafeReview,
-  SafeUser,
-} from "@/app/types";
+import { Listing, Reservation, Review, User } from "pawpal-fe-common";
 import MainContainer from "@/app/components/MainContainer";
 import { categories } from "@/app/components/navbar/main/Categories";
 import ListingHead from "@/app/components/listings/ListingHead";
 import ListingInfo from "@/app/components/listings/ListingInfo";
 import ListingReservation from "@/app/components/listings/ListingReservation";
-import useTowns from "@/app/hooks/useTowns";
 import ListingReviews from "@/app/components/listings/ListingReviews";
 import ListingMap from "@/app/components/listings/ListingMap";
+import { createReservation } from "@/app/actions/listings/client";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -29,81 +23,65 @@ const initialDateRange = {
 };
 
 interface ListingClientProps {
-  reservations?: SafeReservation[] | null | undefined;
-  reviews: SafeReview[] | null | undefined;
-  listing: SafeListing & {
-    user: SafeUser;
-  };
-  currentUser?: SafeUser | null;
+  reviews: Review[] | null | undefined;
+  listing: Listing;
+  currentUser?: User | null;
 }
 
 const ListingClient: React.FC<ListingClientProps> = ({
   listing,
-  reservations = [],
   reviews,
   currentUser,
 }) => {
   const loginModal = useLoginModal();
   const router = useRouter();
-  const { getByValue } = useTowns();
-
-  const disabledDates = useMemo(() => {
-    let dates: Date[] = [];
-
-    reservations?.forEach((reservation: any) => {
-      const range = eachDayOfInterval({
-        start: new Date(reservation.startDate),
-        end: new Date(reservation.endDate),
-      });
-
-      dates = [...dates, ...range];
-    });
-
-    return dates;
-  }, [reservations]);
 
   const category = useMemo(() => {
-    return categories.find((items) => items.label === listing.category);
+    return categories.find((c) => c.value === listing.category);
   }, [listing.category]);
 
   const [isLoading, setIsLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(listing.price);
   const [dateRange, setDateRange] = useState<Range>(initialDateRange);
 
-  const onCreateReservation = useCallback(() => {
+  const onCreateReservation = useCallback(async () => {
     if (!currentUser) {
       return loginModal.onOpen();
     }
+
     setIsLoading(true);
 
-    axios
-      .post("/api/reservations", {
-        totalPrice,
-        startDate: dateRange.startDate,
-        endDate: dateRange.endDate,
+    if (listing && listing.id && dateRange.startDate && dateRange.endDate) {
+      dateRange.startDate.setHours(22);
+      dateRange.endDate.setHours(23);
+
+      const response = await createReservation({
         listingId: listing?.id,
-      })
-      .then(() => {
+        fromDate: dateRange.startDate!,
+        toDate: dateRange.endDate!,
+      });
+
+      if (response.success) {
         toast.success("Резервацията е успешна!");
         setDateRange(initialDateRange);
         router.push("/reservations");
-      })
-      .catch((error) => {
-        if (
-          error &&
-          error.response &&
-          error.response.data &&
-          error.response.data.message
-        ) {
-          toast.error(error.response.data.message);
-        } else {
-          toast.error("Нещо се обърка.");
-        }
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, [totalPrice, dateRange, listing?.id, router, currentUser, loginModal]);
+      } else {
+        // TODO: Else handle validation message...
+        toast.error("Нещо се обърка...");
+      }
+    } else {
+      // TODO: Else handle validation message...
+    }
+
+    setIsLoading(false);
+  }, [
+    currentUser,
+    dateRange.startDate,
+    dateRange.endDate,
+    listing,
+    loginModal,
+    router,
+  ]);
 
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {
@@ -130,7 +108,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
           <ListingHead
             imageSrc={listing.imageSrc}
             address={listing.address}
-            id={listing.id}
+            listing={listing}
             currentUser={currentUser}
           />
           <div
@@ -156,6 +134,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
               "
             >
               <div className="lg:sticky lg:top-[7rem]">
+
                 <ListingReservation
                   price={listing.price}
                   totalPrice={totalPrice}
@@ -163,7 +142,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
                   dateRange={dateRange}
                   onSubmit={onCreateReservation}
                   disabled={isLoading}
-                  disabledDates={disabledDates}
+                  disabledDates={[]} // TODO: Dates where user does not have availability or have reservations on them... Retrieve info from BE
                 />
               </div>
             </div>

@@ -1,12 +1,11 @@
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import NextAuth, { AuthOptions } from "next-auth";
-import prisma from "@/app/libs/prismadb";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcrypt";
+import { authenticate } from "@/app/actions/users/client";
+import axios from "axios";
+import NextAuth, { AuthOptions, Session } from "next-auth";
+import { Agent } from "https";
 
 export const authOptions: AuthOptions = {
-  adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -20,38 +19,80 @@ export const authOptions: AuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error("Невалидни данни за вход");
+          throw new Error("Моля въведи емайл и парола за вход.");
         }
 
-        const user = await prisma.user.findUnique({
-          where: {
-            email: credentials.email,
-          },
+        const response = await authenticate({
+          email: credentials.email,
+          password: credentials.password,
         });
 
-        if (!user || !user?.hashedPassword) {
-          throw new Error("Невалидни данни за вход");
+        const config = {
+          headers: { Authorization: `Bearer ${response.jwt}` },
+          // Below setting is only for development purposes
+          httpsAgent: new Agent({
+            rejectUnauthorized: false,
+          }),
+        };
+
+        const user = await axios
+          .get(
+            process.env.NEXT_PUBLIC_USERS_API + "/api/v1/users/current",
+            config
+          )
+          .then((response) => {
+            return response?.data;
+          })
+          .catch((error) => {
+            return null;
+          });
+
+        if (response?.success && user) {
+          user.jwt = response.jwt as string;
+          return user;
         }
-
-        const isCorrectPassword = await bcrypt.compare(
-          credentials.password,
-          user.hashedPassword
-        );
-
-        if (!isCorrectPassword) {
-          throw new Error("Невалидни данни за вход");
-        }
-
-        return user;
       },
     }),
   ],
+  callbacks: {
+    /**
+     * async jwt() & async session() callback functions are returned by `useSession`, `getSession` & `getServerSession`
+     */
+    async jwt({ token, user }) {
+      if (user) {
+        token.jwt = user.jwt;
+        token.id = user.id;
+        token.email = user.email;
+        token.firstName = user.firstName;
+        token.lastName = user.lastName;
+        token.name = `${user.firstName} ${user.lastName}`;
+        token.image = user.image;
+        token.createdAt = user.createdAt;
+        token.updatedAt = user.updatedAt;
+      }
+
+      return token;
+    },
+    async session({ session, token }: { session: Session; token: any }) {
+      session.user.jwt = token.jwt;
+      session.user.id = token.id;
+      session.user.email = token.email;
+      session.user.firstName = token.firstName;
+      session.user.lastName = token.lastName;
+      session.user.name = `${token.firstName} ${token.lastName}`;
+      session.user.image = token.image;
+      session.user.createdAt = token.createdAt;
+      session.user.updatedAt = token.updatedAt;
+      return session;
+    },
+  },
   pages: {
-    signIn: "/",
+    signIn: "/auth",
   },
   debug: process.env.NODE_ENV === "development",
   session: {
     strategy: "jwt",
+    maxAge: 2 * 60 * 60, // 2 hours, should be always synced with BE
   },
   secret: process.env.NEXTAUTH_SECRET,
 };

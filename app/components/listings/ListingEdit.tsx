@@ -1,6 +1,6 @@
 "use client";
 
-import { SafeListing, SafeReservation } from "@/app/types";
+import { Listing, Reservation } from "pawpal-fe-common";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
 import Button from "../Button";
@@ -13,8 +13,8 @@ import Input from "../inputs/Input";
 import LocationInput from "../inputs/LocationInput";
 
 interface ListingEditProps {
-  listing: SafeListing;
-  reservation?: SafeReservation | null;
+  listing: Listing;
+  reservation?: Reservation | null;
 }
 
 const ListingEdit: React.FC<ListingEditProps> = ({ listing, reservation }) => {
@@ -34,8 +34,8 @@ const ListingEdit: React.FC<ListingEditProps> = ({ listing, reservation }) => {
       category: listing.category,
       location: {
         address: listing.address,
-        lat: listing.lat,
-        lng: listing.lng,
+        lat: listing.latitude,
+        lng: listing.longitude,
       },
       imageSrc: listing.imageSrc,
       price: listing.price,
@@ -123,6 +123,7 @@ const ListingEdit: React.FC<ListingEditProps> = ({ listing, reservation }) => {
                 selected={category === item.label}
                 label={item.label}
                 icon={item.icon}
+                value={item.value}
               />
             </div>
           ))}

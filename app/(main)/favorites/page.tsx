@@ -1,17 +1,28 @@
 import EmptyState from "@/app/components/EmptyState";
-import getCurrentUser from "@/app/actions/getCurrentUser";
 import FavoritesClient from "./FavoritesClient";
 import ClientOnly from "@/app/components/ClientOnly";
-import { getFavoriteListings } from "../../actions/listings/getActions";
+import { get } from "@/app/actions/favorites/client";
+import { getById } from "@/app/actions/listings/client";
+import getCurrentUser from "@/app/actions/users/getCurrentUser";
 
-const ListingPage = async () => {
-  const listings = await getFavoriteListings();
+const FavoritesPage = async () => {
+  const response = await get();
+  let listings: any = [];
   const currentUser = await getCurrentUser();
 
-  if (listings.length === 0) {
+  if (response.success && response.collection.length > 0) {
+    for (let i = 0; i < response?.collection.length; i++) {
+      const favItem = response?.collection[i];
+      const listing = await getById(favItem.targetItemId);
+      const fullItem = { ...favItem, ...listing };
+      listings.push(fullItem);
+    }
+  }
+
+  if (response.collection.length === 0) {
     return (
       <ClientOnly>
-        <EmptyState 
+        <EmptyState
           title="Нямате запазени обяви"
           subtitle="Изглежда, че не сте запазили обяви."
         />
@@ -26,4 +37,4 @@ const ListingPage = async () => {
   );
 };
 
-export default ListingPage;
+export default FavoritesPage;

@@ -2,16 +2,11 @@
 
 import MainContainer from "@/app/components/MainContainer";
 import MapView from "./MapView";
-import { SafeUser } from "../../types";
 
-interface FindClientProps {
-  currentUser?: SafeUser | null | undefined;
-}
-
-const FindClient: React.FC<FindClientProps> = ({ currentUser }) => {
+const FindClient = () => {
   return (
     <MainContainer>
-      <MapView currentUser={currentUser} />
+      <MapView />
     </MainContainer>
   );
 };

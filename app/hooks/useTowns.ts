@@ -1,4 +1,4 @@
-import towns from "../libs/towns";
+import { towns } from "pawpal-fe-common";
 
 const useTowns = () => {
   const getAll = () =>

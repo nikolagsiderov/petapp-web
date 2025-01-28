@@ -2,11 +2,11 @@
 
 import Left from "../../components/petsitting/Left";
 import Right from "../../components/petsitting/Right";
-import { SafeUser } from "../../types";
+import { User } from "pawpal-fe-common";
 
 interface MapViewProps {
   listings?: any;
-  currentUser?: SafeUser | null | undefined;
+  currentUser?: User | null | undefined;
 }
 
 const MapView: React.FC<MapViewProps> = ({ listings, currentUser }) => {

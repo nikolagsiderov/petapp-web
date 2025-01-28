@@ -51,9 +51,6 @@ const LocationInput: React.FC<LocationInputProps> = ({ onChange }) => {
 
       setPrivateAddress(place.formatted_address);
       parseGooglePlacesPublicAddress({ googlePlace: place, setPublicAddress });
-
-      console.log(privateAddress);
-      console.log(publicAddress);
       handleSelect();
     } else {
       toast.error("Моля въведете и изберете адрес.");

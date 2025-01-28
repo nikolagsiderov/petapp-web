@@ -1,14 +1,15 @@
 "use client";
 
 import ListingCard from "@/app/components/listings/ListingCard";
-import { SafeUser } from "@/app/types";
+import { Listing, User } from "pawpal-fe-common";
 
 interface RightProps {
-  listings?: any;
-  currentUser?: SafeUser | null | undefined;
+  listings?: Array<Listing> | null;
+  currentUser?: User | null | undefined;
 }
 
 const Right: React.FC<RightProps> = ({ listings, currentUser }) => {
+  console.log(listings);
   return (
     <div className="pb-20">
       <div className="hidden lg:block lg:col-span-1 lg:relative lg:mb-16">
@@ -19,7 +20,7 @@ const Right: React.FC<RightProps> = ({ listings, currentUser }) => {
               currentUser={currentUser}
               key={listing.id}
               data={listing}
-              listingUserName={listing.user.name}
+              listingUserName={`${listing.user.firstName} ${listing.user.lastName}`}
             />
           ))}
         </div>
@@ -31,7 +32,7 @@ const Right: React.FC<RightProps> = ({ listings, currentUser }) => {
               currentUser={currentUser}
               key={listing.id}
               data={listing}
-              listingUserName={listing.user.name}
+              listingUserName={`${listing.user.firstName} ${listing.user.lastName}`}
             />
           ))}
         </div>

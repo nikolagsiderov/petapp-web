@@ -1,6 +1,5 @@
 "use client";
 
-import axios from "axios";
 import { FcGoogle } from "react-icons/fc";
 import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -13,12 +12,13 @@ import Button from "../Button";
 import { signIn } from "next-auth/react";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import { useRouter } from "next/navigation";
+import { register as registerUser } from "@/app/actions/users/client";
 
 const RegisterModal = () => {
   const router = useRouter();
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const {
     register,
@@ -26,40 +26,44 @@ const RegisterModal = () => {
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
-      name: "",
+      firstName: "",
+      lastName: "",
       email: "",
       password: "",
     },
   });
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    setIsLoading(true);
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    setLoading(true);
 
-    axios
-      .post("/api/register", data)
-      .then(() => {
-        registerModal.onClose();
+    const response = await registerUser({
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
+      password: data.password,
+    });
 
-        signIn("credentials", {
-          ...data,
-          redirect: false,
-        }).then((callback) => {
-          if (callback?.ok) {
-            toast.success("Добре дошли!");
-            router.refresh();
-          }
+    if (response?.success) {
+      setLoading(false);
+      registerModal.onClose();
 
-          if (callback?.error) {
-            toast.error(callback.error);
-          }
-        });
-      })
-      .catch((error) => {
-        toast.error("Грешка при регистрацията");
-      })
-      .finally(() => {
-        setIsLoading(false);
+      signIn("credentials", {
+        ...data,
+        redirect: false,
+      }).then((callback) => {
+        if (callback?.ok) {
+          toast.success("Добре дошли!");
+          router.refresh();
+        }
+
+        if (callback?.error) {
+          toast.error(callback.error);
+        }
       });
+    } else {
+      setLoading(false);
+      toast.error("Регистрацията е неуспешна.");
+    }
   };
 
   const toggle = useCallback(() => {
@@ -73,15 +77,23 @@ const RegisterModal = () => {
       <Input
         id="email"
         label="Имейл"
-        disabled={isLoading}
+        disabled={loading}
         register={register}
         errors={errors}
         required
       />
       <Input
-        id="name"
-        label="Име"
-        disabled={isLoading}
+        id="firstName"
+        label="Собствено име"
+        disabled={loading}
+        register={register}
+        errors={errors}
+        required
+      />
+      <Input
+        id="lastName"
+        label="Фамилия"
+        disabled={loading}
         register={register}
         errors={errors}
         required
@@ -90,7 +102,7 @@ const RegisterModal = () => {
         id="password"
         type="password"
         label="Парола"
-        disabled={isLoading}
+        disabled={loading}
         register={register}
         errors={errors}
         required
@@ -123,7 +135,7 @@ const RegisterModal = () => {
 
   return (
     <Modal
-      disabled={isLoading}
+      disabled={loading}
       isOpen={registerModal.isOpen}
       title="Регистрирай се"
       actionLabel="Продължи"

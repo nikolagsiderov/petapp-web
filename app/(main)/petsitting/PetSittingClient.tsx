@@ -5,11 +5,11 @@ import ListView from "./ListView";
 import MapView from "./MapView";
 import { FaMapLocationDot, FaListUl } from "react-icons/fa6";
 import { useState } from "react";
-import { SafeListing, SafeUser } from "../../types";
+import { Listing, User } from "pawpal-fe-common";
 
 interface PetSittingClientProps {
-  listings?: Array<SafeListing> | null | undefined | any;
-  currentUser?: SafeUser | null | undefined;
+  listings?: Array<Listing> | null | undefined | any;
+  currentUser?: User | null | undefined;
 }
 
 const PetSittingClient: React.FC<PetSittingClientProps> = ({

@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { BiSearch } from "react-icons/bi";
 import { differenceInDays } from "date-fns";
+import { categories } from "../Categories";
 
 const PetSittingFilter = () => {
   const searchModal = useSearchModal();
@@ -97,7 +98,7 @@ const PetSittingFilter = () => {
 
   const categoryLabel = useMemo(() => {
     if (category) {
-      return `${category}`;
+      return `${categories.filter((c) => c.value === category)[0].label}`;
     }
 
     return "Домашен любимец";

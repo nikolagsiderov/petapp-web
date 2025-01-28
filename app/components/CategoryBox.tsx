@@ -9,6 +9,7 @@ import Avatar from "./Avatar";
 interface CategoryBoxProps {
   icon?: IconType | null;
   label: string | null;
+  value: string | null;
   imageSrc?: string | null;
   selected?: boolean | null;
   urgencyClassName?: string | null;
@@ -17,6 +18,7 @@ interface CategoryBoxProps {
 const CategoryBox: React.FC<CategoryBoxProps> = ({
   icon: Icon,
   label,
+  value,
   imageSrc,
   selected,
   urgencyClassName,
@@ -34,10 +36,10 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({
 
     const updatedQuery: any = {
       ...currentQuery,
-      category: label,
+      category: value,
     };
 
-    if (params?.get("category") === label) {
+    if (params?.get("category") === value) {
       delete updatedQuery.category;
     }
 
@@ -50,7 +52,7 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({
     );
 
     router.push(url);
-  }, [label, params, router]);
+  }, [value, params, router, pathname]);
 
   return (
     <div

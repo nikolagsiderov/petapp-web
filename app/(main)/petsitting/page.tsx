@@ -1,22 +1,20 @@
 import EmptyState from "@/app/components/EmptyState";
-import getCurrentUser from "@/app/actions/getCurrentUser";
+import getCurrentUser from "@/app/actions/users/getCurrentUser";
 import ClientOnly from "@/app/components/ClientOnly";
 import FilterPetSittersModal from "../../components/modals/FilterPetSittersModal";
 import BecomeSitterModal from "../../components/modals/BecomeSitterModal";
 import PetSittingClient from "./PetSittingClient";
-import {
-  IListingsParams,
-  getListings,
-} from "../../actions/listings/getActions";
+import { IGetParams, get } from "../../actions/listings/client";
 
 export const dynamic = "force-dynamic";
 
 interface PetSittingProps {
-  searchParams: IListingsParams;
+  searchParams: IGetParams;
 }
 
 const PetSittingPage = async ({ searchParams }: PetSittingProps) => {
-  const listings = await getListings(searchParams);
+  const response = await get(searchParams);
+  const listings = response.success ? response.collection : [];
   const currentUser = await getCurrentUser();
 
   if (listings.length === 0) {

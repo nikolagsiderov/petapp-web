@@ -1,12 +1,11 @@
 "use client";
 
 import { IconType } from "react-icons";
-import { SafeReview, SafeUser } from "@/app/types";
 import Avatar from "../Avatar";
 import ListingCategory from "./ListingCategory";
 
 interface ListingInfoProps {
-  user: SafeUser;
+  user: any;
   description: string;
   category:
     | {
@@ -35,7 +34,9 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
             gap-2
           "
         >
-          <div>Обявата е публикувана от {user?.name}</div>
+          <div>
+            Обявата е публикувана от {user?.firstName} {user?.lastName}
+          </div>
           <Avatar width={60} height={60} src={user?.image} />
         </div>
         <div

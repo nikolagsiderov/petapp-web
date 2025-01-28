@@ -7,7 +7,7 @@ import MenuItem from "./MenuItem";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import { signOut } from "next-auth/react";
-import { SafeUser } from "@/app/types";
+import { User } from "pawpal-fe-common";
 import useBecomeSitterModal from "@/app/hooks/useBecomeSitterModal";
 import { useRouter } from "next/navigation";
 import useOnClickOutsideComponent from "@/app/hooks/useOnClickOutsideComponent";
@@ -17,13 +17,15 @@ import { set as setBGLocalization } from "@/app/context/state/features/bgLocaliz
 import { FiTag, FiUser, FiGrid, FiLogOut } from "react-icons/fi";
 
 interface UserMenuProps {
-  currentUser?: SafeUser | null;
+  currentUser?: User | null;
   hasUserAlreadyListed?: boolean;
+  currentPathIsPetSitting?: boolean;
 }
 
 const UserMenu: React.FC<UserMenuProps> = ({
   currentUser,
   hasUserAlreadyListed,
+  currentPathIsPetSitting,
 }) => {
   const dispatch = useAppDispatch();
   const bgLocalization = useAppSelector((state) => state.bgLocalization.value);
@@ -57,6 +59,14 @@ const UserMenu: React.FC<UserMenuProps> = ({
   return (
     <div className="relative" ref={additionalRef}>
       <div className="flex flex-row items-center text-center gap-2">
+        {!hasUserAlreadyListed && currentPathIsPetSitting && (
+          <div
+            onClick={becomeSitter}
+            className="block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
+          >
+            Стани гледач
+          </div>
+        )}
         <div className="block text-sm font-semibold p-3 rounded-full hover:bg-neutral-100 transition cursor-pointer">
           {bgLocalization === "bg" ? (
             <div onClick={() => handleSetBGLocalization("en")}>
@@ -84,21 +94,13 @@ const UserMenu: React.FC<UserMenuProps> = ({
             </div>
           )}
         </div>
-        {!hasUserAlreadyListed && (
-          <div
-            onClick={becomeSitter}
-            className="block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
-          >
-            Стани гледач
-          </div>
-        )}
         <div
           onClick={toggleOpen}
           className="p-4 md:py-1 md:px-2 border-[1px] border-neutral-200 flex flex-row items-center gap-3 rounded-full cursor-pointer shadow-lg hover:shadow-xl transition"
         >
           <AiOutlineMenu />
           <div className="hidden md:block">
-            <Avatar src={currentUser?.image} />
+            <Avatar src={null} />
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { Listing } from "pawpal-fe-common";
 import { GoogleMap, MarkerF, useJsApiLoader } from "@react-google-maps/api";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback } from "react";
@@ -48,7 +49,7 @@ const Left: React.FC<LeftProps> = ({ listings }) => {
             minZoom: 7.2,
           }}
         >
-          {listings?.map((listing: any) => {
+          {listings?.map((listing: Listing) => {
             return (
               <div key={listing.id}>
                 <MarkerF
@@ -56,9 +57,10 @@ const Left: React.FC<LeftProps> = ({ listings }) => {
                     path: google.maps.SymbolPath.CIRCLE,
                     scale: 10,
                   }}
+                  // TODO: Set offsets using a randomize algorithm
                   position={{
-                    lat: listing.lat + 0.001,
-                    lng: listing.lng - 0.001,
+                    lat: listing.latitude + 0.001, // This '+ 0.001' is to set a small offset of the circle center, not to expose the actual listing address
+                    lng: listing.longitude - 0.001, // This '+ 0.001' is to set a small offset of the circle center, not to expose the actual listing address
                   }}
                   label={{
                     text: `${listing.price.toFixed(2)} лв`,

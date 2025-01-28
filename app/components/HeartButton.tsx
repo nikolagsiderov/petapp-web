@@ -1,20 +1,17 @@
 "use client";
 
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { SafeUser } from "../types";
+import { Listing, User } from "pawpal-fe-common";
 import useFavorite from "../hooks/useFavorite";
 
 interface HeartButtonProps {
-  listingId: string;
-  currentUser?: SafeUser | null;
+  listing: Listing;
+  currentUser?: User | null;
 }
 
-const HeartButton: React.FC<HeartButtonProps> = ({
-  listingId,
-  currentUser,
-}) => {
-  const { hasFavorited, toggleFavorite } = useFavorite({
-    listingId,
+const HeartButton: React.FC<HeartButtonProps> = ({ listing, currentUser }) => {
+  const { toggleFavorite } = useFavorite({
+    listingId: listing.id,
     currentUser,
   });
 
@@ -29,7 +26,7 @@ const HeartButton: React.FC<HeartButtonProps> = ({
       />
       <AiFillHeart
         size={24}
-        className={hasFavorited ? "fill-rose-500" : "fill-neutral-500/70"}
+        className={listing.isFavorite ? "fill-rose-500" : "fill-neutral-500/70"}
       />
     </div>
   );
