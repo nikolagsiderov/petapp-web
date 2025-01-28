@@ -5,6 +5,8 @@ import FilterPetSittersModal from "../../components/modals/FilterPetSittersModal
 import BecomeSitterModal from "../../components/modals/BecomeSitterModal";
 import PetSittingClient from "./PetSittingClient";
 import { IGetParams, get } from "../../actions/listings/client";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 export const dynamic = "force-dynamic";
 
@@ -12,7 +14,12 @@ interface PetSittingProps {
   searchParams: IGetParams;
 }
 
+export async function getSession() {
+  return await getServerSession(authOptions);
+}
+
 const PetSittingPage = async ({ searchParams }: PetSittingProps) => {
+  const session = await getSession();
   const response = await get(searchParams);
   const listings = response.success ? response.collection : [];
   const currentUser = await getCurrentUser();
@@ -33,7 +40,11 @@ const PetSittingPage = async ({ searchParams }: PetSittingProps) => {
     <ClientOnly>
       <FilterPetSittersModal />
       <BecomeSitterModal />
-      <PetSittingClient listings={listings} currentUser={currentUser} />
+      <PetSittingClient
+        token={session?.user.jwt}
+        listings={listings}
+        currentUser={currentUser}
+      />
     </ClientOnly>
   );
 };

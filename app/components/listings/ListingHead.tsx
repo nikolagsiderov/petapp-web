@@ -6,6 +6,7 @@ import Heading from "../Heading";
 import HeartButton from "../HeartButton";
 
 interface ListingHeadProps {
+  token: string;
   address: string;
   imageSrc: string;
   listing: Listing;
@@ -13,6 +14,7 @@ interface ListingHeadProps {
 }
 
 const ListingHead: React.FC<ListingHeadProps> = ({
+  token,
   address,
   imageSrc,
   listing,
@@ -43,7 +45,7 @@ const ListingHead: React.FC<ListingHeadProps> = ({
             right-5
           "
         >
-          <HeartButton listing={listing} currentUser={currentUser} />
+          <HeartButton token={token} listing={listing} currentUser={currentUser} />
         </div>
       </div>
     </>

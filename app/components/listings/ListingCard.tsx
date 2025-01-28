@@ -12,6 +12,7 @@ import { categories } from "../navbar/main/Categories";
 import reservationStatuses from "@/app/libs/reservationStatuses";
 
 interface ListingCardProps {
+  token?: string | null;
   horizontal?: boolean;
   data: Listing;
   reservation?: Reservation | null;
@@ -24,6 +25,7 @@ interface ListingCardProps {
 }
 
 const ListingCard: React.FC<ListingCardProps> = ({
+  token,
   horizontal,
   data,
   reservation,
@@ -112,7 +114,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
           </div>
           {!reservation && (
             <div className="absolute top-3 right-3">
-              <HeartButton listing={data} currentUser={currentUser} />
+              <HeartButton token={token} listing={data} currentUser={currentUser} />
             </div>
           )}
         </div>
