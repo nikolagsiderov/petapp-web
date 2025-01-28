@@ -1,16 +1,18 @@
 "use client";
 
-import { Listing } from "pawpal-fe-common";
+import { Listing, User } from "pawpal-fe-common";
 import Heading from "@/app/components/Heading";
 import MainContainer from "@/app/components/MainContainer";
 import ListingCard from "@/app/components/listings/ListingCard";
 
 interface FavoritesClientProps {
   listings: Array<Listing> | null | undefined | any;
+  currentUser?: User | null;
 }
 
 const FavoritesClient: React.FC<FavoritesClientProps> = ({
   listings,
+  currentUser,
 }) => {
   return (
     <MainContainer>
@@ -37,6 +39,7 @@ const FavoritesClient: React.FC<FavoritesClientProps> = ({
         >
           {listings.map((listing: any) => (
             <ListingCard
+              currentUser={currentUser}
               key={listing.id}
               data={listing}
               listingUserName={`${listing.user.firstName} ${listing.user.lastName}`}

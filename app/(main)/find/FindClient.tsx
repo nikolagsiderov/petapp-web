@@ -2,16 +2,11 @@
 
 import MainContainer from "@/app/components/MainContainer";
 import MapView from "./MapView";
-import { User } from "pawpal-fe-common";
 
-interface FindClientProps {
-  currentUser?: User | null | undefined;
-}
-
-const FindClient: React.FC<FindClientProps> = ({ currentUser }) => {
+const FindClient = () => {
   return (
     <MainContainer>
-      <MapView currentUser={currentUser} />
+      <MapView />
     </MainContainer>
   );
 };

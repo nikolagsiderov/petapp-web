@@ -1,9 +1,9 @@
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
 import { toast } from "react-hot-toast";
 import { User } from "pawpal-fe-common";
 import useLoginModal from "./useLoginModal";
+import { get, post, remove } from "../actions/favorites/client";
 
 interface IUseFavorite {
   listingId: string;
@@ -13,12 +13,6 @@ interface IUseFavorite {
 const useFavorite = ({ listingId, currentUser }: IUseFavorite) => {
   const router = useRouter();
   const loginModal = useLoginModal();
-  const hasFavorited = useMemo(() => {
-    // const list = currentUser?.favoriteIds || []; // TODO: Handle after favorites microservice implementations...
-    const list: any = [];
-
-    return list.includes(listingId);
-  }, [currentUser, listingId]);
 
   const toggleFavorite = useCallback(
     async (e: React.MouseEvent<HTMLDivElement>) => {
@@ -29,31 +23,37 @@ const useFavorite = ({ listingId, currentUser }: IUseFavorite) => {
       }
 
       try {
-        let request;
+        let response;
 
-        if (hasFavorited) {
-          request = () => axios.delete(`/api/favorites/${listingId}`);
-        } else {
-          request = () => axios.post(`/api/favorites/${listingId}`);
+        const favorites = await get();
+
+        if (favorites?.collection.length > 0) {
+          if (
+            favorites?.collection.some(
+              (fav: any) => fav.targetItemId === listingId
+            )
+          ) {
+            response = await remove(listingId);
+          } else {
+            response = await post(listingId);
+          }
         }
 
-        const response = await request();
         router.refresh();
 
-        if (response.data.created) {
+        if (response.success) {
           toast.success(response.data.message);
-        } else if (response.data.deleted) {
+        } else {
           toast.error(response.data.message);
         }
       } catch (error) {
         toast.error("Нещо се обърка.");
       }
     },
-    [currentUser, hasFavorited, listingId, loginModal, router]
+    [currentUser, listingId, loginModal, router]
   );
 
   return {
-    hasFavorited,
     toggleFavorite,
   };
 };

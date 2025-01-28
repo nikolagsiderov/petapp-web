@@ -1,21 +1,21 @@
 "use client";
 
 import Image from "next/image";
-import { User } from "pawpal-fe-common";
+import { Listing, User } from "pawpal-fe-common";
 import Heading from "../Heading";
 import HeartButton from "../HeartButton";
 
 interface ListingHeadProps {
   address: string;
   imageSrc: string;
-  id: string;
+  listing: Listing;
   currentUser?: User | null;
 }
 
 const ListingHead: React.FC<ListingHeadProps> = ({
   address,
   imageSrc,
-  id,
+  listing,
   currentUser,
 }) => {
   return (
@@ -43,7 +43,7 @@ const ListingHead: React.FC<ListingHeadProps> = ({
             right-5
           "
         >
-          <HeartButton listingId={id} currentUser={currentUser} />
+          <HeartButton listing={listing} currentUser={currentUser} />
         </div>
       </div>
     </>

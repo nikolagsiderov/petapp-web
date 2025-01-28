@@ -3,10 +3,12 @@ import FavoritesClient from "./FavoritesClient";
 import ClientOnly from "@/app/components/ClientOnly";
 import { get } from "@/app/actions/favorites/client";
 import { getById } from "@/app/actions/listings/client";
+import getCurrentUser from "@/app/actions/users/getCurrentUser";
 
 const FavoritesPage = async () => {
   const response = await get();
   let listings: any = [];
+  const currentUser = await getCurrentUser();
 
   if (response.success && response.collection.length > 0) {
     for (let i = 0; i < response?.collection.length; i++) {
@@ -30,7 +32,7 @@ const FavoritesPage = async () => {
 
   return (
     <ClientOnly>
-      <FavoritesClient listings={listings} />
+      <FavoritesClient listings={listings} currentUser={currentUser} />
     </ClientOnly>
   );
 };
