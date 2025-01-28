@@ -1,32 +1,38 @@
 import EmptyState from "@/app/components/EmptyState";
-import getCurrentUser from "@/app/actions/users/getCurrentUser";
-import FavoritesClient from "./FavoritesClient"; // TODO: Uncomment after BE implementations...
+import FavoritesClient from "./FavoritesClient";
 import ClientOnly from "@/app/components/ClientOnly";
+import { get } from "@/app/actions/favorites/client";
+import { getById } from "@/app/actions/listings/client";
 
-const ListingPage = async () => {
-  // TODO: Once the BE handles favorites, request current user favorite listings collection
-  // LEGACY: const listings = await getFavoriteListings();
-  const currentUser = await getCurrentUser();
+const FavoritesPage = async () => {
+  const response = await get();
+  let listings: any = [];
 
-  // TODO: Once the BE handles favorites, uncomment here...
-  // if (listings.length === 0) {
+  if (response.success && response.collection.length > 0) {
+    for (let i = 0; i < response?.collection.length; i++) {
+      const favItem = response?.collection[i];
+      const listing = await getById(favItem.targetItemId);
+      const fullItem = { ...favItem, ...listing };
+      listings.push(fullItem);
+    }
+  }
+
+  if (response.collection.length === 0) {
+    return (
+      <ClientOnly>
+        <EmptyState
+          title="Нямате запазени обяви"
+          subtitle="Изглежда, че не сте запазили обяви."
+        />
+      </ClientOnly>
+    );
+  }
+
   return (
     <ClientOnly>
-      <EmptyState
-        title="Нямате запазени обяви"
-        subtitle="Изглежда, че не сте запазили обяви."
-      />
+      <FavoritesClient listings={listings} />
     </ClientOnly>
   );
-  // TODO: Once the BE handles favorites, uncomment here...
-  // }
-
-  // TODO: Once the BE handles favorites, uncomment here...
-  // return (
-  //   <ClientOnly>
-  //     <FavoritesClient listings={listings} currentUser={currentUser} />
-  //   </ClientOnly>
-  // );
 };
 
-export default ListingPage;
+export default FavoritesPage;
