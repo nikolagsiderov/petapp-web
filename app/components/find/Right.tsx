@@ -1,6 +1,6 @@
 "use client";
 
-import { User } from "@/app/types";
+import { User } from "pawpal-fe-common";
 
 interface RightProps {
   currentUser?: User | null | undefined;

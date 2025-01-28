@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { User } from "@/app/types";
+import { User } from "pawpal-fe-common";
 import Heading from "../Heading";
 import HeartButton from "../HeartButton";
 

@@ -4,7 +4,6 @@ import {
   createPrivateInstanceWithCredentials,
   createPrivateInstanceWithoutCredentials,
 } from "@/app/actions/listings/privateAxios";
-import axios from "axios";
 import dayjs from "dayjs";
 
 export const create = async (payload: {

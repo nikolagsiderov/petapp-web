@@ -30,6 +30,8 @@ export const authenticate = async (payload: {
 };
 
 export const register = async (payload: {
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
 }) => {

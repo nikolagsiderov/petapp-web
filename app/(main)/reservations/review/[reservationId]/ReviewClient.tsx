@@ -4,7 +4,7 @@ import { toast } from "react-hot-toast";
 import axios from "axios";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Reservation } from "@/app/types";
+import { Reservation } from "pawpal-fe-common";
 import Heading from "@/app/components/Heading";
 import MainContainer from "@/app/components/MainContainer";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";

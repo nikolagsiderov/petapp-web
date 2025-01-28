@@ -1,6 +1,6 @@
 "use client";
 
-import { Listing, User } from "@/app/types";
+import { Listing, User } from "pawpal-fe-common";
 import ListingEdit from "@/app/components/listings/ListingEdit";
 import ManageContainer from "@/app/components/ManageContainer";
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { Reservation } from "@/app/types";
+import { Reservation } from "pawpal-fe-common";
 import Heading from "@/app/components/Heading";
 import ManageContainer from "@/app/components/ManageContainer";
 import ReservationsTable from "@/app/components/manage/ReservationsTable";

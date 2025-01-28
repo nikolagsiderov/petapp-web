@@ -1,6 +1,6 @@
 "use client";
 
-import { Review } from "@/app/types";
+import { Review } from "pawpal-fe-common";
 import Avatar from "../Avatar";
 import { FaStar } from "react-icons/fa";
 import { FaStarHalfAlt } from "react-icons/fa";

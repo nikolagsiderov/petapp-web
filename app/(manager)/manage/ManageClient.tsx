@@ -1,6 +1,6 @@
 "use client";
 
-import { User } from "@/app/types";
+import { User } from "pawpal-fe-common";
 import Heading from "@/app/components/Heading";
 import ManageContainer from "@/app/components/ManageContainer";
 import Image from "next/image";
@@ -13,7 +13,9 @@ const ManageClient: React.FC<ManageClientProps> = ({ currentUser }) => {
   return (
     <ManageContainer>
       <Heading
-        title={`Здравейте, ${currentUser?.name}`}
+        title={`Здравейте, ${
+          currentUser?.firstName + " " + currentUser?.lastName
+        }!`}
         subtitle="Началната страница на управленския панел все още не е имплементирана."
       />
       <Image

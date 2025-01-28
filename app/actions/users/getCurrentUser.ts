@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { requestCurrent } from "./client";
-import { User } from "@/app/types";
+import { User } from "pawpal-fe-common";
 
 export async function getSession() {
   return await getServerSession(authOptions);
@@ -21,8 +21,7 @@ export default async function getCurrentUser() {
         if (!currentUser) {
           return null;
         }
-
-        currentUser.name = `${currentUser.firstName} ${currentUser.lastName}`;
+        
         return currentUser;
       }
     }

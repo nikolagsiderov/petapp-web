@@ -26,7 +26,8 @@ const RegisterModal = () => {
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
-      name: "",
+      firstName: "",
+      lastName: "",
       email: "",
       password: "",
     },
@@ -36,6 +37,8 @@ const RegisterModal = () => {
     setLoading(true);
 
     const response = await registerUser({
+      firstName: data.firstName,
+      lastName: data.lastName,
       email: data.email,
       password: data.password,
     });
@@ -80,8 +83,16 @@ const RegisterModal = () => {
         required
       />
       <Input
-        id="name"
-        label="Име"
+        id="firstName"
+        label="Собствено име"
+        disabled={loading}
+        register={register}
+        errors={errors}
+        required
+      />
+      <Input
+        id="lastName"
+        label="Фамилия"
         disabled={loading}
         register={register}
         errors={errors}

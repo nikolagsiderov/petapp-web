@@ -1,6 +1,6 @@
 "use client";
 
-import { Reservation } from "@/app/types";
+import { Reservation } from "pawpal-fe-common";
 import ReservationsTableRows from "./ReservationsTableRows";
 
 interface ReservationsTableProps {

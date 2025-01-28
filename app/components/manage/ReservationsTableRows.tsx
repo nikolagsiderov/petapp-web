@@ -1,6 +1,6 @@
 "use client";
 
-import { Reservation } from "@/app/types";
+import { Reservation } from "pawpal-fe-common";
 import { format } from "date-fns";
 import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -23,8 +23,6 @@ const ReservationsTableRows = ({ request, index }: TableRowsProps) => {
       const response = await updateReservationStatus(id, {
         status: reservationStatuses.accepted,
       });
-
-      console.log(JSON.stringify(response));
 
       if (response?.success) {
         toast.success("Резервацията е одобрена!");

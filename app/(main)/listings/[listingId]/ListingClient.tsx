@@ -6,7 +6,7 @@ import { Range } from "react-date-range";
 import { useRouter } from "next/navigation";
 import { differenceInDays, eachDayOfInterval } from "date-fns";
 import useLoginModal from "@/app/hooks/useLoginModal";
-import { Listing, Reservation, Review, User } from "@/app/types";
+import { Listing, Reservation, Review, User } from "pawpal-fe-common";
 import MainContainer from "@/app/components/MainContainer";
 import { categories } from "@/app/components/navbar/main/Categories";
 import ListingHead from "@/app/components/listings/ListingHead";

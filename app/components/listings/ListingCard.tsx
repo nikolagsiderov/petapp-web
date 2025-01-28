@@ -1,6 +1,6 @@
 "use client";
 
-import { Listing, Reservation, User } from "@/app/types";
+import { Listing, Reservation, User } from "pawpal-fe-common";
 import { useRouter } from "next/navigation";
 import { ReactNode, useCallback, useMemo } from "react";
 import { format } from "date-fns";

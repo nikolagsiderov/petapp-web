@@ -1,7 +1,7 @@
 "use client";
 
 import ListingCard from "@/app/components/listings/ListingCard";
-import { Listing, User } from "@/app/types";
+import { Listing, User } from "pawpal-fe-common";
 
 interface RightProps {
   listings?: Array<Listing> | null;

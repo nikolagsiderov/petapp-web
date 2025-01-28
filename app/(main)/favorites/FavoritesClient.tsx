@@ -1,4 +1,4 @@
-import { Listing, User } from "@/app/types";
+import { Listing, User } from "pawpal-fe-common";
 import Heading from "@/app/components/Heading";
 import MainContainer from "@/app/components/MainContainer";
 import ListingCard from "@/app/components/listings/ListingCard";

@@ -12,7 +12,7 @@ import SidebarOption from "./SidebarOption";
 import SidebarTitleSection from "./SidebarTitleSection";
 import SidebarToggleClose from "./SidebarToggleClose";
 import SidebarReturn from "./SidebarReturn";
-import { User } from "@/app/types";
+import { User } from "pawpal-fe-common";
 
 const Sidebar = ({
   currentUser,
@@ -55,8 +55,8 @@ const Sidebar = ({
     >
       <SidebarTitleSection
         open={open}
-        username={currentUser?.name}
-        userImg={currentUser?.image}
+        username={currentUser?.firstName + " " + currentUser?.lastName}
+        userImg={null}
       />
 
       <div className="space-y-1">
