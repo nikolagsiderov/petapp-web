@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import LocationInput from "../inputs/LocationInput";
 import { create } from "pawpal-fe-listings-server-actions";
+import { User } from "next-auth";
 
 enum STEPS {
   CATEGORY = 0,
@@ -22,7 +23,11 @@ enum STEPS {
   PRICE = 4,
 }
 
-const BecomeSitterModal = () => {
+interface BecomeSitterModalProps {
+  currentUser: User | null | undefined;
+}
+
+const BecomeSitterModal = ({ currentUser }: BecomeSitterModalProps) => {
   const router = useRouter();
   const becomeSitterModal = useBecomeSitterModal();
 
@@ -88,14 +93,19 @@ const BecomeSitterModal = () => {
         );
       } else {
         setIsLoading(true);
-        const response = await create({
-          category: data.category,
-          description: data.description,
-          address: location.address,
-          latitude: data.location.lat,
-          longitude: data.location.lng,
-          price: toFixedNumber(parseFloat(data.price)),
-        });
+        const response = await create(
+          currentUser!.jwt,
+          {
+            category: data.category,
+            description: data.description,
+            publicAddress: location.address,
+            privateAddress: location.address,
+            latitude: data.location.lat,
+            longitude: data.location.lng,
+            price: toFixedNumber(parseFloat(data.price)),
+          },
+          []
+        );
 
         if (response.success) {
           toast.success("Обявата е успешно създадена!");

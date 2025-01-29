@@ -27,7 +27,7 @@ const PetSittingPage = async ({ searchParams }: PetSittingProps) => {
     return (
       <ClientOnly>
         <FilterPetSittersModal />
-        <BecomeSitterModal />
+        <BecomeSitterModal currentUser={currentUser} />
         <div className="lg:pt-32 pt-48">
           <EmptyState showReset />
         </div>
@@ -38,7 +38,7 @@ const PetSittingPage = async ({ searchParams }: PetSittingProps) => {
   return (
     <ClientOnly>
       <FilterPetSittersModal />
-      <BecomeSitterModal />
+      <BecomeSitterModal currentUser={currentUser} />
       <PetSittingClient
         listings={listings}
         currentUser={currentUser}

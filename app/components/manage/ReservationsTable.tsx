@@ -2,12 +2,15 @@
 
 import { Reservation } from "pawpal-fe-types";
 import ReservationsTableRows from "./ReservationsTableRows";
+import { User } from "next-auth";
 
 interface ReservationsTableProps {
+  currentUser: User | null | undefined;
   reservationRequests: Reservation[];
 }
 
 const ReservationsTable: React.FC<ReservationsTableProps> = ({
+  currentUser,
   reservationRequests,
 }) => {
   return (
@@ -27,6 +30,7 @@ const ReservationsTable: React.FC<ReservationsTableProps> = ({
           {reservationRequests.map((request, index) => {
             return (
               <ReservationsTableRows
+                currentUser={currentUser}
                 key={request.id}
                 request={request}
                 index={index}
