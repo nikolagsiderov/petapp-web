@@ -3,7 +3,7 @@
 import { Listing, Reservation } from "pawpal-fe-types";
 import { User } from "next-auth";
 import { useRouter } from "next/navigation";
-import { ReactNode, useCallback, useMemo } from "react";
+import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { format } from "date-fns";
 import Image from "next/image";
 import HeartButton from "../HeartButton";
@@ -11,6 +11,7 @@ import Button from "../Button";
 import { FaStar } from "react-icons/fa6";
 import { categories } from "../navbar/main/Categories";
 import { reservationStatuses } from "pawpal-fe-common";
+import { getListingReviews } from "pawpal-fe-reviews-server-actions";
 
 interface ListingCardProps {
   horizontal?: boolean;
@@ -36,6 +37,16 @@ const ListingCard: React.FC<ListingCardProps> = ({
   listingUserName,
 }) => {
   const router = useRouter();
+  const [reviewsData, setReviewsData] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchReviewsDataAsync = async () => {
+      const reviewsData = await getListingReviews(data.id);
+      setReviewsData(reviewsData);
+    };
+
+    fetchReviewsDataAsync();
+  }, []);
 
   const handleAction = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -145,21 +156,23 @@ const ListingCard: React.FC<ListingCardProps> = ({
               )}
             </div>
           </div>
-          <div
-            className={
-              !horizontal
-                ? !reservation
-                  ? "col-span-3 flex flex-row top-0 text-sm font-semibold justify-end"
-                  : "hidden"
-                : "row-span-2 flex flex-row top-0 text-sm font-semibold justify-start items-center"
-            }
-          >
-            <FaStar
-              size={!horizontal ? 16 : 14}
-              className={`fill-amber-400 ${!horizontal && "pt-1"}`}
-            />{" "}
-            4.5/5
-          </div>
+          {reviewsData?.success && reviewsData?.totalScore && (
+            <div
+              className={
+                !horizontal
+                  ? !reservation
+                    ? "col-span-3 flex flex-row top-0 text-sm font-semibold justify-end"
+                    : "hidden"
+                  : "row-span-2 flex flex-row top-0 text-sm font-semibold justify-start items-center"
+              }
+            >
+              <FaStar
+                size={!horizontal ? 16 : 14}
+                className={`fill-amber-400 ${!horizontal && "pt-1"}`}
+              />{" "}
+              {reviewsData.totalScore}/5
+            </div>
+          )}
         </div>
         {reservation && (
           <div

@@ -24,14 +24,12 @@ const initialDateRange = {
 };
 
 interface ListingClientProps {
-  reviews: Review[] | null | undefined;
   listing: Listing;
   currentUser?: User | null;
 }
 
 const ListingClient: React.FC<ListingClientProps> = ({
   listing,
-  reviews,
   currentUser,
 }) => {
   const loginModal = useLoginModal();
@@ -147,7 +145,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
               </div>
             </div>
           </div>
-          <ListingReviews reviews={reviews} />
+          <ListingReviews targetItemId={listing.id} />
           <ListingMap listing={listing} />
         </div>
       </div>
