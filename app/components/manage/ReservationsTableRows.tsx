@@ -7,20 +7,26 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { FaThumbsUp } from "react-icons/fa";
 import { TiCancel } from "react-icons/ti";
-import { updateReservationStatus } from "@/app/actions/listings/client";
+import { updateReservationStatus } from "pawpal-fe-listings-server-actions";
 import { reservationStatuses } from "pawpal-fe-common";
+import { User } from "next-auth";
 
 interface TableRowsProps {
+  currentUser: User | null | undefined;
   request: Reservation;
   index: number;
 }
 
-const ReservationsTableRows = ({ request, index }: TableRowsProps) => {
+const ReservationsTableRows = ({
+  currentUser,
+  request,
+  index,
+}: TableRowsProps) => {
   const router = useRouter();
 
   const onApprove = useCallback(
     async (id: string) => {
-      const response = await updateReservationStatus(id, {
+      const response = await updateReservationStatus(currentUser!.jwt, id, {
         status: reservationStatuses.accepted,
       });
 
@@ -36,7 +42,7 @@ const ReservationsTableRows = ({ request, index }: TableRowsProps) => {
 
   const onCancel = useCallback(
     async (id: string) => {
-      const response = await updateReservationStatus(id, {
+      const response = await updateReservationStatus(currentUser!.jwt, id, {
         status: reservationStatuses.rejected,
       });
 

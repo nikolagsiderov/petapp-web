@@ -12,7 +12,7 @@ import SidebarOption from "./SidebarOption";
 import SidebarTitleSection from "./SidebarTitleSection";
 import SidebarToggleClose from "./SidebarToggleClose";
 import SidebarReturn from "./SidebarReturn";
-import { User } from "pawpal-fe-types";
+import { User } from "next-auth";
 
 const Sidebar = ({
   currentUser,

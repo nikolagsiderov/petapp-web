@@ -10,7 +10,7 @@ import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
-import { register as registerUser } from "@/app/actions/users/client";
+import { register as registerUser } from "pawpal-fe-users-server-actions";
 
 const RegisterClient = () => {
   const router = useRouter();

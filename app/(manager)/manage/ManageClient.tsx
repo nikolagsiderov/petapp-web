@@ -1,6 +1,6 @@
 "use client";
 
-import { User } from "pawpal-fe-types";
+import { User } from "next-auth";
 import Heading from "@/app/components/Heading";
 import ManageContainer from "@/app/components/ManageContainer";
 import Image from "next/image";

@@ -1,6 +1,6 @@
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { authenticate } from "@/app/actions/users/client";
+import { authenticate } from "pawpal-fe-users-server-actions";
 import axios from "axios";
 import NextAuth, { AuthOptions, Session } from "next-auth";
 import { Agent } from "https";
@@ -66,7 +66,6 @@ export const authOptions: AuthOptions = {
         token.firstName = user.firstName;
         token.lastName = user.lastName;
         token.name = `${user.firstName} ${user.lastName}`;
-        token.image = user.image;
         token.createdAt = user.createdAt;
         token.updatedAt = user.updatedAt;
       }
@@ -80,7 +79,6 @@ export const authOptions: AuthOptions = {
       session.user.firstName = token.firstName;
       session.user.lastName = token.lastName;
       session.user.name = `${token.firstName} ${token.lastName}`;
-      session.user.image = token.image;
       session.user.createdAt = token.createdAt;
       session.user.updatedAt = token.updatedAt;
       return session;

@@ -1,39 +1,30 @@
 "use client";
 
-import { Review } from "pawpal-fe-types";
 import Avatar from "../Avatar";
 import { FaStar } from "react-icons/fa";
 import { FaStarHalfAlt } from "react-icons/fa";
 import { format } from "date-fns";
+import { useEffect, useMemo, useState } from "react";
+import { getListingReviews } from "pawpal-fe-reviews-server-actions";
 
 interface ListingReviewsProps {
-  reviews?: Review[] | null | undefined;
+  targetItemId: string;
 }
 
-const ListingReviews: React.FC<ListingReviewsProps> = ({ reviews }) => {
-  // TODO: Handle calculation logic in BE
-  // When requesting current listing to API, the Listing object should have an array property Reviews[]
-  // The Listing object should also have a property for: TotalReviewsScore as type double
-  // In the Listing object array property Reviews[]:
-  // Each Review object should have a property of TotalScore as type double, the value of this property
-  // Should be equal to (review.accuracyScore + review.communicationScore + review.someOtherKindOfScore + etc...) / n
-  const calculateTotalScore = () => {
-    let result = 0;
+const ListingReviews: React.FC<ListingReviewsProps> = ({ targetItemId }) => {
+  const [reviewsData, setReviewsData] = useState<any>(null);
 
-    if (reviews) {
-      for (let index = 0; index < reviews.length; index++) {
-        const review = reviews[index];
-        let currentReviewScore =
-          (review.accuracyScore + review.communicationScore) / 2;
-        result += currentReviewScore;
-      }
-    }
+  useEffect(() => {
+    const fetchReviewsDataAsync = async () => {
+      const reviewsData = await getListingReviews(targetItemId);
+      setReviewsData(reviewsData);
+    };
 
-    return result;
-  };
+    fetchReviewsDataAsync();
+  }, []);
 
-  const totalScoreView = () => {
-    const totalScore = calculateTotalScore();
+  const totalScoreView = useMemo(() => {
+    const totalScore = reviewsData?.totalScore ?? 0;
 
     if (totalScore === 1) {
       return <FaStar size={32} className="fill-amber-500" />;
@@ -106,22 +97,22 @@ const ListingReviews: React.FC<ListingReviewsProps> = ({ reviews }) => {
         <FaStar size={32} className="fill-amber-500" />
       </>
     );
-  };
+  }, [reviewsData]);
 
-  const getCreatedAtDateFormatted = (review: Review) => {
+  const getCreatedAtDateFormatted = (review: any) => {
     if (!review.createdAt) {
       return null;
     }
 
-    return `${format(new Date(review.createdAt), "PPpp")}`;
+    return `${format(new Date(review?.createdAt), "PPpp")}`;
   };
 
   return (
     <>
-      {reviews && (
+      {reviewsData?.success && reviewsData?.reviews && (
         <div className="flex flex-col gap-8">
           <hr />
-          {reviews.length > 0 ? (
+          {reviewsData?.reviews.length > 0 ? (
             <>
               <div
                 className="
@@ -135,14 +126,14 @@ const ListingReviews: React.FC<ListingReviewsProps> = ({ reviews }) => {
             "
               >
                 <div className="flex flex-row gap-1 text-lg font-semibold items-center justify-end">
-                  {totalScoreView()}
+                  {totalScoreView}
                 </div>
                 <div>
-                  Обща оценка от {reviews.length}{" "}
-                  {reviews.length > 1 ? "отзива" : "отзив"}
+                  Обща оценка от {reviewsData?.reviewsCount}{" "}
+                  {reviewsData?.reviewsCount > 1 ? "отзива" : "отзив"}
                 </div>
               </div>
-              {reviews.map((review: Review) => (
+              {reviewsData?.reviews.map((review: any) => (
                 <div key={review.id} className="mb-4">
                   <div
                     className="
@@ -155,7 +146,7 @@ const ListingReviews: React.FC<ListingReviewsProps> = ({ reviews }) => {
                           height={50}
                           // src={review.user.image} // TODO: GET user image once images microservice is implemented...
                         />
-                        {review.user.name}
+                        {review.reviewer.firstName} {review.reviewer.lastName}
                       </div>
                       <div className="col-span-3 flex flex-col gap-1 text-lg items-end">
                         <div className="flex flex-row gap-1 text-lg font-semibold items-center">

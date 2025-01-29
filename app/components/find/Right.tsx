@@ -1,12 +1,6 @@
 "use client";
 
-import { User } from "pawpal-fe-types";
-
-interface RightProps {
-  currentUser?: User | null | undefined;
-}
-
-const Right: React.FC<RightProps> = ({ currentUser }) => {
+const Right = () => {
   return (
     <div className="pb-20">
       <div className="hidden lg:block lg:col-span-1 lg:relative lg:mb-16">

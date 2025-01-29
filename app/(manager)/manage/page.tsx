@@ -1,9 +1,20 @@
-import getCurrentUser from "@/app/actions/users/getCurrentUser";
 import ManageClient from "./ManageClient";
 import ClientOnly from "@/app/components/ClientOnly";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { redirect } from "next/navigation";
 
-const MyListingsPage = async () => {
-  const currentUser = await getCurrentUser();
+async function getSession() {
+  return await getServerSession(authOptions);
+}
+
+const ManagePage = async () => {
+  const session = await getSession();
+  const currentUser = session?.user;
+
+  if (session === null) {
+    redirect("/auth");
+  }
 
   return (
     <ClientOnly>
@@ -12,4 +23,4 @@ const MyListingsPage = async () => {
   );
 };
 
-export default MyListingsPage;
+export default ManagePage;

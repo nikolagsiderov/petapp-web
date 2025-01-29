@@ -6,7 +6,8 @@ import { Range } from "react-date-range";
 import { useRouter } from "next/navigation";
 import { differenceInDays } from "date-fns";
 import useLoginModal from "@/app/hooks/useLoginModal";
-import { Listing, Review, User } from "pawpal-fe-types";
+import { Listing, Review } from "pawpal-fe-types";
+import { User } from "next-auth";
 import MainContainer from "@/app/components/MainContainer";
 import { categories } from "@/app/components/navbar/main/Categories";
 import ListingHead from "@/app/components/listings/ListingHead";
@@ -14,7 +15,7 @@ import ListingInfo from "@/app/components/listings/ListingInfo";
 import ListingReservation from "@/app/components/listings/ListingReservation";
 import ListingReviews from "@/app/components/listings/ListingReviews";
 import ListingMap from "@/app/components/listings/ListingMap";
-import { createReservation } from "@/app/actions/listings/client";
+import { createReservation } from "pawpal-fe-listings-server-actions";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -23,14 +24,12 @@ const initialDateRange = {
 };
 
 interface ListingClientProps {
-  reviews: Review[] | null | undefined;
   listing: Listing;
-  currentUser?: User | null;
+  currentUser?: User | null | undefined;
 }
 
 const ListingClient: React.FC<ListingClientProps> = ({
   listing,
-  reviews,
   currentUser,
 }) => {
   const loginModal = useLoginModal();
@@ -55,7 +54,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
       dateRange.startDate.setHours(22);
       dateRange.endDate.setHours(23);
 
-      const response = await createReservation({
+      const response = await createReservation(currentUser?.jwt, {
         listingId: listing?.id,
         fromDate: dateRange.startDate!,
         toDate: dateRange.endDate!,
@@ -146,7 +145,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
               </div>
             </div>
           </div>
-          <ListingReviews reviews={reviews} />
+          <ListingReviews targetItemId={listing.id} />
           <ListingMap listing={listing} />
         </div>
       </div>

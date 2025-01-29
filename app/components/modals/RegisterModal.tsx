@@ -12,7 +12,7 @@ import Button from "../Button";
 import { signIn } from "next-auth/react";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import { useRouter } from "next/navigation";
-import { register as registerUser } from "@/app/actions/users/client";
+import { register as registerUser } from "pawpal-fe-users-server-actions";
 
 const RegisterModal = () => {
   const router = useRouter();

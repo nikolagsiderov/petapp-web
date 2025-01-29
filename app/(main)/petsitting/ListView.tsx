@@ -1,16 +1,14 @@
 "use client";
 
 import ListingCard from "@/app/components/listings/ListingCard";
-import { User } from "pawpal-fe-types";
+import { User } from "next-auth";
 
 interface ListViewProps {
-  token?: string | null;
   listings?: any;
   currentUser?: User | null | undefined;
 }
 
 const ListView: React.FC<ListViewProps> = ({
-  token,
   listings,
   currentUser,
 }) => {
@@ -30,7 +28,6 @@ const ListView: React.FC<ListViewProps> = ({
     >
       {listings?.map((listing: any) => (
         <ListingCard
-          token={token}
           currentUser={currentUser}
           key={listing.id}
           data={listing}

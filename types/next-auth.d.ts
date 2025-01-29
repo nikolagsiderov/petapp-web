@@ -17,7 +17,6 @@ declare module "next-auth" {
     lastName: string;
     name: string;
     email: string;
-    image: string; // TODO: Need a way to obtain user profile image. Either a new microservice for image handling or something else...
     createdAt: string;
     updatedAt: string;
   }

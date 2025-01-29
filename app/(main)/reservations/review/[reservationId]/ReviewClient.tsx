@@ -1,7 +1,6 @@
 "use client";
 
 import { toast } from "react-hot-toast";
-import axios from "axios";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Reservation } from "pawpal-fe-types";
@@ -11,12 +10,18 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Input from "@/app/components/inputs/Input";
 import Button from "@/app/components/Button";
 import Rating from "@/app/components/inputs/Rating";
+import { post } from "pawpal-fe-reviews-server-actions";
+import { User } from "next-auth";
 
 interface ReviewClientProps {
+  currentUser: User | null | undefined;
   reservation?: Reservation | null | undefined | any;
 }
 
-const ReviewClient: React.FC<ReviewClientProps> = ({ reservation }) => {
+const ReviewClient: React.FC<ReviewClientProps> = ({
+  currentUser,
+  reservation,
+}) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -49,31 +54,28 @@ const ReviewClient: React.FC<ReviewClientProps> = ({ reservation }) => {
     });
   };
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true);
 
-    axios
-      .post("/api/reservations/review", data)
-      .then(() => {
-        router.push("/reservations");
-        toast.success("Вашият отзив е успешно публикуван!");
-        reset();
-      })
-      .catch((error) => {
-        if (
-          error &&
-          error.response &&
-          error.response.data &&
-          error.response.data.message
-        ) {
-          toast.error(error.response.data.message);
-        } else {
-          toast.error("Нещо се обърка.");
-        }
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    const response = await post(currentUser!.jwt, {
+      targetItemId: data.listingId,
+      associatedEntityType: "Listing",
+      reservationId: data.reservationId,
+      accuracyScore: data.accuracyScore,
+      communicationScore: data.communicationScore,
+      privateComment: data.privateMessage,
+      publicComment: data.publicMessage,
+    });
+
+    if (response.success) {
+      router.push("/reservations");
+      toast.success("Вашият отзив е успешно публикуван!");
+      reset();
+    } else {
+      toast.error("Нещо се обърка.");
+    }
+
+    setIsLoading(false);
   };
 
   return (

@@ -2,8 +2,7 @@ import EmptyState from "@/app/components/EmptyState";
 import FavoritesClient from "./FavoritesClient";
 import ClientOnly from "@/app/components/ClientOnly";
 import { get } from "pawpal-fe-favorites-server-actions";
-import { getById } from "@/app/actions/listings/client";
-import getCurrentUser from "@/app/actions/users/getCurrentUser";
+import { getById } from "pawpal-fe-listings-server-actions";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { redirect } from "next/navigation";
@@ -14,14 +13,14 @@ async function getSession() {
 
 const FavoritesPage = async () => {
   const session = await getSession();
+  const currentUser = session?.user;
 
   if (session === null) {
     redirect("/auth");
   }
 
-  const response = await get(session.user.jwt);
+  const response = await get(currentUser!.jwt);
   let listings: any = [];
-  const currentUser = await getCurrentUser();
 
   if (response.success && response.collection.length > 0) {
     for (let i = 0; i < response?.collection.length; i++) {
@@ -46,7 +45,6 @@ const FavoritesPage = async () => {
   return (
     <ClientOnly>
       <FavoritesClient
-        token={session.user.jwt}
         listings={listings}
         currentUser={currentUser}
       />

@@ -1,7 +1,8 @@
 "use client";
 
 import ListingCard from "@/app/components/listings/ListingCard";
-import { Listing, User } from "pawpal-fe-types";
+import { Listing } from "pawpal-fe-types";
+import { User } from "next-auth";
 
 interface RightProps {
   listings?: Array<Listing> | null;
@@ -9,7 +10,6 @@ interface RightProps {
 }
 
 const Right: React.FC<RightProps> = ({ listings, currentUser }) => {
-  console.log(listings);
   return (
     <div className="pb-20">
       <div className="hidden lg:block lg:col-span-1 lg:relative lg:mb-16">

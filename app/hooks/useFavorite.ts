@@ -5,15 +5,14 @@ import { useCallback } from "react";
 import { toast } from "react-hot-toast";
 import useLoginModal from "./useLoginModal";
 import { get, post, remove } from "pawpal-fe-favorites-server-actions";
-import { User } from "pawpal-fe-types";
+import { User } from "next-auth";
 
 interface IUseFavorite {
-  token?: string | null;
   listingId: string;
   currentUser?: User | null;
 }
 
-const useFavorite = ({ token, listingId, currentUser }: IUseFavorite) => {
+const useFavorite = ({ listingId, currentUser }: IUseFavorite) => {
   const router = useRouter();
   const loginModal = useLoginModal();
 
@@ -21,14 +20,14 @@ const useFavorite = ({ token, listingId, currentUser }: IUseFavorite) => {
     async (e: React.MouseEvent<HTMLDivElement>) => {
       e.stopPropagation();
 
-      if (!currentUser || !token) {
+      if (!currentUser) {
         return loginModal.onOpen();
       }
 
       try {
         let response;
 
-        const favorites = await get(token);
+        const favorites = await get(currentUser.jwt);
 
         if (favorites?.collection.length > 0) {
           if (
@@ -36,9 +35,9 @@ const useFavorite = ({ token, listingId, currentUser }: IUseFavorite) => {
               (fav: any) => fav.targetItemId === listingId
             )
           ) {
-            response = await remove(token, listingId);
+            response = await remove(currentUser.jwt, listingId);
           } else {
-            response = await post(token, listingId);
+            response = await post(currentUser.jwt, listingId);
           }
         }
 
