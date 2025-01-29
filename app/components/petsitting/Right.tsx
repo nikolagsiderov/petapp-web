@@ -10,7 +10,6 @@ interface RightProps {
 }
 
 const Right: React.FC<RightProps> = ({ listings, currentUser }) => {
-  console.log(listings);
   return (
     <div className="pb-20">
       <div className="hidden lg:block lg:col-span-1 lg:relative lg:mb-16">
