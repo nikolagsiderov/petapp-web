@@ -21,10 +21,6 @@ export default async function RootLayout({
   const session = await getSession();
   const currentUser = session?.user;
 
-  if (session === null) {
-    redirect("/auth");
-  }
-
   // TODO: Revise the 'userHasAlreadyListed' logic
   const currentUserListings: any = currentUser
     ? await getCurrentUserListings(currentUser?.jwt)
