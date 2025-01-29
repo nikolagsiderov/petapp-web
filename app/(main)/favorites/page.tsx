@@ -8,7 +8,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { redirect } from "next/navigation";
 
-export async function getSession() {
+async function getSession() {
   return await getServerSession(authOptions);
 }
 
@@ -45,7 +45,11 @@ const FavoritesPage = async () => {
 
   return (
     <ClientOnly>
-      <FavoritesClient token={session.user.jwt} listings={listings} currentUser={currentUser} />
+      <FavoritesClient
+        token={session.user.jwt}
+        listings={listings}
+        currentUser={currentUser}
+      />
     </ClientOnly>
   );
 };
