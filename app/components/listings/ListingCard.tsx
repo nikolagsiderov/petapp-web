@@ -1,6 +1,7 @@
 "use client";
 
-import { Listing, Reservation, User } from "pawpal-fe-types";
+import { Listing, Reservation } from "pawpal-fe-types";
+import { User } from "next-auth";
 import { useRouter } from "next/navigation";
 import { ReactNode, useCallback, useMemo } from "react";
 import { format } from "date-fns";
@@ -12,7 +13,6 @@ import { categories } from "../navbar/main/Categories";
 import { reservationStatuses } from "pawpal-fe-common";
 
 interface ListingCardProps {
-  token?: string | null;
   horizontal?: boolean;
   data: Listing;
   reservation?: Reservation | null;
@@ -25,7 +25,6 @@ interface ListingCardProps {
 }
 
 const ListingCard: React.FC<ListingCardProps> = ({
-  token,
   horizontal,
   data,
   reservation,
@@ -114,7 +113,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
           </div>
           {!reservation && (
             <div className="absolute top-3 right-3">
-              <HeartButton token={token} listing={data} currentUser={currentUser} />
+              <HeartButton listing={data} currentUser={currentUser} />
             </div>
           )}
         </div>

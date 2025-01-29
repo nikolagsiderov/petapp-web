@@ -1,5 +1,4 @@
 import EmptyState from "@/app/components/EmptyState";
-import getCurrentUser from "@/app/actions/users/getCurrentUser";
 import ClientOnly from "@/app/components/ClientOnly";
 import FilterPetSittersModal from "../../components/modals/FilterPetSittersModal";
 import BecomeSitterModal from "../../components/modals/BecomeSitterModal";
@@ -20,9 +19,9 @@ async function getSession() {
 
 const PetSittingPage = async ({ searchParams }: PetSittingProps) => {
   const session = await getSession();
+  const currentUser = session?.user;
   const response = await get(searchParams);
   const listings = response.success ? response.collection : [];
-  const currentUser = await getCurrentUser();
 
   if (listings.length === 0) {
     return (
@@ -41,7 +40,6 @@ const PetSittingPage = async ({ searchParams }: PetSittingProps) => {
       <FilterPetSittersModal />
       <BecomeSitterModal />
       <PetSittingClient
-        token={session?.user.jwt}
         listings={listings}
         currentUser={currentUser}
       />

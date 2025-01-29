@@ -1,11 +1,22 @@
 import EmptyState from "@/app/components/EmptyState";
-import getCurrentUser from "@/app/actions/users/getCurrentUser";
 import ListingClient from "./ListingClient";
 import ClientOnly from "@/app/components/ClientOnly";
 import { get } from "pawpal-fe-listings-server-actions";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { redirect } from "next/navigation";
+
+async function getSession() {
+  return await getServerSession(authOptions);
+}
 
 const MyListingsPage = async () => {
-  const currentUser = await getCurrentUser();
+  const session = await getSession();
+  const currentUser = session?.user;
+
+  if (session === null) {
+    redirect("/auth");
+  }
 
   if (currentUser) {
     const response = await get({ userId: currentUser.id });
