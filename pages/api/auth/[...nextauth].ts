@@ -1,6 +1,6 @@
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { authenticate } from "@/app/actions/users/client";
+import { authenticate } from "pawpal-fe-users-server-actions";
 import axios from "axios";
 import NextAuth, { AuthOptions, Session } from "next-auth";
 import { Agent } from "https";
