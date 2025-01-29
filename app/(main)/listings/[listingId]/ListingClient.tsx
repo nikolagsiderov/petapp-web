@@ -25,7 +25,7 @@ const initialDateRange = {
 
 interface ListingClientProps {
   listing: Listing;
-  currentUser?: User | null;
+  currentUser?: User | null | undefined;
 }
 
 const ListingClient: React.FC<ListingClientProps> = ({

@@ -33,7 +33,6 @@ const ListingPage = async ({ params }: { params: IParams }) => {
       <BecomeSitterModal currentUser={currentUser} />
       <ListingClient
         listing={listing}
-        reviews={[]} // TODO: After implementation of reviews microservice, replace with actual reviews data...
         currentUser={currentUser}
       />
     </ClientOnly>
