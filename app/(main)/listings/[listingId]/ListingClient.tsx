@@ -4,9 +4,9 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Range } from "react-date-range";
 import { useRouter } from "next/navigation";
-import { differenceInDays, eachDayOfInterval } from "date-fns";
+import { differenceInDays } from "date-fns";
 import useLoginModal from "@/app/hooks/useLoginModal";
-import { Listing, Reservation, Review, User } from "pawpal-fe-common";
+import { Listing, Review, User } from "pawpal-fe-types";
 import MainContainer from "@/app/components/MainContainer";
 import { categories } from "@/app/components/navbar/main/Categories";
 import ListingHead from "@/app/components/listings/ListingHead";
@@ -134,7 +134,6 @@ const ListingClient: React.FC<ListingClientProps> = ({
               "
             >
               <div className="lg:sticky lg:top-[7rem]">
-
                 <ListingReservation
                   price={listing.price}
                   totalPrice={totalPrice}

@@ -1,16 +1,19 @@
+"use client";
+
 import { useRouter } from "next/navigation";
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
 import { toast } from "react-hot-toast";
-import { User } from "pawpal-fe-common";
 import useLoginModal from "./useLoginModal";
-import { get, post, remove } from "../actions/favorites/client";
+import { get, post, remove } from "pawpal-fe-favorites-server-actions";
+import { User } from "pawpal-fe-types";
 
 interface IUseFavorite {
+  token?: string | null;
   listingId: string;
   currentUser?: User | null;
 }
 
-const useFavorite = ({ listingId, currentUser }: IUseFavorite) => {
+const useFavorite = ({ token, listingId, currentUser }: IUseFavorite) => {
   const router = useRouter();
   const loginModal = useLoginModal();
 
@@ -18,14 +21,14 @@ const useFavorite = ({ listingId, currentUser }: IUseFavorite) => {
     async (e: React.MouseEvent<HTMLDivElement>) => {
       e.stopPropagation();
 
-      if (!currentUser) {
+      if (!currentUser || !token) {
         return loginModal.onOpen();
       }
 
       try {
         let response;
 
-        const favorites = await get();
+        const favorites = await get(token);
 
         if (favorites?.collection.length > 0) {
           if (
@@ -33,9 +36,9 @@ const useFavorite = ({ listingId, currentUser }: IUseFavorite) => {
               (fav: any) => fav.targetItemId === listingId
             )
           ) {
-            response = await remove(listingId);
+            response = await remove(token, listingId);
           } else {
-            response = await post(listingId);
+            response = await post(token, listingId);
           }
         }
 

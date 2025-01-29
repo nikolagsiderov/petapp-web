@@ -1,12 +1,25 @@
 import EmptyState from "@/app/components/EmptyState";
 import FavoritesClient from "./FavoritesClient";
 import ClientOnly from "@/app/components/ClientOnly";
-import { get } from "@/app/actions/favorites/client";
+import { get } from "pawpal-fe-favorites-server-actions";
 import { getById } from "@/app/actions/listings/client";
 import getCurrentUser from "@/app/actions/users/getCurrentUser";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { redirect } from "next/navigation";
+
+async function getSession() {
+  return await getServerSession(authOptions);
+}
 
 const FavoritesPage = async () => {
-  const response = await get();
+  const session = await getSession();
+
+  if (session === null) {
+    redirect("/auth");
+  }
+
+  const response = await get(session.user.jwt);
   let listings: any = [];
   const currentUser = await getCurrentUser();
 
@@ -32,7 +45,11 @@ const FavoritesPage = async () => {
 
   return (
     <ClientOnly>
-      <FavoritesClient listings={listings} currentUser={currentUser} />
+      <FavoritesClient
+        token={session.user.jwt}
+        listings={listings}
+        currentUser={currentUser}
+      />
     </ClientOnly>
   );
 };

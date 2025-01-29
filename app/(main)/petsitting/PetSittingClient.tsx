@@ -5,14 +5,16 @@ import ListView from "./ListView";
 import MapView from "./MapView";
 import { FaMapLocationDot, FaListUl } from "react-icons/fa6";
 import { useState } from "react";
-import { Listing, User } from "pawpal-fe-common";
+import { Listing, User } from "pawpal-fe-types";
 
 interface PetSittingClientProps {
+  token?: string | null;
   listings?: Array<Listing> | null | undefined | any;
   currentUser?: User | null | undefined;
 }
 
 const PetSittingClient: React.FC<PetSittingClientProps> = ({
+  token,
   listings,
   currentUser,
 }) => {
@@ -41,7 +43,9 @@ const PetSittingClient: React.FC<PetSittingClientProps> = ({
         </div>
       </div>
 
-      {!mapView && <ListView listings={listings} currentUser={currentUser} />}
+      {!mapView && (
+        <ListView token={token} listings={listings} currentUser={currentUser} />
+      )}
       {mapView && <MapView listings={listings} currentUser={currentUser} />}
     </MainContainer>
   );

@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { requestCurrent } from "./client";
-import { User } from "pawpal-fe-common";
+import { User } from "pawpal-fe-types";
 
 export async function getSession() {
   return await getServerSession(authOptions);

@@ -1,6 +1,6 @@
 "use client";
 
-import { Reservation } from "pawpal-fe-common";
+import { Reservation } from "pawpal-fe-types";
 import { format } from "date-fns";
 import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import { FaThumbsUp } from "react-icons/fa";
 import { TiCancel } from "react-icons/ti";
 import { updateReservationStatus } from "@/app/actions/listings/client";
-import reservationStatuses from "@/app/libs/reservationStatuses";
+import { reservationStatuses } from "pawpal-fe-common";
 
 interface TableRowsProps {
   request: Reservation;

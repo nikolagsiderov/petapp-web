@@ -1,7 +1,6 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { IoMdPaw } from "react-icons/io";
 import Logo from "../Logo";
 
 const SidebarReturn = ({ open }: { open: boolean }) => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { Listing } from "pawpal-fe-common";
+import { Listing } from "pawpal-fe-types";
 import { Circle, GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import Heading from "../Heading";
 
