@@ -1,7 +1,7 @@
 import EmptyState from "@/app/components/EmptyState";
 import ClientOnly from "@/app/components/ClientOnly";
 import FilterPetSittersModal from "../../components/modals/FilterPetSittersModal";
-import { IGetParams, get } from "../../actions/listings/client";
+import { IGetParams } from "../../actions/listings/client";
 
 export const dynamic = "force-dynamic";
 

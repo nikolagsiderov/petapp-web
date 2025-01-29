@@ -9,7 +9,6 @@ import CategoryInput from "../inputs/CategoryInput";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import ImageUpload from "../inputs/ImageUpload";
 import Input from "../inputs/Input";
-import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import LocationInput from "../inputs/LocationInput";

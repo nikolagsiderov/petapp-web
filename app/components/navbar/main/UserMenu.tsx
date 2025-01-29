@@ -7,7 +7,7 @@ import MenuItem from "./MenuItem";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import { signOut } from "next-auth/react";
-import { User } from "pawpal-fe-common";
+import { User } from "pawpal-fe-types";
 import useBecomeSitterModal from "@/app/hooks/useBecomeSitterModal";
 import { useRouter } from "next/navigation";
 import useOnClickOutsideComponent from "@/app/hooks/useOnClickOutsideComponent";

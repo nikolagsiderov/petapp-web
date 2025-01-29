@@ -1,10 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 import { toast } from "react-hot-toast";
 import useLoginModal from "./useLoginModal";
-import { get, post, remove, User } from "pawpal-fe-common";
+import { get, post, remove } from "pawpal-fe-favorites-server-actions";
+import { User } from "pawpal-fe-types";
 
 interface IUseFavorite {
   token?: string | null;

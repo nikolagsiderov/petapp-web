@@ -1,12 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { Listing, User } from "pawpal-fe-common";
+import { Listing, User } from "pawpal-fe-types";
 import Heading from "../Heading";
 import HeartButton from "../HeartButton";
 
 interface ListingHeadProps {
-  token: string;
+  token?: string | null;
   address: string;
   imageSrc: string;
   listing: Listing;

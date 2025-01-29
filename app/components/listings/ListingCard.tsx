@@ -1,6 +1,6 @@
 "use client";
 
-import { Listing, Reservation, User } from "pawpal-fe-common";
+import { Listing, Reservation, User } from "pawpal-fe-types";
 import { useRouter } from "next/navigation";
 import { ReactNode, useCallback, useMemo } from "react";
 import { format } from "date-fns";
@@ -9,7 +9,7 @@ import HeartButton from "../HeartButton";
 import Button from "../Button";
 import { FaStar } from "react-icons/fa6";
 import { categories } from "../navbar/main/Categories";
-import reservationStatuses from "@/app/libs/reservationStatuses";
+import { reservationStatuses } from "pawpal-fe-common";
 
 interface ListingCardProps {
   token?: string | null;
