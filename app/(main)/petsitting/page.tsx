@@ -14,7 +14,7 @@ interface PetSittingProps {
   searchParams: IGetParams;
 }
 
-export async function getSession() {
+async function getSession() {
   return await getServerSession(authOptions);
 }
 
