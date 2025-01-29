@@ -24,6 +24,7 @@
     "next-cloudinary": "^5.20.0",
     "pawpal-fe-common": "^0.0.15",
     "pawpal-fe-favorites-server-actions": "^0.0.1",
+    "pawpal-fe-listings-server-actions": "^0.0.1",
     "pawpal-fe-types": "^0.0.1",
     "query-string": "^8.2.0",
     "react": "^18",

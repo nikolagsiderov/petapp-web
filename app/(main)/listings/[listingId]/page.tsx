@@ -3,7 +3,7 @@ import EmptyState from "@/app/components/EmptyState";
 import ListingClient from "./ListingClient";
 import ClientOnly from "@/app/components/ClientOnly";
 import BecomeSitterModal from "@/app/components/modals/BecomeSitterModal";
-import { getById } from "@/app/actions/listings/client";
+import { getById } from "pawpal-fe-listings-server-actions";
 
 interface IParams {
   listingId: string;

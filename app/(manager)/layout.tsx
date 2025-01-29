@@ -1,7 +1,7 @@
 import getCurrentUser from "@/app/actions/users/getCurrentUser";
 import ClientOnly from "../components/ClientOnly";
 import Sidebar from "../components/navbar/manage/Sidebar";
-import { getPendingReservationsCount } from "../actions/listings/client";
+import { getPendingReservationsCount } from "pawpal-fe-listings-server-actions";
 
 export default async function RootLayout({
   children,

@@ -5,7 +5,7 @@ import RegisterModal from "../components/modals/RegisterModal";
 import BottomNav from "../components/navbar/main/BottomNav";
 import Navbar from "../components/navbar/main/Navbar";
 import Footer from "../components/footer/Footer";
-import { getCurrentUserListings } from "../actions/listings/client";
+import { getCurrentUserListings } from "pawpal-fe-listings-server-actions";
 
 export default async function RootLayout({
   children,

@@ -4,7 +4,7 @@ import ClientOnly from "@/app/components/ClientOnly";
 import FilterPetSittersModal from "../../components/modals/FilterPetSittersModal";
 import BecomeSitterModal from "../../components/modals/BecomeSitterModal";
 import PetSittingClient from "./PetSittingClient";
-import { IGetParams, get } from "../../actions/listings/client";
+import { IGetParams, get } from "pawpal-fe-listings-server-actions";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 

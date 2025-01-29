@@ -2,7 +2,7 @@ import EmptyState from "@/app/components/EmptyState";
 import getCurrentUser from "@/app/actions/users/getCurrentUser";
 import ListingClient from "./ListingClient";
 import ClientOnly from "@/app/components/ClientOnly";
-import { get } from "@/app/actions/listings/client";
+import { get } from "pawpal-fe-listings-server-actions";
 
 const MyListingsPage = async () => {
   const currentUser = await getCurrentUser();

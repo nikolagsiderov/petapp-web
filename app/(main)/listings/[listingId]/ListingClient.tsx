@@ -14,7 +14,7 @@ import ListingInfo from "@/app/components/listings/ListingInfo";
 import ListingReservation from "@/app/components/listings/ListingReservation";
 import ListingReviews from "@/app/components/listings/ListingReviews";
 import ListingMap from "@/app/components/listings/ListingMap";
-import { createReservation } from "@/app/actions/listings/client";
+import { createReservation } from "pawpal-fe-listings-server-actions";
 
 const initialDateRange = {
   startDate: new Date(),

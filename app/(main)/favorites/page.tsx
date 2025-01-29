@@ -2,7 +2,7 @@ import EmptyState from "@/app/components/EmptyState";
 import FavoritesClient from "./FavoritesClient";
 import ClientOnly from "@/app/components/ClientOnly";
 import { get } from "pawpal-fe-favorites-server-actions";
-import { getById } from "@/app/actions/listings/client";
+import { getById } from "pawpal-fe-listings-server-actions";
 import getCurrentUser from "@/app/actions/users/getCurrentUser";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";

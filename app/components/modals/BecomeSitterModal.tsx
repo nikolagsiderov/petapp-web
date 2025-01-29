@@ -12,7 +12,7 @@ import Input from "../inputs/Input";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import LocationInput from "../inputs/LocationInput";
-import { create } from "@/app/actions/listings/client";
+import { create } from "pawpal-fe-listings-server-actions";
 
 enum STEPS {
   CATEGORY = 0,

@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { FaThumbsUp } from "react-icons/fa";
 import { TiCancel } from "react-icons/ti";
-import { updateReservationStatus } from "@/app/actions/listings/client";
+import { updateReservationStatus } from "pawpal-fe-listings-server-actions";
 import { reservationStatuses } from "pawpal-fe-common";
 
 interface TableRowsProps {

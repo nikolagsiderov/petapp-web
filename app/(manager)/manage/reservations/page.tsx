@@ -1,6 +1,6 @@
 import EmptyState from "@/app/components/EmptyState";
 import ClientOnly from "@/app/components/ClientOnly";
-import { getPetsitterReservations } from "@/app/actions/listings/client";
+import { getPetsitterReservations } from "pawpal-fe-listings-server-actions";
 import ReservationRequests from "./ReservationRequests";
 
 const MyListingsPage = async () => {
