@@ -110,8 +110,11 @@ const BecomeSitterModal = ({ currentUser }: BecomeSitterModalProps) => {
           setStep(STEPS.CATEGORY);
           becomeSitterModal.onClose();
         } else {
-          // TODO: Handle unsuccessful response better
-          toast.error("Нещо се обърка...");
+          if (response?.response?.data?.description) {
+            toast.error(response?.response?.data?.description);
+          } else {
+            toast.error("Нещо се обърка...");
+          }
         }
 
         setIsLoading(false);
