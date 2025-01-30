@@ -7,7 +7,7 @@ import usePlacesAutocomplete, {
 } from "use-places-autocomplete";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import parseGooglePlacesPublicAddress from "@/app/hooks/parseGooglePlacesPublicAddress";
+import { useGooglePublicAddress as parseGooglePublicAddress } from "pawpal-fe-common";
 
 export type LocationValue = {
   address: string;
@@ -50,7 +50,7 @@ const LocationInput: React.FC<LocationInputProps> = ({ onChange }) => {
       const place = searchResult.getPlace();
 
       setPrivateAddress(place.formatted_address);
-      parseGooglePlacesPublicAddress({ googlePlace: place, setPublicAddress });
+      parseGooglePublicAddress({ googlePlace: place, setPublicAddress });
       handleSelect();
     } else {
       toast.error("Моля въведете и изберете адрес.");

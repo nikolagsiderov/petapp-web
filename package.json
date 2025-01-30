@@ -20,7 +20,7 @@
     "i18next": "^24.0.5",
     "next": "^14.2.19",
     "next-auth": "^4.24.5",
-    "pawpal-fe-common": "^0.0.15",
+    "pawpal-fe-common": "^0.0.16",
     "pawpal-fe-favorites-server-actions": "^0.0.1",
     "pawpal-fe-listings-server-actions": "^0.0.1",
     "pawpal-fe-reviews-server-actions": "^0.0.2",
