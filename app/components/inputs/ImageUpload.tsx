@@ -12,8 +12,9 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onChange }) => {
   const [preview, setPreview] = useState<string | null>(null);
   const handleUpload = async (event: any) => {
     const images = event.target.files;
-    setPreview(URL.createObjectURL(images[0]));
-    onChange(images);
+    const uri = URL.createObjectURL(images[0]);
+    setPreview(uri);
+    onChange([{ ...images[0], uri }]);
   };
 
   return (
