@@ -22,7 +22,7 @@
     "next-auth": "^4.24.5",
     "pawpal-fe-common": "^0.0.16",
     "pawpal-fe-favorites-server-actions": "^0.0.1",
-    "pawpal-fe-listings-server-actions": "^0.0.6",
+    "pawpal-fe-listings-server-actions": "^0.0.9",
     "pawpal-fe-reviews-server-actions": "^0.0.2",
     "pawpal-fe-types": "^0.0.1",
     "pawpal-fe-users-server-actions": "^0.0.1",
