@@ -1,9 +1,8 @@
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { authenticate } from "pawpal-fe-users-server-actions";
-import axios from "axios";
 import NextAuth, { AuthOptions, Session } from "next-auth";
-import { Agent } from "https";
+import { getCurrentUser } from "pawpal-fe-users-server-actions";
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -27,29 +26,11 @@ export const authOptions: AuthOptions = {
           password: credentials.password,
         });
 
-        const config = {
-          headers: { Authorization: `Bearer ${response.jwt}` },
-          // Below setting is only for development purposes
-          httpsAgent: new Agent({
-            rejectUnauthorized: false,
-          }),
-        };
+        const currentUser = await getCurrentUser(response.jwt);
 
-        const user = await axios
-          .get(
-            process.env.NEXT_PUBLIC_USERS_API + "/api/v1/users/current",
-            config
-          )
-          .then((response) => {
-            return response?.data;
-          })
-          .catch((error) => {
-            return null;
-          });
-
-        if (response?.success && user) {
-          user.jwt = response.jwt as string;
-          return user;
+        if (response?.success && currentUser && currentUser.success) {
+          currentUser.jwt = response.jwt as string;
+          return currentUser;
         }
       },
     }),
