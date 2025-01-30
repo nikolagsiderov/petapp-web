@@ -5,11 +5,11 @@ import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useGooglePublicAddress as parseGooglePublicAddress } from "pawpal-fe-common";
 
-export type LocationValue = {
+export type Location = {
   publicAddress: string;
   privateAddress: string;
   lat: number;
@@ -17,7 +17,7 @@ export type LocationValue = {
 };
 
 interface LocationInputProps {
-  onChange: (locationValue: LocationValue) => void;
+  onChange: (value: Location) => void;
 }
 
 const LocationInput: React.FC<LocationInputProps> = ({ onChange }) => {
@@ -46,31 +46,33 @@ const LocationInput: React.FC<LocationInputProps> = ({ onChange }) => {
     setSearchResult(autocomplete);
   }
 
-  function onPlaceChanged() {
+  const onPlaceChanged = async () => {
     if (searchResult != null) {
       const place = searchResult.getPlace();
 
       setPrivateAddress(place.formatted_address);
       parseGooglePublicAddress({ googlePlace: place, setPublicAddress });
-
-      console.log(place);
-      handleSelect();
     } else {
       toast.error("Моля въведете и изберете адрес.");
     }
-  }
-
-  const handleSelect = async () => {
-    setValue(privateAddress, false);
-    clearSuggestions();
-
-    if (privateAddress !== null) {
-      const results = await getGeocode({ address: privateAddress });
-      const { lat, lng } = await getLatLng(results[0]);
-
-      onChange({ publicAddress, privateAddress, lat, lng });
-    }
   };
+
+  useEffect(() => {
+    const updateAddressesStateAsync = async () => {
+      if (publicAddress !== null && privateAddress !== null) {
+        setValue(privateAddress, false);
+
+        const results = await getGeocode({ address: privateAddress });
+        const { lat, lng } = await getLatLng(results[0]);
+
+        onChange({ publicAddress, privateAddress, lat, lng });
+      }
+
+      clearSuggestions();
+    };
+
+    updateAddressesStateAsync();
+  }, [privateAddress, publicAddress]);
 
   return isLoaded ? (
     <Autocomplete onPlaceChanged={onPlaceChanged} onLoad={onLoad}>

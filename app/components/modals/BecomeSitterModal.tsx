@@ -75,7 +75,6 @@ const BecomeSitterModal = ({ currentUser }: BecomeSitterModalProps) => {
     if (step !== STEPS.PRICE) {
       return onNext();
     } else {
-      console.log(data);
       if (
         data.category == null ||
         data.category == "" ||
@@ -94,19 +93,15 @@ const BecomeSitterModal = ({ currentUser }: BecomeSitterModalProps) => {
         );
       } else {
         setIsLoading(true);
-        const response = await create(
-          currentUser!.jwt,
-          {
-            category: data.category,
-            description: data.description,
-            publicAddress: location.publicAddress,
-            privateAddress: location.privateAddress,
-            latitude: data.location.lat,
-            longitude: data.location.lng,
-            price: toFixedNumber(parseFloat(data.price)),
-          },
-          []
-        );
+        const response = await create(currentUser!.jwt, {
+          category: data.category,
+          description: data.description,
+          publicAddress: data.location.publicAddress,
+          privateAddress: data.location.privateAddress,
+          latitude: data.location.lat,
+          longitude: data.location.lng,
+          price: toFixedNumber(parseFloat(data.price)),
+        });
 
         if (response.success) {
           toast.success("Обявата е успешно създадена!");
@@ -176,9 +171,7 @@ const BecomeSitterModal = ({ currentUser }: BecomeSitterModalProps) => {
           subtitle="Помогнете на хората да ви намират лесно"
         />
         <LocationInput
-          onChange={(locationValue) =>
-            setCustomValue("location", locationValue)
-          }
+          onChange={(value) => setCustomValue("location", value)}
         />
       </div>
     );

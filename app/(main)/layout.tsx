@@ -7,7 +7,6 @@ import Footer from "../components/footer/Footer";
 import { getCurrentUserListings } from "pawpal-fe-listings-server-actions";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { redirect } from "next/navigation";
 
 async function getSession() {
   return await getServerSession(authOptions);
