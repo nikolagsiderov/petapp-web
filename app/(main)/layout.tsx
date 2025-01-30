@@ -21,13 +21,12 @@ export default async function RootLayout({
   const session = await getSession();
   const currentUser = session?.user;
 
-  // TODO: Revise the 'userHasAlreadyListed' logic
   const currentUserListings: any = currentUser
     ? await getCurrentUserListings(currentUser?.jwt)
     : null;
   const userHasAlreadyListed = currentUserListings
     ? currentUserListings.success
-      ? currentUserListings[0]?.id !== null
+      ? currentUserListings?.collection?.length > 0
       : false
     : false;
 

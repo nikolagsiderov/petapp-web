@@ -75,6 +75,7 @@ const BecomeSitterModal = ({ currentUser }: BecomeSitterModalProps) => {
     if (step !== STEPS.PRICE) {
       return onNext();
     } else {
+      console.log(data);
       if (
         data.category == null ||
         data.category == "" ||
@@ -98,8 +99,8 @@ const BecomeSitterModal = ({ currentUser }: BecomeSitterModalProps) => {
           {
             category: data.category,
             description: data.description,
-            publicAddress: location.address,
-            privateAddress: location.address,
+            publicAddress: location.publicAddress,
+            privateAddress: location.privateAddress,
             latitude: data.location.lat,
             longitude: data.location.lng,
             price: toFixedNumber(parseFloat(data.price)),

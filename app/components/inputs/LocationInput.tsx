@@ -10,7 +10,8 @@ import toast from "react-hot-toast";
 import { useGooglePublicAddress as parseGooglePublicAddress } from "pawpal-fe-common";
 
 export type LocationValue = {
-  address: string;
+  publicAddress: string;
+  privateAddress: string;
   lat: number;
   lng: number;
 };
@@ -51,6 +52,8 @@ const LocationInput: React.FC<LocationInputProps> = ({ onChange }) => {
 
       setPrivateAddress(place.formatted_address);
       parseGooglePublicAddress({ googlePlace: place, setPublicAddress });
+
+      console.log(place);
       handleSelect();
     } else {
       toast.error("Моля въведете и изберете адрес.");
@@ -65,7 +68,7 @@ const LocationInput: React.FC<LocationInputProps> = ({ onChange }) => {
       const results = await getGeocode({ address: privateAddress });
       const { lat, lng } = await getLatLng(results[0]);
 
-      onChange({ address: publicAddress, lat, lng });
+      onChange({ publicAddress, privateAddress, lat, lng });
     }
   };
 
