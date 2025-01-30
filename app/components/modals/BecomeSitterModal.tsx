@@ -45,7 +45,7 @@ const BecomeSitterModal = ({ currentUser }: BecomeSitterModalProps) => {
     defaultValues: {
       category: "",
       location: null,
-      imageSrc: "",
+      images: "",
       price: 1,
       description: "",
     },
@@ -53,7 +53,7 @@ const BecomeSitterModal = ({ currentUser }: BecomeSitterModalProps) => {
 
   const category = watch("category");
   const location = watch("location");
-  const imageSrc = watch("imageSrc");
+  const images = watch("images");
 
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
@@ -86,22 +86,28 @@ const BecomeSitterModal = ({ currentUser }: BecomeSitterModalProps) => {
         data.description == "" ||
         data.price == null ||
         data.price == "" ||
-        data.price <= 0
+        data.price <= 0 ||
+        data.images == null
       ) {
         toast.error(
-          "Моля въведи категория, локация, описание и цена, за да продължиш."
+          "Моля въведи категория, локация, снимка, описание и цена, за да продължиш."
         );
       } else {
         setIsLoading(true);
-        const response = await create(currentUser!.jwt, {
-          category: data.category,
-          description: data.description,
-          publicAddress: data.location.publicAddress,
-          privateAddress: data.location.privateAddress,
-          latitude: data.location.lat,
-          longitude: data.location.lng,
-          price: toFixedNumber(parseFloat(data.price)),
-        });
+        console.log(data.images);
+        const response = await create(
+          currentUser!.jwt,
+          {
+            category: data.category,
+            description: data.description,
+            publicAddress: data.location.publicAddress,
+            privateAddress: data.location.privateAddress,
+            latitude: data.location.lat,
+            longitude: data.location.lng,
+            price: toFixedNumber(parseFloat(data.price)),
+          },
+          data.images
+        );
 
         if (response.success) {
           toast.success("Обявата е успешно създадена!");
@@ -187,10 +193,7 @@ const BecomeSitterModal = ({ currentUser }: BecomeSitterModalProps) => {
           title="Качи снимка"
           subtitle="Добави снимка към твоята обява"
         />
-        <ImageUpload
-          value={imageSrc}
-          onChange={(value) => setCustomValue("imageSrc", value)}
-        />
+        <ImageUpload onChange={(value) => setCustomValue("images", value)} />
       </div>
     );
   }
