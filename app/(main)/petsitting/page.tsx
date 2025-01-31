@@ -3,23 +3,27 @@ import ClientOnly from "@/app/components/ClientOnly";
 import FilterPetSittersModal from "../../components/modals/FilterPetSittersModal";
 import BecomeSitterModal from "../../components/modals/BecomeSitterModal";
 import PetSittingClient from "./PetSittingClient";
-import { IGetParams, get } from "pawpal-fe-listings-server-actions";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { get } from "pawpal-fe-common/listings";
+import { getCurrentUser } from "pawpal-fe-common/users";
+import { Dayjs } from "dayjs";
+import webTokenGetter from "@/app/context/webTokenGetter";
 
 export const dynamic = "force-dynamic";
 
 interface PetSittingProps {
-  searchParams: IGetParams;
-}
-
-async function getSession() {
-  return await getServerSession(authOptions);
+  searchParams: {
+    userId?: string | null;
+    fromDate?: Dayjs | null;
+    toDate?: Dayjs | null;
+    address?: string | null;
+    addressLocale?: string | null;
+    category?: string | null;
+  };
 }
 
 const PetSittingPage = async ({ searchParams }: PetSittingProps) => {
-  const session = await getSession();
-  const currentUser = session?.user;
+  const currentUserResponse = await getCurrentUser(webTokenGetter());
+  const currentUser = currentUserResponse?.success ? currentUserResponse : null;
   const response = await get(searchParams);
   const listings = response.success ? response.collection : [];
 
@@ -27,7 +31,7 @@ const PetSittingPage = async ({ searchParams }: PetSittingProps) => {
     return (
       <ClientOnly>
         <FilterPetSittersModal />
-        <BecomeSitterModal currentUser={currentUser} />
+        <BecomeSitterModal />
         <div className="lg:pt-32 pt-48">
           <EmptyState showReset />
         </div>
@@ -38,11 +42,8 @@ const PetSittingPage = async ({ searchParams }: PetSittingProps) => {
   return (
     <ClientOnly>
       <FilterPetSittersModal />
-      <BecomeSitterModal currentUser={currentUser} />
-      <PetSittingClient
-        listings={listings}
-        currentUser={currentUser}
-      />
+      <BecomeSitterModal />
+      <PetSittingClient listings={listings} currentUser={currentUser} />
     </ClientOnly>
   );
 };

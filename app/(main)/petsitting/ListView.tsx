@@ -1,7 +1,7 @@
 "use client";
 
 import ListingCard from "@/app/components/listings/ListingCard";
-import { User } from "next-auth";
+import { User } from "pawpal-fe-types";
 
 interface ListViewProps {
   listings?: any;

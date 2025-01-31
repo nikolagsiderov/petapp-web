@@ -9,10 +9,9 @@ import Heading from "../Heading";
 import Input from "../inputs/Input";
 import toast from "react-hot-toast";
 import Button from "../Button";
-import { signIn } from "next-auth/react";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import { useRouter } from "next/navigation";
-import { register as registerUser } from "pawpal-fe-users-server-actions";
+import { register as registerUser } from "pawpal-fe-common/users";
 
 const RegisterModal = () => {
   const router = useRouter();
@@ -43,25 +42,13 @@ const RegisterModal = () => {
       password: data.password,
     });
 
+    setLoading(false);
+
     if (response?.success) {
-      setLoading(false);
+      toast.success("Успешно се регистрирахте.");
       registerModal.onClose();
-
-      signIn("credentials", {
-        ...data,
-        redirect: false,
-      }).then((callback) => {
-        if (callback?.ok) {
-          toast.success("Добре дошли!");
-          router.refresh();
-        }
-
-        if (callback?.error) {
-          toast.error(callback.error);
-        }
-      });
+      router.push("/auth");
     } else {
-      setLoading(false);
       toast.error("Регистрацията е неуспешна.");
     }
   };
@@ -117,7 +104,7 @@ const RegisterModal = () => {
         outline
         label="Продължи с Google"
         icon={FcGoogle}
-        onClick={() => signIn("google")}
+        onClick={() => {}}
       />
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="justify-center flex flex-row items-center gap-2">

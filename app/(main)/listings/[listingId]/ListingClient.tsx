@@ -1,13 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Range } from "react-date-range";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { differenceInDays } from "date-fns";
 import useLoginModal from "@/app/hooks/useLoginModal";
-import { Listing, Review } from "pawpal-fe-types";
-import { User } from "next-auth";
+import { Listing, User } from "pawpal-fe-types";
 import MainContainer from "@/app/components/MainContainer";
 import { categories } from "@/app/components/navbar/main/Categories";
 import ListingHead from "@/app/components/listings/ListingHead";
@@ -15,7 +14,9 @@ import ListingInfo from "@/app/components/listings/ListingInfo";
 import ListingReservation from "@/app/components/listings/ListingReservation";
 import ListingReviews from "@/app/components/listings/ListingReviews";
 import ListingMap from "@/app/components/listings/ListingMap";
-import { createReservation } from "pawpal-fe-listings-server-actions";
+import { getCurrentUser } from "pawpal-fe-common/users";
+import { createReservation } from "pawpal-fe-common/listings";
+import clientSideWebTokenGetter from "@/app/context/clientSideWebTokenGetter";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -24,16 +25,15 @@ const initialDateRange = {
 };
 
 interface ListingClientProps {
+  currentUser: User | null;
   listing: Listing;
-  currentUser?: User | null | undefined;
 }
 
 const ListingClient: React.FC<ListingClientProps> = ({
-  listing,
   currentUser,
+  listing,
 }) => {
   const loginModal = useLoginModal();
-  const router = useRouter();
 
   const category = useMemo(() => {
     return categories.find((c) => c.value === listing.category);
@@ -42,45 +42,6 @@ const ListingClient: React.FC<ListingClientProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(listing.price);
   const [dateRange, setDateRange] = useState<Range>(initialDateRange);
-
-  const onCreateReservation = useCallback(async () => {
-    if (!currentUser) {
-      return loginModal.onOpen();
-    }
-
-    setIsLoading(true);
-
-    if (listing && listing.id && dateRange.startDate && dateRange.endDate) {
-      dateRange.startDate.setHours(22);
-      dateRange.endDate.setHours(23);
-
-      const response = await createReservation(currentUser?.jwt, {
-        listingId: listing?.id,
-        fromDate: dateRange.startDate!,
-        toDate: dateRange.endDate!,
-      });
-
-      if (response.success) {
-        toast.success("Резервацията е успешна!");
-        setDateRange(initialDateRange);
-        router.push("/reservations");
-      } else {
-        // TODO: Else handle validation message...
-        toast.error("Нещо се обърка...");
-      }
-    } else {
-      // TODO: Else handle validation message...
-    }
-
-    setIsLoading(false);
-  }, [
-    currentUser,
-    dateRange.startDate,
-    dateRange.endDate,
-    listing,
-    loginModal,
-    router,
-  ]);
 
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {
@@ -93,6 +54,41 @@ const ListingClient: React.FC<ListingClientProps> = ({
       }
     }
   }, [dateRange, listing.price]);
+
+  const onSubmit = async () => {
+    const response = await getCurrentUser(clientSideWebTokenGetter());
+    const currentUser: User | null = response?.success ? response : null;
+
+    if (!response?.success || !currentUser) {
+      return loginModal.onOpen();
+    }
+
+    setIsLoading(true);
+
+    if (listing && listing.id && dateRange.startDate && dateRange.endDate) {
+      dateRange.startDate.setHours(22);
+      dateRange.endDate.setHours(23);
+
+      const response = await createReservation(clientSideWebTokenGetter(), {
+        listingId: listing?.id,
+        fromDate: dateRange.startDate!,
+        toDate: dateRange.endDate!,
+      });
+
+      if (response?.success) {
+        toast.success("Резервацията е успешна!");
+        setDateRange(initialDateRange);
+        redirect("/reservations");
+      } else {
+        // TODO: Else handle validation message...
+        toast.error("Нещо се обърка...");
+      }
+    } else {
+      // TODO: Else handle validation message...
+    }
+
+    setIsLoading(false);
+  };
 
   return (
     <MainContainer>
@@ -138,7 +134,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
                   totalPrice={totalPrice}
                   onChangeDate={(value) => setDateRange(value)}
                   dateRange={dateRange}
-                  onSubmit={onCreateReservation}
+                  onSubmit={onSubmit}
                   disabled={isLoading}
                   disabledDates={[]} // TODO: Dates where user does not have availability or have reservations on them... Retrieve info from BE
                 />

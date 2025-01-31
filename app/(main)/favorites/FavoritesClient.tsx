@@ -1,7 +1,6 @@
 "use client";
 
-import { Listing } from "pawpal-fe-types";
-import { User } from "next-auth";
+import { Listing, User } from "pawpal-fe-types";
 import Heading from "@/app/components/Heading";
 import MainContainer from "@/app/components/MainContainer";
 import ListingCard from "@/app/components/listings/ListingCard";

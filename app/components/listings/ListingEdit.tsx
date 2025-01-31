@@ -1,11 +1,8 @@
 "use client";
 
 import { Listing, Reservation } from "pawpal-fe-types";
-import { useRouter } from "next/navigation";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import Button from "../Button";
-import axios from "axios";
-import toast from "react-hot-toast";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { categories } from "../navbar/main/Categories";
 import CategoryInput from "../inputs/CategoryInput";
@@ -19,8 +16,6 @@ interface ListingEditProps {
 
 const ListingEdit: React.FC<ListingEditProps> = ({ listing, reservation }) => {
   const [isLoading, setIsLoading] = useState(false);
-
-  const router = useRouter();
 
   const {
     register,
@@ -58,44 +53,44 @@ const ListingEdit: React.FC<ListingEditProps> = ({ listing, reservation }) => {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
 
-    axios
-      .post("/api/listings", data)
-      .then(() => {
-        toast.success("Обявата е успешно създадена!");
-        router.refresh();
-        reset();
-      })
-      .catch((error) => {
-        if (
-          error &&
-          error.response &&
-          error.response.data &&
-          error.response.data.message
-        ) {
-          toast.error(error.response.data.message);
-        } else {
-          toast.error("Нещо се обърка.");
-        }
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    // axios
+    //   .post("/api/listings", data)
+    //   .then(() => {
+    //     toast.success("Обявата е успешно създадена!");
+    //     router.refresh();
+    //     reset();
+    //   })
+    //   .catch((error) => {
+    //     if (
+    //       error &&
+    //       error.response &&
+    //       error.response.data &&
+    //       error.response.data.message
+    //     ) {
+    //       toast.error(error.response.data.message);
+    //     } else {
+    //       toast.error("Нещо се обърка.");
+    //     }
+    //   })
+    //   .finally(() => {
+    //     setIsLoading(false);
+    //   });
   };
 
   const onDelete = useCallback(() => {
     if (listing) {
-      axios
-        .delete(`/api/listings/${listing.id}`)
-        .then(() => {
-          toast.success("Обявата е изтрита!");
-          router.refresh();
-        })
-        .catch((error) => {
-          toast.error(error?.response?.data?.error);
-        })
-        .finally(() => {});
+      // axios
+      //   .delete(`/api/listings/${listing.id}`)
+      //   .then(() => {
+      //     toast.success("Обявата е изтрита!");
+      //     router.refresh();
+      //   })
+      //   .catch((error) => {
+      //     toast.error(error?.response?.data?.error);
+      //   })
+      //   .finally(() => {});
     }
-  }, [router, listing]);
+  }, [listing]);
 
   return (
     <>

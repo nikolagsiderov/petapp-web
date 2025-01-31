@@ -1,37 +1,26 @@
 import EmptyState from "@/app/components/EmptyState";
 import ReviewClient from "./ReviewClient";
 import ClientOnly from "@/app/components/ClientOnly";
-import { getReservationById } from "pawpal-fe-listings-server-actions";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { redirect } from "next/navigation";
+import { getReservationById } from "pawpal-fe-common/listings";
+import webTokenGetter from "@/app/context/webTokenGetter";
 
 interface IParams {
   reservationId?: string;
 }
 
-async function getSession() {
-  return await getServerSession(authOptions);
-}
-
 const ReviewPage = async ({ params }: { params: IParams }) => {
-  const session = await getSession();
-  const currentUser = session?.user;
-
-  if (session === null) {
-    redirect("/auth");
-  }
-
   if (params.reservationId) {
-    const reservation = await getReservationById(
-      currentUser!.jwt,
+    const response = await getReservationById(
+      webTokenGetter(),
       params.reservationId!
     );
+
+    const reservation = response?.success ? response : null;
 
     if (reservation?.id) {
       return (
         <ClientOnly>
-          <ReviewClient currentUser={currentUser} reservation={reservation} />
+          <ReviewClient reservation={reservation} />
         </ClientOnly>
       );
     }

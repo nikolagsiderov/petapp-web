@@ -12,8 +12,8 @@ import Input from "../inputs/Input";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import LocationInput from "../inputs/LocationInput";
-import { create } from "pawpal-fe-listings-server-actions";
-import { User } from "next-auth";
+import { create } from "pawpal-fe-common/listings";
+import clientSideWebTokenGetter from "@/app/context/clientSideWebTokenGetter";
 
 enum STEPS {
   CATEGORY = 0,
@@ -23,11 +23,12 @@ enum STEPS {
   PRICE = 4,
 }
 
-interface BecomeSitterModalProps {
-  currentUser: User | null | undefined;
-}
+const toFixedNumber = (num: number) => {
+  const pow = Math.pow(10, 2);
+  return Math.round(num * pow) / pow;
+};
 
-const BecomeSitterModal = ({ currentUser }: BecomeSitterModalProps) => {
+const BecomeSitterModal = () => {
   const router = useRouter();
   const becomeSitterModal = useBecomeSitterModal();
 
@@ -45,7 +46,7 @@ const BecomeSitterModal = ({ currentUser }: BecomeSitterModalProps) => {
     defaultValues: {
       category: "",
       location: null,
-      imageSrc: "",
+      images: "",
       price: 1,
       description: "",
     },
@@ -53,7 +54,7 @@ const BecomeSitterModal = ({ currentUser }: BecomeSitterModalProps) => {
 
   const category = watch("category");
   const location = watch("location");
-  const imageSrc = watch("imageSrc");
+  const images = watch("images");
 
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
@@ -86,47 +87,44 @@ const BecomeSitterModal = ({ currentUser }: BecomeSitterModalProps) => {
         data.description == "" ||
         data.price == null ||
         data.price == "" ||
-        data.price <= 0
+        data.price <= 0 ||
+        data.images == null
       ) {
         toast.error(
-          "Моля въведи категория, локация, описание и цена, за да продължиш."
+          "Моля въведи категория, локация, снимка, описание и цена, за да продължиш."
         );
       } else {
         setIsLoading(true);
         const response = await create(
-          currentUser!.jwt,
+          clientSideWebTokenGetter(),
           {
             category: data.category,
             description: data.description,
-            publicAddress: location.address,
-            privateAddress: location.address,
+            publicAddress: data.location.publicAddress,
+            privateAddress: data.location.privateAddress,
             latitude: data.location.lat,
             longitude: data.location.lng,
             price: toFixedNumber(parseFloat(data.price)),
           },
-          []
+          data.images
         );
 
-        if (response.success) {
+        if (response?.success) {
           toast.success("Обявата е успешно създадена!");
-          router.refresh();
           reset();
           setStep(STEPS.CATEGORY);
           becomeSitterModal.onClose();
         } else {
-          // TODO: Handle unsuccessful response better
-          toast.error("Нещо се обърка...");
+          if (response?.response?.data?.description) {
+            toast.error(response?.response?.data?.description);
+          } else {
+            toast.error("Нещо се обърка...");
+          }
         }
 
         setIsLoading(false);
       }
     }
-  };
-
-  // TODO: Move function as a helper
-  const toFixedNumber = (num: number) => {
-    const pow = Math.pow(10, 2);
-    return Math.round(num * pow) / pow;
   };
 
   const actionLabel = useMemo(() => {
@@ -175,9 +173,7 @@ const BecomeSitterModal = ({ currentUser }: BecomeSitterModalProps) => {
           subtitle="Помогнете на хората да ви намират лесно"
         />
         <LocationInput
-          onChange={(locationValue) =>
-            setCustomValue("location", locationValue)
-          }
+          onChange={(value) => setCustomValue("location", value)}
         />
       </div>
     );
@@ -190,10 +186,7 @@ const BecomeSitterModal = ({ currentUser }: BecomeSitterModalProps) => {
           title="Качи снимка"
           subtitle="Добави снимка към твоята обява"
         />
-        <ImageUpload
-          value={imageSrc}
-          onChange={(value) => setCustomValue("imageSrc", value)}
-        />
+        <ImageUpload onChange={(value) => setCustomValue("images", value)} />
       </div>
     );
   }

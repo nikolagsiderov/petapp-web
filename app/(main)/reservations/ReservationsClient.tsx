@@ -1,11 +1,9 @@
 "use client";
 
-import { toast } from "react-hot-toast";
-import axios from "axios";
+// import { toast } from "react-hot-toast";
 import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Reservation } from "pawpal-fe-types";
-import { User } from "next-auth";
+import { Reservation, User } from "pawpal-fe-types";
 import Heading from "@/app/components/Heading";
 import MainContainer from "@/app/components/MainContainer";
 import ListingCard from "@/app/components/listings/ListingCard";
@@ -28,18 +26,18 @@ const ReservationsClient: React.FC<ReservationsClientProps> = ({
     (id: string) => {
       setDeletingId(id);
 
-      axios
-        .delete(`/api/reservations/${id}`)
-        .then(() => {
-          toast.success("Резервацията е отменена!");
-          router.refresh();
-        })
-        .catch((error) => {
-          toast.error(error?.response?.data?.error);
-        })
-        .finally(() => {
-          setDeletingId("");
-        });
+      // axios
+      //   .delete(`/api/reservations/${id}`)
+      //   .then(() => {
+      //     toast.success("Резервацията е отменена!");
+      //     router.refresh();
+      //   })
+      //   .catch((error) => {
+      //     toast.error(error?.response?.data?.error);
+      //   })
+      //   .finally(() => {
+      //     setDeletingId("");
+      //   });
     },
     [router]
   );

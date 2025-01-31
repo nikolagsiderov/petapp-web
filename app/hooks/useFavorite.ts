@@ -4,8 +4,9 @@ import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import { toast } from "react-hot-toast";
 import useLoginModal from "./useLoginModal";
-import { get, post, remove } from "pawpal-fe-favorites-server-actions";
-import { User } from "next-auth";
+import { get, post, remove } from "pawpal-fe-common/favorites";
+import { User } from "pawpal-fe-types";
+import clientSideWebTokenGetter from "../context/clientSideWebTokenGetter";
 
 interface IUseFavorite {
   listingId: string;
@@ -27,7 +28,8 @@ const useFavorite = ({ listingId, currentUser }: IUseFavorite) => {
       try {
         let response;
 
-        const favorites = await get(currentUser.jwt);
+        const favoritesResponse = await get(clientSideWebTokenGetter());
+        const favorites = favoritesResponse?.success ? favoritesResponse : null;
 
         if (favorites?.collection.length > 0) {
           if (
@@ -35,15 +37,15 @@ const useFavorite = ({ listingId, currentUser }: IUseFavorite) => {
               (fav: any) => fav.targetItemId === listingId
             )
           ) {
-            response = await remove(currentUser.jwt, listingId);
+            response = await remove(clientSideWebTokenGetter(), listingId);
           } else {
-            response = await post(currentUser.jwt, listingId);
+            response = await post(clientSideWebTokenGetter(), listingId);
           }
         }
 
         router.refresh();
 
-        if (response.success) {
+        if (response?.success) {
           toast.success(response.data.message);
         } else {
           toast.error(response.data.message);

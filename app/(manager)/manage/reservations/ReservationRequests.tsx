@@ -4,16 +4,13 @@ import { Reservation } from "pawpal-fe-types";
 import Heading from "@/app/components/Heading";
 import ManageContainer from "@/app/components/ManageContainer";
 import ReservationsTable from "@/app/components/manage/ReservationsTable";
-import { reservationStatuses } from "pawpal-fe-common";
-import { User } from "next-auth";
+import { reservationStatuses } from "pawpal-fe-common/constants";
 
 interface ReservationRequestsClientProps {
-  currentUser: User | null | undefined;
   reservationRequests: Reservation[];
 }
 
 const ReservationRequests: React.FC<ReservationRequestsClientProps> = ({
-  currentUser,
   reservationRequests,
 }) => {
   const awaitingApproval = reservationRequests.filter(
@@ -31,7 +28,7 @@ const ReservationRequests: React.FC<ReservationRequestsClientProps> = ({
           Брой на заявките чакащи одобрение: {awaitingApproval.length}
         </div>
       </div>
-      <ReservationsTable currentUser={currentUser} reservationRequests={reservationRequests} />
+      <ReservationsTable reservationRequests={reservationRequests} />
     </ManageContainer>
   );
 };

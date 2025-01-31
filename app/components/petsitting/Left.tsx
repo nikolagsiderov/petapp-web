@@ -3,7 +3,7 @@
 import { Listing } from "pawpal-fe-types";
 import { GoogleMap, MarkerF, useJsApiLoader } from "@react-google-maps/api";
 import { useRouter } from "next/navigation";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 
 interface LeftProps {
   listings?: any;

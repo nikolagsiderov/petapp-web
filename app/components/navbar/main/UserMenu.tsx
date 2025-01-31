@@ -6,8 +6,7 @@ import { useCallback, useState, useRef } from "react";
 import MenuItem from "./MenuItem";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useLoginModal from "@/app/hooks/useLoginModal";
-import { signOut } from "next-auth/react";
-import { User } from "next-auth";
+import { User } from "pawpal-fe-types";
 import useBecomeSitterModal from "@/app/hooks/useBecomeSitterModal";
 import { useRouter } from "next/navigation";
 import useOnClickOutsideComponent from "@/app/hooks/useOnClickOutsideComponent";
@@ -41,6 +40,11 @@ const UserMenu: React.FC<UserMenuProps> = ({
   const loginModal = useLoginModal();
   const becomeSitterModal = useBecomeSitterModal();
   const [isOpen, setIsOpen] = useState(false);
+
+  const signOut = () => {
+    document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    window.location.reload();
+  };
 
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
@@ -138,7 +142,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
                 />
                 <hr />
                 <MenuItem
-                  onClick={() => signOut()}
+                  onClick={signOut}
                   Icon={FiLogOut}
                   label="Излез"
                   fontWeightClass={"font-light"}

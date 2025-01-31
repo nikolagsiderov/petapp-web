@@ -4,8 +4,8 @@ import Button from "@/app/components/Button";
 import ClientOnly from "@/app/components/ClientOnly";
 import Heading from "@/app/components/Heading";
 import Input from "@/app/components/inputs/Input";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { authenticate } from "pawpal-fe-common/users";
 import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -26,39 +26,23 @@ const LoginClient = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setLoading(true);
 
-    signIn("credentials", {
-      ...data,
-      redirect: false,
-    }).then((callback) => {
-      setLoading(false);
-
-      if (callback?.ok) {
-        toast.success("Добре дошли!");
-        if (callback?.url) {
-          const { searchParams } = new URL(callback.url);
-          const { callbackUrl } = Object.fromEntries(searchParams.entries());
-
-          if (callbackUrl) {
-            const redirectUrl = callbackUrl
-              .toString()
-              .replace(`${process.env.NEXT_PUBLIC_BASE_URL!}`, "");
-
-            router.push(redirectUrl);
-          } else {
-            router.push("/");
-          }
-        } else {
-          router.push("/");
-        }
-      }
-
-      if (callback?.error) {
-        toast.error(callback.error);
-      }
+    const response = await authenticate({
+      email: data.email,
+      password: data.password,
     });
+
+    setLoading(false);
+
+    if (response?.success && response?.jwt) {
+      sessionStorage.setItem("jwt", response?.jwt);
+      toast.success("Добре дошли!");
+      router.push("/");
+    } else {
+      toast.error("Нещо се обърка.");
+    }
   };
 
   const bodyContent = (
@@ -91,7 +75,7 @@ const LoginClient = () => {
         outline
         label="Продължи с Google"
         icon={FcGoogle}
-        onClick={() => signIn("google")}
+        onClick={() => {}}
       />
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="justify-center flex flex-row items-center gap-2">
