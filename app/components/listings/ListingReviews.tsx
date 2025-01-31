@@ -5,7 +5,7 @@ import { FaStar } from "react-icons/fa";
 import { FaStarHalfAlt } from "react-icons/fa";
 import { format } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
-import { getListingReviews } from "pawpal-fe-reviews-server-actions";
+import { getListingReviews } from "pawpal-fe-common/reviews";
 
 interface ListingReviewsProps {
   targetItemId: string;

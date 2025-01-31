@@ -12,8 +12,8 @@ import Input from "../inputs/Input";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import LocationInput from "../inputs/LocationInput";
-import { create } from "pawpal-fe-listings-server-actions";
-import { User } from "next-auth";
+import { create } from "pawpal-fe-common/listings";
+import clientSideWebTokenGetter from "@/app/context/clientSideWebTokenGetter";
 
 enum STEPS {
   CATEGORY = 0,
@@ -23,11 +23,12 @@ enum STEPS {
   PRICE = 4,
 }
 
-interface BecomeSitterModalProps {
-  currentUser: User | null | undefined;
-}
+const toFixedNumber = (num: number) => {
+  const pow = Math.pow(10, 2);
+  return Math.round(num * pow) / pow;
+};
 
-const BecomeSitterModal = ({ currentUser }: BecomeSitterModalProps) => {
+const BecomeSitterModal = () => {
   const router = useRouter();
   const becomeSitterModal = useBecomeSitterModal();
 
@@ -94,9 +95,8 @@ const BecomeSitterModal = ({ currentUser }: BecomeSitterModalProps) => {
         );
       } else {
         setIsLoading(true);
-        console.log(data.images);
         const response = await create(
-          currentUser!.jwt,
+          clientSideWebTokenGetter(),
           {
             category: data.category,
             description: data.description,
@@ -109,9 +109,8 @@ const BecomeSitterModal = ({ currentUser }: BecomeSitterModalProps) => {
           data.images
         );
 
-        if (response.success) {
+        if (response?.success) {
           toast.success("Обявата е успешно създадена!");
-          router.refresh();
           reset();
           setStep(STEPS.CATEGORY);
           becomeSitterModal.onClose();
@@ -126,12 +125,6 @@ const BecomeSitterModal = ({ currentUser }: BecomeSitterModalProps) => {
         setIsLoading(false);
       }
     }
-  };
-
-  // TODO: Move function as a helper
-  const toFixedNumber = (num: number) => {
-    const pow = Math.pow(10, 2);
-    return Math.round(num * pow) / pow;
   };
 
   const actionLabel = useMemo(() => {

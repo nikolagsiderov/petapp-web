@@ -1,24 +1,12 @@
 import EmptyState from "@/app/components/EmptyState";
 import ClientOnly from "@/app/components/ClientOnly";
-import { getPetsitterReservations } from "pawpal-fe-listings-server-actions";
+import { getPetsitterReservations } from "pawpal-fe-common/listings";
 import ReservationRequests from "./ReservationRequests";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { redirect } from "next/navigation";
-
-async function getSession() {
-  return await getServerSession(authOptions);
-}
+import webTokenGetter from "@/app/context/webTokenGetter";
 
 const ReservationsPage = async () => {
-  const session = await getSession();
-  const currentUser = session?.user;
-
-  if (session === null) {
-    redirect("/auth");
-  }
-
-  const reservations = await getPetsitterReservations(currentUser!.jwt);
+  const response = await getPetsitterReservations(webTokenGetter());
+  const reservations = response?.success ? response : null;
 
   if (
     reservations &&
@@ -28,7 +16,7 @@ const ReservationsPage = async () => {
   ) {
     return (
       <ClientOnly>
-        <ReservationRequests currentUser={currentUser} reservationRequests={reservations.collection} />
+        <ReservationRequests reservationRequests={reservations.collection} />
       </ClientOnly>
     );
   }

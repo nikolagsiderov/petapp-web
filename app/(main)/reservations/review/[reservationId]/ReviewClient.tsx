@@ -10,18 +10,14 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Input from "@/app/components/inputs/Input";
 import Button from "@/app/components/Button";
 import Rating from "@/app/components/inputs/Rating";
-import { post } from "pawpal-fe-reviews-server-actions";
-import { User } from "next-auth";
+import { post } from "pawpal-fe-common/reviews";
+import clientSideWebTokenGetter from "@/app/context/clientSideWebTokenGetter";
 
 interface ReviewClientProps {
-  currentUser: User | null | undefined;
   reservation?: Reservation | null | undefined | any;
 }
 
-const ReviewClient: React.FC<ReviewClientProps> = ({
-  currentUser,
-  reservation,
-}) => {
+const ReviewClient: React.FC<ReviewClientProps> = ({ reservation }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -57,7 +53,7 @@ const ReviewClient: React.FC<ReviewClientProps> = ({
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true);
 
-    const response = await post(currentUser!.jwt, {
+    const response = await post(clientSideWebTokenGetter(), {
       targetItemId: data.listingId,
       associatedEntityType: "Listing",
       reservationId: data.reservationId,
@@ -67,7 +63,7 @@ const ReviewClient: React.FC<ReviewClientProps> = ({
       publicComment: data.publicMessage,
     });
 
-    if (response.success) {
+    if (response?.success) {
       router.push("/reservations");
       toast.success("Вашият отзив е успешно публикуван!");
       reset();

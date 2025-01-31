@@ -10,8 +10,8 @@ import Heading from "../Heading";
 import Input from "../inputs/Input";
 import toast from "react-hot-toast";
 import Button from "../Button";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { authenticate } from "pawpal-fe-common/users";
 
 const LoginModal = () => {
   const router = useRouter();
@@ -30,25 +30,24 @@ const LoginModal = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setLoading(true);
 
-    signIn("credentials", {
-      ...data,
-      redirect: false,
-    }).then((callback) => {
-      setLoading(false);
-
-      if (callback?.ok) {
-        toast.success("Добре дошли!");
-        router.refresh();
-        loginModal.onClose();
-      }
-
-      if (callback?.error) {
-        toast.error(callback.error);
-      }
+    const response = await authenticate({
+      email: data.email,
+      password: data.password,
     });
+
+    setLoading(false);
+
+    if (response?.success && response?.jwt) {
+      console.log("Setting token from BE: " + response?.jwt);
+      document.cookie = `jwt=${response?.jwt}; Path=/; Secure; SameSite=Strict`;
+      toast.success("Добре дошли!");
+      loginModal.onClose();
+    } else {
+      toast.error("Нещо се обърка.");
+    }
   };
 
   const toggle = useCallback(() => {
@@ -86,7 +85,7 @@ const LoginModal = () => {
         outline
         label="Продължи с Google"
         icon={FcGoogle}
-        onClick={() => signIn("google")}
+        onClick={() => {}}
       />
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="justify-center flex flex-row items-center gap-2">

@@ -1,8 +1,7 @@
 "use client";
 
 import ListingCard from "@/app/components/listings/ListingCard";
-import { Listing } from "pawpal-fe-types";
-import { User } from "next-auth";
+import { Listing, User } from "pawpal-fe-types";
 
 interface RightProps {
   listings?: Array<Listing> | null;

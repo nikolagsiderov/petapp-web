@@ -1,18 +1,14 @@
 import ManageClient from "./ManageClient";
 import ClientOnly from "@/app/components/ClientOnly";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import webTokenGetter from "@/app/context/webTokenGetter";
 import { redirect } from "next/navigation";
-
-async function getSession() {
-  return await getServerSession(authOptions);
-}
+import { getCurrentUser } from "pawpal-fe-common/users";
 
 const ManagePage = async () => {
-  const session = await getSession();
-  const currentUser = session?.user;
+  const response = await getCurrentUser(webTokenGetter());
+  const currentUser = response?.success ? response : null;
 
-  if (session === null) {
+  if (!response?.success || !currentUser) {
     redirect("/auth");
   }
 

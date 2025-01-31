@@ -1,7 +1,6 @@
 "use client";
 
-import { Listing, Reservation } from "pawpal-fe-types";
-import { User } from "next-auth";
+import { Listing, Reservation, User } from "pawpal-fe-types";
 import { useRouter } from "next/navigation";
 import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { format } from "date-fns";
@@ -10,8 +9,8 @@ import HeartButton from "../HeartButton";
 import Button from "../Button";
 import { FaStar } from "react-icons/fa6";
 import { categories } from "../navbar/main/Categories";
-import { reservationStatuses } from "pawpal-fe-common";
-import { getListingReviews } from "pawpal-fe-reviews-server-actions";
+import { reservationStatuses } from "pawpal-fe-common/constants";
+import { getListingReviews } from "pawpal-fe-common/reviews";
 
 interface ListingCardProps {
   horizontal?: boolean;

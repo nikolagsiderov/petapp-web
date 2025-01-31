@@ -1,8 +1,7 @@
 "use client";
 
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { Listing } from "pawpal-fe-types";
-import { User } from "next-auth";
+import { Listing, User } from "pawpal-fe-types";
 import useFavorite from "../hooks/useFavorite";
 
 interface HeartButtonProps {

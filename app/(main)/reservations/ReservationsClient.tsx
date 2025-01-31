@@ -3,8 +3,7 @@
 // import { toast } from "react-hot-toast";
 import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Reservation } from "pawpal-fe-types";
-import { User } from "next-auth";
+import { Reservation, User } from "pawpal-fe-types";
 import Heading from "@/app/components/Heading";
 import MainContainer from "@/app/components/MainContainer";
 import ListingCard from "@/app/components/listings/ListingCard";

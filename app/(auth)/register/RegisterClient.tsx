@@ -4,13 +4,12 @@ import Button from "@/app/components/Button";
 import ClientOnly from "@/app/components/ClientOnly";
 import Heading from "@/app/components/Heading";
 import Input from "@/app/components/inputs/Input";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
-import { register as registerUser } from "pawpal-fe-users-server-actions";
+import { register as registerUser } from "pawpal-fe-common/users";
 
 const RegisterClient = () => {
   const router = useRouter();
@@ -39,24 +38,12 @@ const RegisterClient = () => {
       password: data.password,
     });
 
+    setLoading(false);
+
     if (response?.success) {
-      setLoading(false);
-
-      signIn("credentials", {
-        ...data,
-        redirect: false,
-      }).then((callback) => {
-        if (callback?.ok) {
-          toast.success("Добре дошли!");
-          router.push("/");
-        }
-
-        if (callback?.error) {
-          toast.error(callback.error);
-        }
-      });
+      toast.success("Успешно се регистрирахте.");
+      router.push("/auth");
     } else {
-      setLoading(false);
       toast.error("Регистрацията е неуспешна.");
     }
   };
@@ -107,7 +94,7 @@ const RegisterClient = () => {
         outline
         label="Продължи с Google"
         icon={FcGoogle}
-        onClick={() => signIn("google")}
+        onClick={() => {}}
       />
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="justify-center flex flex-row items-center gap-2">

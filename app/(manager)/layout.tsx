@@ -1,27 +1,23 @@
 import ClientOnly from "../components/ClientOnly";
 import Sidebar from "../components/navbar/manage/Sidebar";
-import { getPendingReservationsCount } from "pawpal-fe-listings-server-actions";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { getPendingReservationsCount } from "pawpal-fe-common/listings";
 import { redirect } from "next/navigation";
-
-async function getSession() {
-  return await getServerSession(authOptions);
-}
+import { getCurrentUser } from "pawpal-fe-common/users";
+import webTokenGetter from "../context/webTokenGetter";
 
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getSession();
-  const currentUser = session?.user;
+  const currentUserResponse = await getCurrentUser(webTokenGetter());
+  const currentUser = currentUserResponse?.success ? currentUserResponse : null;
 
-  if (session === null) {
+  if (!currentUserResponse?.success || !currentUser) {
     redirect("/auth");
   }
 
-  const response = await getPendingReservationsCount(currentUser!.jwt);
+  const response = await getPendingReservationsCount(webTokenGetter());
   const pendingReservationsCount = response?.success ? response.count : 0;
 
   return (

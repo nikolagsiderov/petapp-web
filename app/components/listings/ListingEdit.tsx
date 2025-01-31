@@ -1,10 +1,8 @@
 "use client";
 
 import { Listing, Reservation } from "pawpal-fe-types";
-import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import Button from "../Button";
-// import toast from "react-hot-toast";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { categories } from "../navbar/main/Categories";
 import CategoryInput from "../inputs/CategoryInput";
@@ -18,8 +16,6 @@ interface ListingEditProps {
 
 const ListingEdit: React.FC<ListingEditProps> = ({ listing, reservation }) => {
   const [isLoading, setIsLoading] = useState(false);
-
-  const router = useRouter();
 
   const {
     register,
@@ -94,7 +90,7 @@ const ListingEdit: React.FC<ListingEditProps> = ({ listing, reservation }) => {
       //   })
       //   .finally(() => {});
     }
-  }, [router, listing]);
+  }, [listing]);
 
   return (
     <>

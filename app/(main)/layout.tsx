@@ -4,24 +4,20 @@ import RegisterModal from "../components/modals/RegisterModal";
 import BottomNav from "../components/navbar/main/BottomNav";
 import Navbar from "../components/navbar/main/Navbar";
 import Footer from "../components/footer/Footer";
-import { getCurrentUserListings } from "pawpal-fe-listings-server-actions";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
-
-async function getSession() {
-  return await getServerSession(authOptions);
-}
+import { getCurrentUserListings } from "pawpal-fe-common/listings";
+import { getCurrentUser } from "pawpal-fe-common/users";
+import webTokenGetter from "../context/webTokenGetter";
+import { User } from "pawpal-fe-types";
 
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getSession();
-  const currentUser = session?.user;
-
+  const response = await getCurrentUser(webTokenGetter());
+  const currentUser: User | null = response?.success ? response : null;
   const currentUserListings: any = currentUser
-    ? await getCurrentUserListings(currentUser?.jwt)
+    ? await getCurrentUserListings(webTokenGetter())
     : null;
   const userHasAlreadyListed = currentUserListings
     ? currentUserListings.success
@@ -33,10 +29,7 @@ export default async function RootLayout({
     <ClientOnly>
       <LoginModal />
       <RegisterModal />
-      <Navbar
-        currentUser={currentUser}
-        hasUserAlreadyListed={userHasAlreadyListed}
-      />
+      <Navbar currentUser={currentUser} hasUserAlreadyListed={userHasAlreadyListed} />
       <div>{children}</div>
       <Footer />
       <BottomNav />
