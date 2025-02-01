@@ -45,6 +45,7 @@ const LoginModal = () => {
       document.cookie = `jwt=${response?.jwt}; Path=/; Secure; SameSite=Strict`;
       toast.success("Добре дошли!");
       loginModal.onClose();
+      router.refresh();
     } else {
       toast.error("Нещо се обърка.");
     }
