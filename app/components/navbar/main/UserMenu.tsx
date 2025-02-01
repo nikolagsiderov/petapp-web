@@ -14,6 +14,7 @@ import ReactCountryFlag from "react-country-flag";
 import { useAppDispatch, useAppSelector } from "@/app/context/state/hooks";
 import { set as setBGLocalization } from "@/app/context/state/features/bgLocalizationReducer";
 import { FiTag, FiUser, FiGrid, FiLogOut } from "react-icons/fi";
+import useAuth from "@/app/hooks/useAuth";
 
 interface UserMenuProps {
   currentUser?: User | null;
@@ -26,6 +27,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
   hasUserAlreadyListed,
   currentPathIsPetSitting,
 }) => {
+  const { signOut } = useAuth();
   const dispatch = useAppDispatch();
   const bgLocalization = useAppSelector((state) => state.bgLocalization.value);
 
@@ -40,11 +42,6 @@ const UserMenu: React.FC<UserMenuProps> = ({
   const loginModal = useLoginModal();
   const becomeSitterModal = useBecomeSitterModal();
   const [isOpen, setIsOpen] = useState(false);
-
-  const signOut = () => {
-    document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    window.location.reload();
-  };
 
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);

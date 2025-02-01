@@ -1,8 +1,18 @@
 import MainContainer from "@/app/components/MainContainer";
 import ClientOnly from "@/app/components/ClientOnly";
 import RegisterClient from "./RegisterClient";
+import { getCurrentUser } from "pawpal-fe-common/users";
+import webTokenGetter from "@/app/context/webTokenGetter";
+import { redirect } from "next/navigation";
 
-const Register = () => {
+const Register = async () => {
+  const response = await getCurrentUser(webTokenGetter());
+  const currentUser = response?.success ? response : null;
+
+  if (response?.success && currentUser) {
+    redirect("/");
+  }
+
   return (
     <ClientOnly>
       <MainContainer>
