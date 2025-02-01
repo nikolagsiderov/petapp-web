@@ -12,8 +12,12 @@ import toast from "react-hot-toast";
 import Button from "../Button";
 import { useRouter } from "next/navigation";
 import { authenticate } from "pawpal-fe-common/users";
+import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
+import useAuth from "@/app/hooks/useAuth";
 
 const LoginModal = () => {
+  const { setJwt } = useAuth();
+  const { handleError } = useGlobalErrorHandler();
   const router = useRouter();
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
@@ -41,13 +45,12 @@ const LoginModal = () => {
     setLoading(false);
 
     if (response?.success && response?.jwt) {
-      console.log("Setting token from BE: " + response?.jwt);
-      document.cookie = `jwt=${response?.jwt}; Path=/; Secure; SameSite=Strict`;
+      setJwt(response?.jwt);
       toast.success("Добре дошли!");
       loginModal.onClose();
       router.refresh();
     } else {
-      toast.error("Нещо се обърка.");
+      handleError(response);
     }
   };
 

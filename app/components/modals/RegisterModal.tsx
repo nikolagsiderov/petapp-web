@@ -12,8 +12,10 @@ import Button from "../Button";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import { useRouter } from "next/navigation";
 import { register as registerUser } from "pawpal-fe-common/users";
+import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
 
 const RegisterModal = () => {
+  const { handleError } = useGlobalErrorHandler();
   const router = useRouter();
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
@@ -49,7 +51,7 @@ const RegisterModal = () => {
       registerModal.onClose();
       router.push("/auth");
     } else {
-      toast.error("Регистрацията е неуспешна.");
+      handleError(response);
     }
   };
 

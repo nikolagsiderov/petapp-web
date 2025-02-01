@@ -4,6 +4,8 @@ import Button from "@/app/components/Button";
 import ClientOnly from "@/app/components/ClientOnly";
 import Heading from "@/app/components/Heading";
 import Input from "@/app/components/inputs/Input";
+import useAuth from "@/app/hooks/useAuth";
+import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
 import { useRouter } from "next/navigation";
 import { authenticate } from "pawpal-fe-common/users";
 import { useState } from "react";
@@ -12,6 +14,8 @@ import toast from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
 
 const LoginClient = () => {
+  const { setJwt } = useAuth();
+  const { handleError } = useGlobalErrorHandler();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -37,11 +41,11 @@ const LoginClient = () => {
     setLoading(false);
 
     if (response?.success && response?.jwt) {
-      sessionStorage.setItem("jwt", response?.jwt);
-      toast.success("Добре дошли!");
+      setJwt(response?.jwt);
       router.push("/");
+      toast.success("Добре дошли!");
     } else {
-      toast.error("Нещо се обърка.");
+      handleError(response);
     }
   };
 
