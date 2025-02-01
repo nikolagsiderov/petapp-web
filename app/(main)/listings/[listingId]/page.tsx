@@ -1,5 +1,5 @@
 import EmptyState from "@/app/components/EmptyState";
-import ListingClient from "./ListingClient";
+import ListingClient from "@/app/components/pages/main/listings/ListingClient";
 import ClientOnly from "@/app/components/ClientOnly";
 import BecomeSitterModal from "@/app/components/modals/BecomeSitterModal";
 import { getById } from "pawpal-fe-common/listings";

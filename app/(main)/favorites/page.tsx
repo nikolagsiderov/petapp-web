@@ -1,5 +1,5 @@
 import EmptyState from "@/app/components/EmptyState";
-import FavoritesClient from "./FavoritesClient";
+import FavoritesClient from "@/app/components/pages/main/favorites/FavoritesClient";
 import ClientOnly from "@/app/components/ClientOnly";
 import { get } from "pawpal-fe-common/favorites";
 import { getById } from "pawpal-fe-common/listings";

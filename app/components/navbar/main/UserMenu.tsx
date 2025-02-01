@@ -126,9 +126,9 @@ const UserMenu: React.FC<UserMenuProps> = ({
                 />
                 <hr />
                 <MenuItem
-                  onClick={() => router.push("/manage")}
+                  onClick={() => router.push("/my-services")}
                   Icon={FiGrid}
-                  label="Управление"
+                  label="Моите услуги"
                   fontWeightClass={"font-md"}
                 />
                 <MenuItem

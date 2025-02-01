@@ -2,7 +2,7 @@ import EmptyState from "@/app/components/EmptyState";
 import ClientOnly from "@/app/components/ClientOnly";
 import FilterPetSittersModal from "../../components/modals/FilterPetSittersModal";
 import BecomeSitterModal from "../../components/modals/BecomeSitterModal";
-import PetSittingClient from "./PetSittingClient";
+import PetSittingClient from "@/app/components/pages/main/petsitting/PetSittingClient";
 import { get } from "pawpal-fe-common/listings";
 import { getCurrentUser } from "pawpal-fe-common/users";
 import { Dayjs } from "dayjs";

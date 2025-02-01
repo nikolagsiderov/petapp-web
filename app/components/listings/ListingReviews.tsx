@@ -140,13 +140,16 @@ const ListingReviews: React.FC<ListingReviewsProps> = ({ targetItemId }) => {
         text-lg font-light text-neutral-800"
                   >
                     <div className="grid grid-cols-12 mb-2">
-                      <div className="col-span-9 flex flex-row gap-4 text-lg font-semibold items-center justify-start">
-                        <Avatar
-                          width={50}
-                          height={50}
-                          // src={review.user.image} // TODO: GET user image once images microservice is implemented...
-                        />
-                        {review.reviewer.firstName} {review.reviewer.lastName}
+                      <div className="col-span-9 flex flex-col gap-4 justify-start">
+                        <div className="flex flex-row gap-4 text-lg font-semibold items-center justify-start">
+                          <Avatar
+                            width={50}
+                            height={50}
+                            // src={review.user.image} // TODO: GET user image once images microservice is implemented...
+                          />
+                          {review.reviewer.firstName} {review.reviewer.lastName}
+                        </div>
+                        <div className="text-sm font-normal">{review.publicComment}</div>
                       </div>
                       <div className="col-span-3 flex flex-col gap-1 text-lg items-end">
                         <div className="flex flex-row gap-1 text-lg font-semibold items-center">
@@ -158,7 +161,7 @@ const ListingReviews: React.FC<ListingReviewsProps> = ({ targetItemId }) => {
                             /5
                           </span>
                         </div>
-                        <div className="text-xs font-normal items-center">
+                        <div className="text-xs font-light items-center">
                           {getCreatedAtDateFormatted(review)}
                         </div>
                       </div>

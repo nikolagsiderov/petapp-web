@@ -1,11 +1,11 @@
 import MainContainer from "@/app/components/MainContainer";
 import ClientOnly from "@/app/components/ClientOnly";
-import LoginClient from "./LoginClient";
+import LoginClient from "@/app/components/pages/auth/LoginClient";
 import { getCurrentUser } from "pawpal-fe-common/users";
 import webTokenGetter from "@/app/context/webTokenGetter";
 import { redirect } from "next/navigation";
 
-const Login = async () => {
+const LoginPage = async () => {
   const response = await getCurrentUser(webTokenGetter());
   const currentUser = response?.success ? response : null;
 
@@ -24,4 +24,4 @@ const Login = async () => {
   );
 };
 
-export default Login;
+export default LoginPage;
