@@ -1,5 +1,5 @@
 import EmptyState from "@/app/components/EmptyState";
-import ReservationsClient from "./ReservationsClient";
+import ReservationsClient from "@/app/components/pages/main/reservations/ReservationsClient";
 import ClientOnly from "@/app/components/ClientOnly";
 import { getReservations } from "pawpal-fe-common/listings";
 import { redirect } from "next/navigation";

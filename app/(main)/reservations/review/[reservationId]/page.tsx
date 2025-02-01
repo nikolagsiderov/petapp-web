@@ -1,5 +1,5 @@
 import EmptyState from "@/app/components/EmptyState";
-import ReviewClient from "./ReviewClient";
+import ReviewClient from "@/app/components/pages/main/reservations/review/ReviewClient";
 import ClientOnly from "@/app/components/ClientOnly";
 import { getReservationById } from "pawpal-fe-common/listings";
 import webTokenGetter from "@/app/context/webTokenGetter";

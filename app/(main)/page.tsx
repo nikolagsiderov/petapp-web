@@ -1,6 +1,6 @@
 import MainContainer from "@/app/components/MainContainer";
 import ClientOnly from "@/app/components/ClientOnly";
-import HomePageClient from "../HomePageClient";
+import HomePageClient from "@/app/components/pages/main/index/HomePageClient";
 
 const Home = () => {
   return (

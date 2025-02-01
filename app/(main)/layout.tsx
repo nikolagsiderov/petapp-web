@@ -3,7 +3,7 @@ import LoginModal from "../components/modals/LoginModal";
 import RegisterModal from "../components/modals/RegisterModal";
 import BottomNav from "../components/navbar/main/BottomNav";
 import Navbar from "../components/navbar/main/Navbar";
-import Footer from "../components/footer/Footer";
+import Footer from "../components/Footer";
 import { getCurrentUserListings } from "pawpal-fe-common/listings";
 import { getCurrentUser } from "pawpal-fe-common/users";
 import webTokenGetter from "../context/webTokenGetter";
