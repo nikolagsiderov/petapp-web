@@ -13,4 +13,5 @@
 ## Changed
 
 - IMPORTANT: Be sure to keep track and in-sync both package.json file version property and environment variable NEXT_PUBLIC_VERSION.
+- IMPORTANT: For consistency, follow Semantic Versioning: MAJOR.MINOR.PATCH
 - Write down description of what has been changed/modified.
