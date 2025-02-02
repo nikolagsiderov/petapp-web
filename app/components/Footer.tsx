@@ -20,7 +20,10 @@ const Footer = () => {
       <div className="py-1 border-t-[1px]">
         <MainContainer>
           <div className="flex flex-row overflow-hidden justify-between items-center gap-2 md:text-xs">
-            <div>© {new Date().getFullYear()} PawPal v1.0.0-alpha</div>
+            <div>
+              © {new Date().getFullYear()} PawPal v
+              {process.env.NEXT_PUBLIC_VERSION}
+            </div>
             <div className="font-black">·</div>
             <div className="hover:underline cursor-pointer">
               {t("TermsOfUse")}
