@@ -1,4 +1,4 @@
-# [1.0.0] - 2025-FEB-02
+# [0.0.0] - 2025-FEB-02
 
 ## Added
 
@@ -15,3 +15,9 @@
 - IMPORTANT: Be sure to keep track and in-sync both package.json file version property and environment variable NEXT_PUBLIC_VERSION.
 - IMPORTANT: For consistency, follow Semantic Versioning: MAJOR.MINOR.PATCH
 - Write down description of what has been changed/modified.
+
+# [0.1.0] - 2025-FEB-07
+
+## Added
+
+- Added GitHub Action to sync CHANGELOG to Confluence

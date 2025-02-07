@@ -1,0 +1,80 @@
+name: Sync CHANGELOG to Confluence
+on:
+  push:
+    branches:
+      - develop
+    paths:
+      - "CHANGELOG.md" # Trigger only when CHANGELOG.md changes
+
+jobs:
+  sync_changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install Node.js and markdown-it-confluence
+        run: |
+          sudo apt-get install -y nodejs npm
+          npm install markdown-it markdown-it-confluence  # Install markdown-it and the confluence plugin
+
+      - name: Read CHANGELOG.md and Convert to Confluence Storage Format
+        run: |
+          CONTENT=$(cat CHANGELOG.md)  # Read the content of CHANGELOG.md
+          # Convert Markdown to Confluence Storage Format using markdown-it-confluence
+          echo "$CONTENT" > changelog.md
+          node -e "const fs = require('fs'); const MarkdownIt = require('markdown-it'); const confluence = require('markdown-it-confluence'); const md = new MarkdownIt(); md.use(confluence); const result = md.render(fs.readFileSync('changelog.md', 'utf-8')); fs.writeFileSync('changelog_confluence.html', result);"
+          # Log the HTML content for debugging
+          cat changelog_confluence.html
+          # Directly write the content to a file for the next step
+          echo "Writing content to file..."
+          mv changelog_confluence.html changelog_content.html  # Move to a more readable filename
+
+      - name: Get Current Version from Confluence
+        run: |
+          # Fetch the current version of the page
+          RESPONSE=$(curl -s -u "${{ secrets.CONFLUENCE_USER }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
+            "https://cholakovge.atlassian.net/wiki/rest/api/content/${{ secrets.CONFLUENCE_PAGE_ID }}")
+          # Extract the version number from the response using jq
+          CURRENT_VERSION=$(echo "$RESPONSE" | jq '.version.number')
+          echo "Current version: $CURRENT_VERSION"
+          # Increment the version number by 1
+          NEXT_VERSION=$((CURRENT_VERSION + 1))
+          echo "Next version: $NEXT_VERSION"
+          echo "NEXT_VERSION=$NEXT_VERSION" >> $GITHUB_ENV
+
+      - name: Create JSON Payload
+        run: |
+          # Read the HTML content from the file and create the payload
+          CONFLUENCE_HTML_CONTENT=$(cat changelog_content.html)
+          echo "CONFLUENCE_HTML_CONTENT from file: $CONFLUENCE_HTML_CONTENT"  # Debugging line
+
+          cat > payload.json <<EOF
+          {
+            "id": "${{ secrets.CONFLUENCE_PAGE_ID }}",
+            "type": "page",
+            "title": "CHANGELOG-FE-WEB",
+            "space": {
+              "key": "${{ secrets.CONFLUENCE_SPACE_KEY }}"
+            },
+            "body": {
+              "storage": {
+                "value": "$CONFLUENCE_HTML_CONTENT",
+                "representation": "storage"
+              }
+            },
+            "version": {
+              "number": ${{ env.NEXT_VERSION }}
+            }
+          }
+          EOF
+          # Log payload for debugging
+          cat payload.json
+
+      - name: Update Confluence Page
+        run: |
+          curl -X PUT \
+            -u "${{ secrets.CONFLUENCE_USER }}:${{ secrets.CONFLUENCE_API_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            --data @payload.json \
+            "https://cholakovge.atlassian.net/wiki/rest/api/content/${{ secrets.CONFLUENCE_PAGE_ID }}"
