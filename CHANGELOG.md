@@ -3,7 +3,7 @@
 ## Added
 
 - Application versioning and change log.
-- v1.0.0 in CHANGELOG.md will serve as an example of how to write downs any Added/Fixed/Changes features/bugs/files/etc.
+- v0.0.0 in CHANGELOG.md will serve as an example of how to write downs any Added/Fixed/Changes features/bugs/files/etc.
 - Write down description of what has been added.
 
 ## Fixed
