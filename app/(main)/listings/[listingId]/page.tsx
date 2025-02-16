@@ -2,22 +2,17 @@ import EmptyState from "@/app/components/EmptyState";
 import ListingClient from "@/app/components/pages/main/listings/ListingClient";
 import ClientOnly from "@/app/components/ClientOnly";
 import BecomeSitterModal from "@/app/components/modals/BecomeSitterModal";
-import { getById } from "pawpal-fe-common/listings";
-import { getCurrentUser } from "pawpal-fe-common/users";
-import webTokenGetter from "@/app/context/webTokenGetter";
-import { User } from "pawpal-fe-types";
+import useListingById from "@/app/context/TRQs/listings/useListingById";
 
 interface IParams {
   listingId: string;
 }
 
 const ListingPage = async ({ params }: { params: IParams }) => {
-  const response = await getCurrentUser(webTokenGetter());
-  const currentUser: User | null = response?.success ? response : null;
-  const listing = await getById(params.listingId);
-  // const reviews = await getReviews(params); // TODO: Implement reviews microservice in BE
+  const { data: listing } = useListingById(params.listingId);
+  // const reviews = await getReviews(params); // TODO: GET reviews and utilize
 
-  if (!listing || !listing.success) {
+  if (!listing) {
     return (
       <ClientOnly>
         <EmptyState />
@@ -28,7 +23,7 @@ const ListingPage = async ({ params }: { params: IParams }) => {
   return (
     <ClientOnly>
       <BecomeSitterModal />
-      <ListingClient currentUser={currentUser} listing={listing} />
+      <ListingClient listing={listing} />
     </ClientOnly>
   );
 };

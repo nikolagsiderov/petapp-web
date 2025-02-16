@@ -11,15 +11,14 @@ import toast from "react-hot-toast";
 import Button from "../Button";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import { useRouter } from "next/navigation";
-import { register as registerUser } from "pawpal-fe-common/users";
-import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
+import useRegister from "@/app/context/TRQs/users/mutations/useRegister";
 
 const RegisterModal = () => {
-  const { handleError } = useGlobalErrorHandler();
   const router = useRouter();
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
   const [loading, setLoading] = useState(false);
+  const { mutate: registerUser } = useRegister();
 
   const {
     register,
@@ -37,7 +36,7 @@ const RegisterModal = () => {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setLoading(true);
 
-    const response = await registerUser({
+    await registerUser({
       firstName: data.firstName,
       lastName: data.lastName,
       email: data.email,
@@ -45,14 +44,9 @@ const RegisterModal = () => {
     });
 
     setLoading(false);
-
-    if (response?.success) {
-      toast.success("Успешно се регистрирахте.");
-      registerModal.onClose();
-      router.push("/auth");
-    } else {
-      handleError(response);
-    }
+    toast.success("Успешно се регистрирахте.");
+    registerModal.onClose();
+    router.push("/auth");
   };
 
   const toggle = useCallback(() => {

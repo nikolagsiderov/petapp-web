@@ -1,16 +1,9 @@
 import MyServicesClient from "@/app/components/pages/my-services/MyServicesClient";
 import ClientOnly from "@/app/components/ClientOnly";
-import webTokenGetter from "@/app/context/webTokenGetter";
-import { redirect } from "next/navigation";
-import { getCurrentUser } from "pawpal-fe-common/users";
+import useCurrentUser from "@/app/context/TRQs/users/useCurrentUser";
 
 const MyServicesPage = async () => {
-  const response = await getCurrentUser(webTokenGetter());
-  const currentUser = response?.success ? response : null;
-
-  if (!response?.success || !currentUser) {
-    redirect("/auth");
-  }
+  const { data: currentUser } = useCurrentUser();
 
   return (
     <ClientOnly>

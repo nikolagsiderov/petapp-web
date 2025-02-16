@@ -6,10 +6,10 @@ import Logo from "../Logo";
 import NavigationMenu from "./NavigationMenu";
 import PetSittingFilter from "./petsitting/PetSittingFilter";
 import UserMenu from "./UserMenu";
-import { User } from "pawpal-fe-types";
 import { usePathname } from "next/navigation";
 import FindFilter from "./find/FindFilter";
 import FindMiniBar from "./find/FindMiniBar";
+import { User } from "pawpal-fe-common/users";
 
 interface NavbarProps {
   currentUser?: User | null;

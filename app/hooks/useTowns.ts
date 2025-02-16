@@ -1,4 +1,4 @@
-import { towns } from "pawpal-fe-common";
+import { towns } from "pawpal-fe-common/constants";
 
 const useTowns = () => {
   const getAll = () =>

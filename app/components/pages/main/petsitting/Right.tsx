@@ -1,14 +1,13 @@
 "use client";
 
 import ListingCard from "@/app/components/listings/ListingCard";
-import { Listing, User } from "pawpal-fe-types";
+import { Listing } from "pawpal-fe-common/listings";
 
 interface RightProps {
   listings?: Array<Listing> | null;
-  currentUser?: User | null | undefined;
 }
 
-const Right: React.FC<RightProps> = ({ listings, currentUser }) => {
+const Right: React.FC<RightProps> = ({ listings }) => {
   return (
     <div className="pb-20">
       <div className="hidden lg:block lg:col-span-1 lg:relative lg:mb-16">
@@ -16,7 +15,6 @@ const Right: React.FC<RightProps> = ({ listings, currentUser }) => {
           {listings?.map((listing: any) => (
             <ListingCard
               horizontal
-              currentUser={currentUser}
               key={listing.id}
               data={listing}
               listingUserName={`${listing.user.firstName} ${listing.user.lastName}`}
@@ -28,7 +26,6 @@ const Right: React.FC<RightProps> = ({ listings, currentUser }) => {
         <div className="flex flex-col gap-8">
           {listings?.map((listing: any) => (
             <ListingCard
-              currentUser={currentUser}
               key={listing.id}
               data={listing}
               listingUserName={`${listing.user.firstName} ${listing.user.lastName}`}

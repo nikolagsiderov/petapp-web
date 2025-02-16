@@ -3,10 +3,8 @@ import ClientOnly from "@/app/components/ClientOnly";
 import FilterPetSittersModal from "../../components/modals/FilterPetSittersModal";
 import BecomeSitterModal from "../../components/modals/BecomeSitterModal";
 import PetSittingClient from "@/app/components/pages/main/petsitting/PetSittingClient";
-import { get } from "pawpal-fe-common/listings";
-import { getCurrentUser } from "pawpal-fe-common/users";
 import { Dayjs } from "dayjs";
-import webTokenGetter from "@/app/context/webTokenGetter";
+import useListings from "@/app/context/TRQs/listings/useListings";
 
 export const dynamic = "force-dynamic";
 
@@ -22,12 +20,9 @@ interface PetSittingProps {
 }
 
 const PetSittingPage = async ({ searchParams }: PetSittingProps) => {
-  const currentUserResponse = await getCurrentUser(webTokenGetter());
-  const currentUser = currentUserResponse?.success ? currentUserResponse : null;
-  const response = await get(searchParams);
-  const listings = response.success ? response.collection : [];
+  const { data: listings } = useListings(searchParams);
 
-  if (listings.length === 0) {
+  if (!listings || listings.length === 0) {
     return (
       <ClientOnly>
         <FilterPetSittersModal />
@@ -43,7 +38,7 @@ const PetSittingPage = async ({ searchParams }: PetSittingProps) => {
     <ClientOnly>
       <FilterPetSittersModal />
       <BecomeSitterModal />
-      <PetSittingClient listings={listings} currentUser={currentUser} />
+      <PetSittingClient listings={listings} />
     </ClientOnly>
   );
 };

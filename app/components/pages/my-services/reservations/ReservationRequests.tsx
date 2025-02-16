@@ -1,10 +1,10 @@
 "use client";
 
-import { Reservation } from "pawpal-fe-types";
 import Heading from "@/app/components/Heading";
 import MyServicesContainer from "@/app/components/MyServicesContainer";
 import ReservationsTable from "@/app/components/pages/my-services/reservations/ReservationsTable";
 import { reservationStatuses } from "pawpal-fe-common/constants";
+import { Reservation } from "pawpal-fe-common/listings";
 
 interface ReservationRequestsClientProps {
   reservationRequests: Reservation[];

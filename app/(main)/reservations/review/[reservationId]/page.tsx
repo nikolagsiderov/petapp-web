@@ -1,29 +1,21 @@
 import EmptyState from "@/app/components/EmptyState";
 import ReviewClient from "@/app/components/pages/main/reservations/review/ReviewClient";
 import ClientOnly from "@/app/components/ClientOnly";
-import { getReservationById } from "pawpal-fe-common/listings";
-import webTokenGetter from "@/app/context/webTokenGetter";
+import useReservationById from "@/app/context/TRQs/listings/useReservationById";
 
 interface IParams {
-  reservationId?: string;
+  reservationId: string;
 }
 
 const ReviewPage = async ({ params }: { params: IParams }) => {
-  if (params.reservationId) {
-    const response = await getReservationById(
-      webTokenGetter(),
-      params.reservationId!
+  const { data: reservation } = useReservationById(params.reservationId);
+
+  if (reservation?.id) {
+    return (
+      <ClientOnly>
+        <ReviewClient reservation={reservation} />
+      </ClientOnly>
     );
-
-    const reservation = response?.success ? response : null;
-
-    if (reservation?.id) {
-      return (
-        <ClientOnly>
-          <ReviewClient reservation={reservation} />
-        </ClientOnly>
-      );
-    }
   }
 
   return (

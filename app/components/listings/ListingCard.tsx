@@ -1,8 +1,7 @@
 "use client";
 
-import { Listing, Reservation, User } from "pawpal-fe-types";
 import { useRouter } from "next/navigation";
-import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import { ReactNode, useCallback, useMemo } from "react";
 import { format } from "date-fns";
 import Image from "next/image";
 import HeartButton from "../HeartButton";
@@ -10,7 +9,8 @@ import Button from "../Button";
 import { FaStar } from "react-icons/fa6";
 import { categories } from "../navbar/main/Categories";
 import { reservationStatuses } from "pawpal-fe-common/constants";
-import { getListingReviews } from "pawpal-fe-common/reviews";
+import useListingReviews from "@/app/context/TRQs/reviews/useListingReviews";
+import { Listing, Reservation } from "pawpal-fe-common/listings";
 
 interface ListingCardProps {
   horizontal?: boolean;
@@ -20,7 +20,6 @@ interface ListingCardProps {
   disabled?: boolean;
   actionLabel?: ReactNode;
   actionId?: string;
-  currentUser?: User | null;
   listingUserName: string;
 }
 
@@ -32,20 +31,10 @@ const ListingCard: React.FC<ListingCardProps> = ({
   disabled,
   actionLabel,
   actionId = "",
-  currentUser,
   listingUserName,
 }) => {
   const router = useRouter();
-  const [reviewsData, setReviewsData] = useState<any>(null);
-
-  useEffect(() => {
-    const fetchReviewsDataAsync = async () => {
-      const reviewsData = await getListingReviews(data.id);
-      setReviewsData(reviewsData);
-    };
-
-    fetchReviewsDataAsync();
-  }, []);
+  const { data: reviewsData } = useListingReviews(data.id);
 
   const handleAction = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -99,8 +88,8 @@ const ListingCard: React.FC<ListingCardProps> = ({
           <Image
             alt="Listing"
             src={
-              data.imageSrc
-                ? data.imageSrc
+              data.imageRelativePaths
+                ? `https://pawpaldevassets.blob.core.windows.net/${data.imageRelativePaths[0]}`
                 : "/images/listing-default-image.png"
             }
             className="object-cover h-full w-full group-hover:scale-110 transition"
@@ -123,7 +112,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
           </div>
           {!reservation && (
             <div className="absolute top-3 right-3">
-              <HeartButton listing={data} currentUser={currentUser} />
+              <HeartButton listing={data} />
             </div>
           )}
         </div>
@@ -155,7 +144,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
               )}
             </div>
           </div>
-          {reviewsData?.success && reviewsData?.totalScore && (
+          {reviewsData && reviewsData?.totalScore && (
             <div
               className={
                 !horizontal

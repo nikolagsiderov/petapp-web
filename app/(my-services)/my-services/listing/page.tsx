@@ -1,51 +1,25 @@
 import EmptyState from "@/app/components/EmptyState";
 import ListingClient from "@/app/components/pages/my-services/listing/ListingClient";
 import ClientOnly from "@/app/components/ClientOnly";
-import { get } from "pawpal-fe-common/listings";
-import { redirect } from "next/navigation";
-import { getCurrentUser } from "pawpal-fe-common/users";
-import webTokenGetter from "@/app/context/webTokenGetter";
+import useCurrentUserListings from "@/app/context/TRQs/listings/useCurrentUserListings";
 
 const MyListingsPage = async () => {
-  const response = await getCurrentUser(webTokenGetter());
-  const currentUser = response?.success ? response : null;
+  const { data: listings } = useCurrentUserListings();
 
-  if (!response?.success || !currentUser) {
-    redirect("/auth");
-  }
-
-  if (currentUser) {
-    const response = await get({ userId: currentUser.id });
-    const listing = response.success
-      ? response.collection
-        ? response.collection[0]
-        : null
-      : null;
-
-    if (!listing) {
-      return (
-        <ClientOnly>
-          <EmptyState
-            title="Нямате обявя"
-            subtitle="Все още не е имплементирана възможността да си създадеш от тук."
-          />
-        </ClientOnly>
-      );
-    }
-
+  if (!listings || listings.length === 0) {
     return (
       <ClientOnly>
-        <ListingClient listing={listing} />
+        <EmptyState
+          title="Нямате обявя"
+          subtitle="Все още не е имплементирана възможността да си създадеш от тук."
+        />
       </ClientOnly>
     );
   }
 
   return (
     <ClientOnly>
-      <EmptyState
-        title="Нямате достъп"
-        subtitle="Няма достъп до тази страница."
-      />
+      <ListingClient listing={listings[0]} />
     </ClientOnly>
   );
 };

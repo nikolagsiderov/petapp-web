@@ -9,11 +9,12 @@ import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
-import { register as registerUser } from "pawpal-fe-common/users";
+import useRegister from "@/app/context/TRQs/users/mutations/useRegister";
 
 const RegisterClient = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const { mutate: registerUser } = useRegister();
 
   const {
     register,
@@ -31,7 +32,7 @@ const RegisterClient = () => {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setLoading(true);
 
-    const response = await registerUser({
+    await registerUser({
       firstName: data.firstName,
       lastName: data.lastName,
       email: data.email,
@@ -39,13 +40,8 @@ const RegisterClient = () => {
     });
 
     setLoading(false);
-
-    if (response?.success) {
-      toast.success("Успешно се регистрирахте.");
-      router.push("/auth");
-    } else {
-      toast.error("Регистрацията е неуспешна.");
-    }
+    toast.success("Успешно се регистрирахте.");
+    router.push("/auth");
   };
 
   const bodyContent = (

@@ -4,24 +4,15 @@ import Avatar from "../Avatar";
 import { FaStar } from "react-icons/fa";
 import { FaStarHalfAlt } from "react-icons/fa";
 import { format } from "date-fns";
-import { useEffect, useMemo, useState } from "react";
-import { getListingReviews } from "pawpal-fe-common/reviews";
+import { useMemo } from "react";
+import useListingReviews from "@/app/context/TRQs/reviews/useListingReviews";
 
 interface ListingReviewsProps {
   targetItemId: string;
 }
 
 const ListingReviews: React.FC<ListingReviewsProps> = ({ targetItemId }) => {
-  const [reviewsData, setReviewsData] = useState<any>(null);
-
-  useEffect(() => {
-    const fetchReviewsDataAsync = async () => {
-      const reviewsData = await getListingReviews(targetItemId);
-      setReviewsData(reviewsData);
-    };
-
-    fetchReviewsDataAsync();
-  }, []);
+  const { data: reviewsData } = useListingReviews(targetItemId);
 
   const totalScoreView = useMemo(() => {
     const totalScore = reviewsData?.totalScore ?? 0;
@@ -109,7 +100,7 @@ const ListingReviews: React.FC<ListingReviewsProps> = ({ targetItemId }) => {
 
   return (
     <>
-      {reviewsData?.success && reviewsData?.reviews && (
+      {reviewsData && reviewsData?.reviews && (
         <div className="flex flex-col gap-8">
           <hr />
           {reviewsData?.reviews.length > 0 ? (
@@ -149,7 +140,9 @@ const ListingReviews: React.FC<ListingReviewsProps> = ({ targetItemId }) => {
                           />
                           {review.reviewer.firstName} {review.reviewer.lastName}
                         </div>
-                        <div className="text-sm font-normal">{review.publicComment}</div>
+                        <div className="text-sm font-normal">
+                          {review.publicComment}
+                        </div>
                       </div>
                       <div className="col-span-3 flex flex-col gap-1 text-lg items-end">
                         <div className="flex flex-row gap-1 text-lg font-semibold items-center">

@@ -2,59 +2,40 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
-import { toast } from "react-hot-toast";
 import useLoginModal from "./useLoginModal";
-import { get, post, remove } from "pawpal-fe-common/favorites";
-import { User } from "pawpal-fe-types";
-import clientSideWebTokenGetter from "../context/clientSideWebTokenGetter";
+import useAuthentication from "../context/TRQs/useAuthentication";
+import useAddListingToFavorites from "../context/TRQs/favorites/mutations/useAddListingToFavorites";
+import useRemoveListingFromFavorites from "../context/TRQs/favorites/mutations/useRemoveListingFromFavorites";
+import { Listing } from "pawpal-fe-common/listings";
 
 interface IUseFavorite {
-  listingId: string;
-  currentUser?: User | null;
+  listing: Listing;
 }
 
-const useFavorite = ({ listingId, currentUser }: IUseFavorite) => {
+const useFavorite = ({ listing }: IUseFavorite) => {
   const router = useRouter();
   const loginModal = useLoginModal();
+  const { data: isAuthenticated } = useAuthentication();
+  const { mutate: post } = useAddListingToFavorites();
+  const { mutate: remove } = useRemoveListingFromFavorites();
 
   const toggleFavorite = useCallback(
     async (e: React.MouseEvent<HTMLDivElement>) => {
       e.stopPropagation();
 
-      if (!currentUser) {
+      if (!isAuthenticated) {
         return loginModal.onOpen();
       }
 
-      try {
-        let response;
-
-        const favoritesResponse = await get(clientSideWebTokenGetter());
-        const favorites = favoritesResponse?.success ? favoritesResponse : null;
-
-        if (favorites?.collection.length > 0) {
-          if (
-            favorites?.collection.some(
-              (fav: any) => fav.targetItemId === listingId
-            )
-          ) {
-            response = await remove(clientSideWebTokenGetter(), listingId);
-          } else {
-            response = await post(clientSideWebTokenGetter(), listingId);
-          }
-        }
-
-        router.refresh();
-
-        if (response?.success) {
-          toast.success(response.data.message);
-        } else {
-          toast.error(response.data.message);
-        }
-      } catch (error) {
-        toast.error("Нещо се обърка.");
+      if (listing.isFavorite) {
+        remove(listing.id);
+      } else {
+        post(listing.id);
       }
+
+      router.refresh();
     },
-    [currentUser, listingId, loginModal, router]
+    [loginModal, router, isAuthenticated, listing, post, remove]
   );
 
   return {

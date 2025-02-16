@@ -11,17 +11,14 @@ import Input from "../inputs/Input";
 import toast from "react-hot-toast";
 import Button from "../Button";
 import { useRouter } from "next/navigation";
-import { authenticate } from "pawpal-fe-common/users";
-import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
-import useAuth from "@/app/hooks/useAuth";
+import useAuthenticate from "@/app/context/TRQs/users/mutations/useAuthenticate";
 
 const LoginModal = () => {
-  const { setJwt } = useAuth();
-  const { handleError } = useGlobalErrorHandler();
   const router = useRouter();
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
   const [loading, setLoading] = useState(false);
+  const { mutate: authenticate } = useAuthenticate();
 
   const {
     register,
@@ -37,21 +34,15 @@ const LoginModal = () => {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setLoading(true);
 
-    const response = await authenticate({
+    await authenticate({
       email: data.email,
       password: data.password,
     });
 
     setLoading(false);
-
-    if (response?.success && response?.jwt) {
-      setJwt(response?.jwt);
-      toast.success("Добре дошли!");
-      loginModal.onClose();
-      router.refresh();
-    } else {
-      handleError(response);
-    }
+    toast.success("Добре дошли!");
+    loginModal.onClose();
+    router.refresh();
   };
 
   const toggle = useCallback(() => {

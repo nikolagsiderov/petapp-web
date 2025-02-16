@@ -1,6 +1,5 @@
 "use client";
 
-import { Listing, Reservation } from "pawpal-fe-types";
 import { useCallback, useState } from "react";
 import Button from "../Button";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -8,6 +7,7 @@ import { categories } from "../navbar/main/Categories";
 import CategoryInput from "../inputs/CategoryInput";
 import Input from "../inputs/Input";
 import LocationInput from "../inputs/LocationInput";
+import { Listing, Reservation } from "pawpal-fe-common/listings";
 
 interface ListingEditProps {
   listing: Listing;
@@ -32,7 +32,7 @@ const ListingEdit: React.FC<ListingEditProps> = ({ listing, reservation }) => {
         lat: listing.latitude,
         lng: listing.longitude,
       },
-      imageSrc: listing.imageSrc,
+      imageSrc: `https://pawpaldevassets.blob.core.windows.net/${listing.imageRelativePaths[0]}`,
       price: listing.price,
       description: listing.description,
     },

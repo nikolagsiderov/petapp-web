@@ -1,17 +1,15 @@
 "use client";
 
-import { toast } from "react-hot-toast";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Reservation } from "pawpal-fe-types";
 import Heading from "@/app/components/Heading";
 import MainContainer from "@/app/components/MainContainer";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Input from "@/app/components/inputs/Input";
 import Button from "@/app/components/Button";
 import Rating from "@/app/components/inputs/Rating";
-import { post } from "pawpal-fe-common/reviews";
-import clientSideWebTokenGetter from "@/app/context/clientSideWebTokenGetter";
+import useCreateReview from "@/app/context/TRQs/reviews/mutations/useCreateReview";
+import { Reservation } from "pawpal-fe-common/listings";
 
 interface ReviewClientProps {
   reservation?: Reservation | null | undefined | any;
@@ -20,6 +18,7 @@ interface ReviewClientProps {
 const ReviewClient: React.FC<ReviewClientProps> = ({ reservation }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const { mutate: post } = useCreateReview();
 
   const {
     register,
@@ -53,7 +52,7 @@ const ReviewClient: React.FC<ReviewClientProps> = ({ reservation }) => {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true);
 
-    const response = await post(clientSideWebTokenGetter(), {
+    const response = await post({
       targetItemId: data.listingId,
       associatedEntityType: "Listing",
       reservationId: data.reservationId,
@@ -63,15 +62,8 @@ const ReviewClient: React.FC<ReviewClientProps> = ({ reservation }) => {
       publicComment: data.publicMessage,
     });
 
-    if (response?.success) {
-      router.push("/reservations");
-      toast.success("Вашият отзив е успешно публикуван!");
-      reset();
-    } else {
-      toast.error("Нещо се обърка.");
-    }
-
     setIsLoading(false);
+    router.push("/reservations");
   };
 
   return (

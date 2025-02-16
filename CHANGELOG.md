@@ -1,4 +1,4 @@
-# [0.0.0] - 2025-FEB-02
+# [0.0.0]
 
 ## Added
 
@@ -16,8 +16,15 @@
 - IMPORTANT: For consistency, follow Semantic Versioning: MAJOR.MINOR.PATCH
 - Write down description of what has been changed/modified.
 
-# [0.1.0] - 2025-FEB-07
+# [0.1.0]
 
 ## Added
 
 - Added GitHub Action to sync CHANGELOG to Confluence
+
+# [0.2.0]
+
+## Added
+
+- Integration of TanStack React Query
+- Massive improvement on the client & server state management

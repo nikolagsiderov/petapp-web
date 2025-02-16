@@ -1,9 +1,9 @@
 "use client";
 
-import { User } from "pawpal-fe-types";
 import Heading from "@/app/components/Heading";
 import MyServicesContainer from "@/app/components/MyServicesContainer";
 import Image from "next/image";
+import { User } from "pawpal-fe-common/users";
 
 interface MyServicesClientProps {
   currentUser?: User | null;

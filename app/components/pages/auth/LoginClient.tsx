@@ -4,20 +4,17 @@ import Button from "@/app/components/Button";
 import ClientOnly from "@/app/components/ClientOnly";
 import Heading from "@/app/components/Heading";
 import Input from "@/app/components/inputs/Input";
-import useAuth from "@/app/hooks/useAuth";
-import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
+import useAuthenticate from "@/app/context/TRQs/users/mutations/useAuthenticate";
 import { useRouter } from "next/navigation";
-import { authenticate } from "pawpal-fe-common/users";
 import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
 
 const LoginClient = () => {
-  const { setJwt } = useAuth();
-  const { handleError } = useGlobalErrorHandler();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const { mutate: authenticate } = useAuthenticate();
 
   const {
     register,
@@ -33,20 +30,14 @@ const LoginClient = () => {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setLoading(true);
 
-    const response = await authenticate({
+    await authenticate({
       email: data.email,
       password: data.password,
     });
 
     setLoading(false);
-
-    if (response?.success && response?.jwt) {
-      setJwt(response?.jwt);
-      router.push("/");
-      toast.success("Добре дошли!");
-    } else {
-      handleError(response);
-    }
+    router.push("/");
+    toast.success("Добре дошли!");
   };
 
   const bodyContent = (

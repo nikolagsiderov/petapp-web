@@ -1,32 +1,28 @@
 import ClientOnly from "../components/ClientOnly";
+import EmptyState from "../components/EmptyState";
 import Sidebar from "../components/navbar/my-services/Sidebar";
-import { getPendingReservationsCount } from "pawpal-fe-common/listings";
-import { redirect } from "next/navigation";
-import { getCurrentUser } from "pawpal-fe-common/users";
-import webTokenGetter from "../context/webTokenGetter";
+import useCurrentUser from "../context/TRQs/users/useCurrentUser";
 
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const currentUserResponse = await getCurrentUser(webTokenGetter());
-  const currentUser = currentUserResponse?.success ? currentUserResponse : null;
+  const { data: currentUser } = useCurrentUser();
+  // TODO: Implement TRQ for getting pending reservations count
 
-  if (!currentUserResponse?.success || !currentUser) {
-    redirect("/auth");
+  if (currentUser) {
+    return (
+      <ClientOnly>
+        <Sidebar currentUser={currentUser} requestsCount={1} />
+        <div>{children}</div>
+      </ClientOnly>
+    );
   }
-
-  const response = await getPendingReservationsCount(webTokenGetter());
-  const pendingReservationsCount = response?.success ? response.count : 0;
 
   return (
     <ClientOnly>
-      <Sidebar
-        currentUser={currentUser!}
-        requestsCount={pendingReservationsCount}
-      />
-      <div>{children}</div>
+      <EmptyState />
     </ClientOnly>
   );
 }

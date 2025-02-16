@@ -1,8 +1,8 @@
 "use client";
 
-import { Listing } from "pawpal-fe-types";
 import ListingEdit from "@/app/components/listings/ListingEdit";
 import MyServicesContainer from "@/app/components/MyServicesContainer";
+import { Listing } from "pawpal-fe-common/listings";
 
 interface ListingClientProps {
   listing: Listing | null | undefined;

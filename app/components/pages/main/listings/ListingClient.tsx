@@ -1,12 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { toast } from "react-hot-toast";
 import { Range } from "react-date-range";
-import { redirect, useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import { differenceInDays } from "date-fns";
 import useLoginModal from "@/app/hooks/useLoginModal";
-import { Listing, User } from "pawpal-fe-types";
 import MainContainer from "@/app/components/MainContainer";
 import { categories } from "@/app/components/navbar/main/Categories";
 import ListingHead from "@/app/components/listings/ListingHead";
@@ -14,9 +12,9 @@ import ListingInfo from "@/app/components/listings/ListingInfo";
 import ListingReservation from "@/app/components/listings/ListingReservation";
 import ListingReviews from "@/app/components/listings/ListingReviews";
 import ListingMap from "@/app/components/listings/ListingMap";
-import { getCurrentUser } from "pawpal-fe-common/users";
-import { createReservation } from "pawpal-fe-common/listings";
-import clientSideWebTokenGetter from "@/app/context/clientSideWebTokenGetter";
+import { Listing } from "pawpal-fe-common/listings";
+import useAuthentication from "@/app/context/TRQs/useAuthentication";
+import useCreateReservation from "@/app/context/TRQs/listings/mutations/useCreateReservation";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -25,15 +23,13 @@ const initialDateRange = {
 };
 
 interface ListingClientProps {
-  currentUser: User | null;
   listing: Listing;
 }
 
-const ListingClient: React.FC<ListingClientProps> = ({
-  currentUser,
-  listing,
-}) => {
+const ListingClient: React.FC<ListingClientProps> = ({ listing }) => {
   const loginModal = useLoginModal();
+  const { data: isAuthenticated } = useAuthentication();
+  const { mutate: createReservation } = useCreateReservation();
 
   const category = useMemo(() => {
     return categories.find((c) => c.value === listing.category);
@@ -56,10 +52,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
   }, [dateRange, listing.price]);
 
   const onSubmit = async () => {
-    const response = await getCurrentUser(clientSideWebTokenGetter());
-    const currentUser: User | null = response?.success ? response : null;
-
-    if (!response?.success || !currentUser) {
+    if (!isAuthenticated) {
       return loginModal.onOpen();
     }
 
@@ -69,20 +62,14 @@ const ListingClient: React.FC<ListingClientProps> = ({
       dateRange.startDate.setHours(22);
       dateRange.endDate.setHours(23);
 
-      const response = await createReservation(clientSideWebTokenGetter(), {
+      await createReservation({
         listingId: listing?.id,
         fromDate: dateRange.startDate!,
         toDate: dateRange.endDate!,
       });
 
-      if (response?.success) {
-        toast.success("Резервацията е успешна!");
-        setDateRange(initialDateRange);
-        redirect("/reservations");
-      } else {
-        // TODO: Else handle validation message...
-        toast.error("Нещо се обърка...");
-      }
+      setDateRange(initialDateRange);
+      redirect("/reservations");
     } else {
       // TODO: Else handle validation message...
     }
@@ -101,10 +88,9 @@ const ListingClient: React.FC<ListingClientProps> = ({
       >
         <div className="flex flex-col gap-6">
           <ListingHead
-            imageSrc={listing.imageSrc}
+            imageSrc={`https://pawpaldevassets.blob.core.windows.net/${listing.imageRelativePaths[0]}`}
             address={listing.address}
             listing={listing}
-            currentUser={currentUser}
           />
           <div
             className="

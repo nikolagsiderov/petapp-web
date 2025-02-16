@@ -1,22 +1,15 @@
 import EmptyState from "@/app/components/EmptyState";
 import ClientOnly from "@/app/components/ClientOnly";
-import { getPetsitterReservations } from "pawpal-fe-common/listings";
 import ReservationRequests from "@/app/components/pages/my-services/reservations/ReservationRequests";
-import webTokenGetter from "@/app/context/webTokenGetter";
+import usePetSitterReservations from "@/app/context/TRQs/listings/usePetSitterReservations";
 
 const ReservationsPage = async () => {
-  const response = await getPetsitterReservations(webTokenGetter());
-  const reservations = response?.success ? response : null;
+  const { data: reservations } = usePetSitterReservations();
 
-  if (
-    reservations &&
-    reservations.success &&
-    reservations.collection &&
-    reservations.collection.length > 0
-  ) {
+  if (reservations && reservations.length > 0) {
     return (
       <ClientOnly>
-        <ReservationRequests reservationRequests={reservations.collection} />
+        <ReservationRequests reservationRequests={reservations} />
       </ClientOnly>
     );
   }

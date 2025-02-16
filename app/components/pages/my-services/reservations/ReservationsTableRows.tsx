@@ -1,57 +1,48 @@
 "use client";
 
-import { Reservation } from "pawpal-fe-types";
 import { format } from "date-fns";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { FaThumbsUp } from "react-icons/fa";
 import { TiCancel } from "react-icons/ti";
-import { updateReservationStatus } from "pawpal-fe-common/listings";
+import { Reservation } from "pawpal-fe-common/listings";
 import { reservationStatuses } from "pawpal-fe-common/constants";
-import clientSideWebTokenGetter from "@/app/context/clientSideWebTokenGetter";
+import useUpdateReservationStatus from "@/app/context/TRQs/listings/mutations/useUpdateReservationStatus";
 
 interface TableRowsProps {
   request: Reservation;
   index: number;
 }
 
-const ReservationsTableRows = ({
-  request,
-  index,
-}: TableRowsProps) => {
+const ReservationsTableRows = ({ request, index }: TableRowsProps) => {
   const router = useRouter();
+  const { mutate: updateReservationStatus } = useUpdateReservationStatus();
 
   const onApprove = useCallback(
     async (id: string) => {
-      const response = await updateReservationStatus(clientSideWebTokenGetter(), id, {
+      await updateReservationStatus({
+        reservationId: id,
         status: reservationStatuses.accepted,
       });
 
-      if (response?.success) {
-        toast.success("Резервацията е одобрена!");
-        router.refresh();
-      } else {
-        toast.error(`Резервацията не е одобрена: ${response?.message}`);
-      }
+      toast.success("Резервацията е одобрена!");
+      router.refresh();
     },
-    [router]
+    [router, updateReservationStatus]
   );
 
   const onCancel = useCallback(
     async (id: string) => {
-      const response = await updateReservationStatus(clientSideWebTokenGetter(), id, {
+      await updateReservationStatus({
+        reservationId: id,
         status: reservationStatuses.rejected,
       });
 
-      if (response?.success) {
-        toast.success("Резервацията е отменена!");
-        router.refresh();
-      } else {
-        toast.error(`Резервацията не е отменена: ${response?.message}`);
-      }
+      toast.success("Резервацията е отменена!");
+      router.refresh();
     },
-    [router]
+    [router, updateReservationStatus]
   );
 
   const handleReservationDate = (request: Reservation) => {
