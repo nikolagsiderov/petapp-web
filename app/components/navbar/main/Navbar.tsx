@@ -9,22 +9,22 @@ import UserMenu from "./UserMenu";
 import { usePathname } from "next/navigation";
 import FindFilter from "./find/FindFilter";
 import FindMiniBar from "./find/FindMiniBar";
-import { User } from "pawpal-fe-common/users";
+import useCurrentUser from "@/app/context/TRQs/users/useCurrentUser";
+import useCurrentUserListings from "@/app/context/TRQs/listings/useCurrentUserListings";
 
-interface NavbarProps {
-  currentUser?: User | null;
-  hasUserAlreadyListed?: boolean;
-}
+const Navbar = () => {
+  const { data: currentUser } = useCurrentUser();
+  const { data: currentUserListings } = useCurrentUserListings();
 
-const Navbar: React.FC<NavbarProps> = ({
-  currentUser,
-  hasUserAlreadyListed,
-}) => {
+  const hasUserAlreadyListed = currentUserListings
+    ? currentUserListings
+      ? currentUserListings?.length > 0
+      : false
+    : false;
+
   const params = usePathname();
 
-  const currentPathIsAdopt = params?.includes("adopt");
   const currentPathIsFind = params?.includes("find");
-  const currentPathIsLove = params?.includes("love");
   const currentPathIsPetSitting = params?.includes("petsitting");
 
   return (
@@ -51,15 +51,10 @@ const Navbar: React.FC<NavbarProps> = ({
                 <FindFilter />
               </div>
             )}
-            {currentPathIsAdopt && (
-              <div className="flex flex-row items-center justify-center gap-3 md:gap-0">
-                <PetSittingFilter />
-              </div>
-            )}
           </div>
         </MainContainer>
       </div>
-      {(currentPathIsPetSitting || currentPathIsAdopt) && <Categories />}
+      {currentPathIsPetSitting && <Categories />}
       {currentPathIsFind && <FindMiniBar />}
     </div>
   );

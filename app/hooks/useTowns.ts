@@ -1,3 +1,5 @@
+"use client";
+
 import { towns } from "pawpal-fe-common/constants";
 
 const useTowns = () => {

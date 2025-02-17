@@ -1,3 +1,5 @@
+"use client";
+
 import { getCurrentUserAsync } from "pawpal-fe-common/users";
 import useAuthentication from "../useAuthentication";
 import { useQuery } from "@tanstack/react-query";

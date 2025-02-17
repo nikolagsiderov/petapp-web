@@ -1,3 +1,5 @@
+"use client";
+
 import { removeToken } from "pawpal-fe-common/context";
 
 const useSignOut = () => {

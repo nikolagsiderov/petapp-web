@@ -28,3 +28,7 @@
 
 - Integration of TanStack React Query
 - Massive improvement on the client & server state management
+
+## Changed
+
+- Changed website language icon from USA to GB

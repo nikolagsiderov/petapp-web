@@ -5,20 +5,29 @@ import ListView from "./ListView";
 import MapView from "./MapView";
 import { FaMapLocationDot, FaListUl } from "react-icons/fa6";
 import { useState } from "react";
-import { Listing } from "pawpal-fe-common/listings";
+import { IGetListingsParams, Listing } from "pawpal-fe-common/listings";
+import useListings from "@/app/context/TRQs/listings/useListings";
+import EmptyState from "@/app/components/EmptyState";
 
 interface PetSittingClientProps {
-  listings?: Array<Listing> | null | undefined | any;
+  params: IGetListingsParams;
 }
 
-const PetSittingClient: React.FC<PetSittingClientProps> = ({
-  listings,
-}) => {
+const PetSittingClient: React.FC<PetSittingClientProps> = ({ params }) => {
+  const { data: listings } = useListings(params);
   const [mapView, setMapView] = useState(true);
 
   const toggleView = () => {
     setMapView(!mapView);
   };
+
+  if (!listings || listings.length === 0) {
+    return (
+      <div className="lg:pt-32 pt-48">
+        <EmptyState showReset />
+      </div>
+    );
+  }
 
   return (
     <MainContainer>

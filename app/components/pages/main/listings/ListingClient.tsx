@@ -12,9 +12,10 @@ import ListingInfo from "@/app/components/listings/ListingInfo";
 import ListingReservation from "@/app/components/listings/ListingReservation";
 import ListingReviews from "@/app/components/listings/ListingReviews";
 import ListingMap from "@/app/components/listings/ListingMap";
-import { Listing } from "pawpal-fe-common/listings";
 import useAuthentication from "@/app/context/TRQs/useAuthentication";
 import useCreateReservation from "@/app/context/TRQs/listings/mutations/useCreateReservation";
+import useListingById from "@/app/context/TRQs/listings/useListingById";
+import EmptyState from "@/app/components/EmptyState";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -23,33 +24,36 @@ const initialDateRange = {
 };
 
 interface ListingClientProps {
-  listing: Listing;
+  id: string;
 }
 
-const ListingClient: React.FC<ListingClientProps> = ({ listing }) => {
+const ListingClient: React.FC<ListingClientProps> = ({ id }) => {
+  const { data: listing } = useListingById(id);
+  // const reviews = await getReviews(params); // TODO: GET reviews and utilize
+
   const loginModal = useLoginModal();
   const { data: isAuthenticated } = useAuthentication();
   const { mutate: createReservation } = useCreateReservation();
 
   const category = useMemo(() => {
-    return categories.find((c) => c.value === listing.category);
-  }, [listing.category]);
+    return categories.find((c) => c.value === listing?.category);
+  }, [listing?.category]);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [totalPrice, setTotalPrice] = useState(listing.price);
+  const [totalPrice, setTotalPrice] = useState(listing?.price);
   const [dateRange, setDateRange] = useState<Range>(initialDateRange);
 
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {
       const dayCount = differenceInDays(dateRange.endDate, dateRange.startDate);
 
-      if (dayCount && listing.price) {
+      if (dayCount && listing?.price) {
         setTotalPrice((dayCount + 1) * listing.price);
       } else {
-        setTotalPrice(listing.price);
+        setTotalPrice(listing?.price);
       }
     }
-  }, [dateRange, listing.price]);
+  }, [dateRange, listing]);
 
   const onSubmit = async () => {
     if (!isAuthenticated) {
@@ -76,6 +80,10 @@ const ListingClient: React.FC<ListingClientProps> = ({ listing }) => {
 
     setIsLoading(false);
   };
+
+  if (!listing) {
+    return <EmptyState />;
+  }
 
   return (
     <MainContainer>
@@ -117,7 +125,7 @@ const ListingClient: React.FC<ListingClientProps> = ({ listing }) => {
               <div className="lg:sticky lg:top-[7rem]">
                 <ListingReservation
                   price={listing.price}
-                  totalPrice={totalPrice}
+                  totalPrice={totalPrice ?? 0}
                   onChangeDate={(value) => setDateRange(value)}
                   dateRange={dateRange}
                   onSubmit={onSubmit}

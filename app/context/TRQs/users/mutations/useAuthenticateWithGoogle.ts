@@ -1,3 +1,5 @@
+"use client";
+
 import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";

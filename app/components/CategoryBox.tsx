@@ -62,7 +62,7 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({
       }
     ${selected ? "text-rose-500" : "text-neutral-700"}`}
     >
-      {(pathname === "/petsitting" || pathname === "/adopt") && (
+      {pathname === "/petsitting" && (
         <>
           {Icon && <Icon size={26} />}
           {imageSrc && (

@@ -1,3 +1,5 @@
+"use client";
+
 import { useQuery } from "@tanstack/react-query";
 import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
 import { getListingReviewsAsync } from "pawpal-fe-common/reviews";

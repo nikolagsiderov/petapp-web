@@ -1,8 +1,6 @@
 "use client";
 
-import { IoMdHeart } from "react-icons/io";
 import { IoMdLocate } from "react-icons/io";
-import { FaDog } from "react-icons/fa";
 import { IoMdPaw } from "react-icons/io";
 import { useRouter, usePathname } from "next/navigation";
 import "@/app/i18n";
@@ -21,9 +19,7 @@ const NavigationMenu = () => {
   const router = useRouter();
   const params = usePathname();
 
-  const currentPathIsAdopt = params?.includes("adopt");
   const currentPathIsFind = params?.includes("find");
-  const currentPathIsLove = params?.includes("love");
   const currentPathIsPetSitting = params?.includes("petsitting");
 
   return (
@@ -41,17 +37,6 @@ const NavigationMenu = () => {
           </div>
         </div>
         <div
-          onClick={() => router.push("/adopt")}
-          className={`hidden md:block text-sm ${
-            currentPathIsAdopt ? "font-bold" : "font-light"
-          } py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer`}
-        >
-          <div className="flex flex-row gap-1 justify-center items-center">
-            <FaDog size={24} className="fill-rose-500" />
-            {t("FindAHome")}
-          </div>
-        </div>
-        <div
           onClick={() => router.push("/find")}
           className={`hidden md:block text-sm ${
             currentPathIsFind ? "font-bold" : "font-light"
@@ -60,17 +45,6 @@ const NavigationMenu = () => {
           <div className="flex flex-row gap-1 justify-center items-center">
             <IoMdLocate size={24} className="fill-rose-500" />
             {t("LostFound")}
-          </div>
-        </div>
-        <div
-          onClick={() => router.push("/love")}
-          className={`hidden md:block text-sm ${
-            currentPathIsLove ? "font-bold" : "font-light"
-          } py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer`}
-        >
-          <div className="flex flex-row gap-1 justify-center items-center">
-            <IoMdHeart size={24} className="fill-rose-500" />
-            {t("FindAPartner")}
           </div>
         </div>
       </div>

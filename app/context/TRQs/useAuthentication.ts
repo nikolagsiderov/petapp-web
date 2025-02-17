@@ -1,3 +1,5 @@
+"use client";
+
 import { useQuery } from "@tanstack/react-query";
 import { isAuthenticated } from "pawpal-fe-common/context";
 

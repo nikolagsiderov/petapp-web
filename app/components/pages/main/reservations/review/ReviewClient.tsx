@@ -9,13 +9,15 @@ import Input from "@/app/components/inputs/Input";
 import Button from "@/app/components/Button";
 import Rating from "@/app/components/inputs/Rating";
 import useCreateReview from "@/app/context/TRQs/reviews/mutations/useCreateReview";
-import { Reservation } from "pawpal-fe-common/listings";
+import useReservationById from "@/app/context/TRQs/listings/useReservationById";
 
-interface ReviewClientProps {
-  reservation?: Reservation | null | undefined | any;
+interface IReviewClientProps {
+  reservationId: string;
 }
 
-const ReviewClient: React.FC<ReviewClientProps> = ({ reservation }) => {
+const ReviewClient: React.FC<IReviewClientProps> = ({ reservationId }) => {
+  const { data: reservation } = useReservationById(reservationId);
+
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const { mutate: post } = useCreateReview();

@@ -1,21 +1,22 @@
 "use client";
 
+import EmptyState from "@/app/components/EmptyState";
 import Heading from "@/app/components/Heading";
 import MyServicesContainer from "@/app/components/MyServicesContainer";
 import ReservationsTable from "@/app/components/pages/my-services/reservations/ReservationsTable";
+import usePetSitterReservations from "@/app/context/TRQs/listings/usePetSitterReservations";
 import { reservationStatuses } from "pawpal-fe-common/constants";
-import { Reservation } from "pawpal-fe-common/listings";
 
-interface ReservationRequestsClientProps {
-  reservationRequests: Reservation[];
-}
+const ReservationRequests = () => {
+  const { data: reservations } = usePetSitterReservations();
 
-const ReservationRequests: React.FC<ReservationRequestsClientProps> = ({
-  reservationRequests,
-}) => {
-  const awaitingApproval = reservationRequests.filter(
+  const awaitingApproval = reservations?.filter(
     (request) => request.status === reservationStatuses.pending
   );
+
+  if (!reservations || reservations.length === 0) {
+    return <EmptyState title="Нямате резервации" />;
+  }
 
   return (
     <MyServicesContainer>
@@ -25,10 +26,10 @@ const ReservationRequests: React.FC<ReservationRequestsClientProps> = ({
           subtitle="Заявки за резервации, одобрени или чакащи одобрение"
         />
         <div className="font-light relative flex flex-wrap items-center my-2 lg:w-48">
-          Брой на заявките чакащи одобрение: {awaitingApproval.length}
+          Брой на заявките чакащи одобрение: {awaitingApproval?.length}
         </div>
       </div>
-      <ReservationsTable reservationRequests={reservationRequests} />
+      <ReservationsTable reservationRequests={reservations} />
     </MyServicesContainer>
   );
 };

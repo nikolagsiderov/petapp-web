@@ -72,7 +72,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
           {bgLocalization === "bg" ? (
             <div onClick={() => handleSetBGLocalization("en")}>
               <ReactCountryFlag
-                countryCode="US"
+                countryCode="GB"
                 svg
                 style={{
                   width: "1.4em",
