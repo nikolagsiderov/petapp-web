@@ -31,26 +31,19 @@ const Navbar = () => {
     <div className="fixed w-full bg-white z-10 shadow-sm">
       <div className="py-4 lg:border-b-[1px] lg:border-neutral-100">
         <MainContainer>
-          <div className="flex flex-col gap-2">
-            <div className="flex flex-row items-center justify-between gap-0">
-              <Logo />
-              <NavigationMenu />
-              <UserMenu
-                currentUser={currentUser}
-                hasUserAlreadyListed={hasUserAlreadyListed}
-                currentPathIsPetSitting={currentPathIsPetSitting}
-              />
-            </div>
-            {currentPathIsPetSitting && (
-              <div className="flex flex-row items-center justify-center gap-3 md:gap-0">
-                <PetSittingFilter />
-              </div>
-            )}
-            {currentPathIsFind && (
-              <div className="flex flex-row items-center justify-center gap-3 md:gap-0">
-                <FindFilter />
-              </div>
-            )}
+          <div className="flex flex-row items-center justify-between gap-0">
+            <Logo />
+            <UserMenu
+              currentUser={currentUser}
+              hasUserAlreadyListed={hasUserAlreadyListed}
+              currentPathIsPetSitting={currentPathIsPetSitting}
+            />
+          </div>
+          <div className="flex flex-col items-center justify-center gap-3 md:-mt-12">
+            <NavigationMenu />
+            {currentPathIsPetSitting && <PetSittingFilter />}
+
+            {currentPathIsFind && <FindFilter />}
           </div>
         </MainContainer>
       </div>

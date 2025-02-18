@@ -8,18 +8,23 @@ import { useState } from "react";
 import { IGetListingsParams, Listing } from "pawpal-fe-common/listings";
 import useListings from "@/app/context/TRQs/listings/useListings";
 import EmptyState from "@/app/components/EmptyState";
+import Loader from "@/app/components/Loader";
 
 interface PetSittingClientProps {
   params: IGetListingsParams;
 }
 
 const PetSittingClient: React.FC<PetSittingClientProps> = ({ params }) => {
-  const { data: listings } = useListings(params);
+  const { data: listings, isLoading } = useListings(params);
   const [mapView, setMapView] = useState(true);
 
   const toggleView = () => {
     setMapView(!mapView);
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   if (!listings || listings.length === 0) {
     return (
