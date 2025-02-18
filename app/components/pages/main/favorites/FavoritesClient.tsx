@@ -1,19 +1,23 @@
 "use client";
 
-import { Listing, User } from "pawpal-fe-types";
+import EmptyState from "@/app/components/EmptyState";
 import Heading from "@/app/components/Heading";
 import MainContainer from "@/app/components/MainContainer";
 import ListingCard from "@/app/components/listings/ListingCard";
+import useFavoriteListings from "@/app/context/TRQs/listings/useFavoriteListings";
 
-interface FavoritesClientProps {
-  listings: Array<Listing> | null | undefined | any;
-  currentUser?: User | null;
-}
+const FavoritesClient = () => {
+  const { data: listings } = useFavoriteListings();
 
-const FavoritesClient: React.FC<FavoritesClientProps> = ({
-  listings,
-  currentUser,
-}) => {
+  if (!listings || listings.length === 0) {
+    return (
+      <EmptyState
+        title="Нямате запазени обяви"
+        subtitle="Изглежда, че не сте запазили обяви."
+      />
+    );
+  }
+
   return (
     <MainContainer>
       <div
@@ -39,7 +43,6 @@ const FavoritesClient: React.FC<FavoritesClientProps> = ({
         >
           {listings.map((listing: any) => (
             <ListingCard
-              currentUser={currentUser}
               key={listing.id}
               data={listing}
               listingUserName={`${listing.user.firstName} ${listing.user.lastName}`}

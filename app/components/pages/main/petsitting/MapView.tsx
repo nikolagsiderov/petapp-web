@@ -1,19 +1,18 @@
 "use client";
 
+import { Listing } from "pawpal-fe-common/listings";
 import Left from "./Left";
 import Right from "./Right";
-import { User } from "pawpal-fe-types";
 
 interface MapViewProps {
-  listings?: any;
-  currentUser?: User | null | undefined;
+  listings?: Listing[];
 }
 
-const MapView: React.FC<MapViewProps> = ({ listings, currentUser }) => {
+const MapView: React.FC<MapViewProps> = ({ listings }) => {
   return (
     <div className="pt-64 gap-8 lg:grid lg:grid-cols-3">
       <Left listings={listings} />
-      <Right listings={listings} currentUser={currentUser} />
+      <Right listings={listings} />
     </div>
   );
 };

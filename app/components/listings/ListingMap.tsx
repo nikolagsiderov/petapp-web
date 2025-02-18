@@ -1,8 +1,8 @@
 "use client";
 
-import { Listing } from "pawpal-fe-types";
 import { Circle, GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import Heading from "../Heading";
+import { Listing } from "pawpal-fe-common/listings";
 
 interface ListingMapProps {
   listing: Listing;
@@ -31,6 +31,136 @@ const ListingMap: React.FC<ListingMapProps> = ({ listing }) => {
           zoomControl: false,
           scrollwheel: false,
           disableDoubleClickZoom: true,
+          styles: [
+            {
+              featureType: "administrative",
+              elementType: "labels.text.fill",
+              stylers: [
+                {
+                  lightness: 50,
+                },
+              ],
+            },
+            {
+              featureType: "administrative.country",
+              elementType: "geometry",
+              stylers: [
+                {
+                  lightness: 50,
+                },
+                {
+                  hue: "#000",
+                },
+              ],
+            },
+            {
+              featureType: "landscape",
+              stylers: [
+                {
+                  hue: "#e6f3d6",
+                },
+                {
+                  saturation: 43.400000000000006,
+                },
+                {
+                  lightness: 37.599999999999994,
+                },
+                {
+                  gamma: 1,
+                },
+              ],
+            },
+            {
+              featureType: "water",
+              elementType: "all",
+              stylers: [
+                {
+                  color: "#eaf6f8",
+                },
+                {
+                  visibility: "on",
+                },
+              ],
+            },
+            {
+              featureType: "water",
+              elementType: "geometry.fill",
+              stylers: [
+                {
+                  color: "#eaf6f8",
+                },
+              ],
+            },
+            {
+              featureType: "road",
+              elementType: "geometry",
+              stylers: [
+                {
+                  lightness: 50,
+                },
+                {
+                  visibility: "on",
+                },
+              ],
+            },
+            {
+              featureType: "poi",
+              elementType: "all",
+              stylers: [
+                {
+                  visibility: "off",
+                },
+              ],
+            },
+            {
+              featureType: "poi.park",
+              elementType: "all",
+              stylers: [
+                {
+                  visibility: "on",
+                },
+              ],
+            },
+            {
+              featureType: "poi.park",
+              elementType: "geometry.fill",
+              stylers: [
+                {
+                  color: "#e6f3d6",
+                },
+                {
+                  visibility: "on",
+                },
+              ],
+            },
+            {
+              featureType: "transit",
+              elementType: "all",
+              stylers: [
+                {
+                  visibility: "on",
+                },
+              ],
+            },
+            {
+              featureType: "transit",
+              elementType: "labels.text",
+              stylers: [
+                {
+                  visibility: "off",
+                },
+              ],
+            },
+            {
+              featureType: "water",
+              elementType: "all",
+              stylers: [
+                {
+                  visibility: "on",
+                },
+              ],
+            },
+          ],
         }}
       >
         <Circle

@@ -6,7 +6,6 @@ import { useCallback, useState, useRef } from "react";
 import MenuItem from "./MenuItem";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useLoginModal from "@/app/hooks/useLoginModal";
-import { User } from "pawpal-fe-types";
 import useBecomeSitterModal from "@/app/hooks/useBecomeSitterModal";
 import { useRouter } from "next/navigation";
 import useOnClickOutsideComponent from "@/app/hooks/useOnClickOutsideComponent";
@@ -14,7 +13,8 @@ import ReactCountryFlag from "react-country-flag";
 import { useAppDispatch, useAppSelector } from "@/app/context/state/hooks";
 import { set as setBGLocalization } from "@/app/context/state/features/bgLocalizationReducer";
 import { FiTag, FiUser, FiGrid, FiLogOut } from "react-icons/fi";
-import useAuth from "@/app/hooks/useAuth";
+import { User } from "pawpal-fe-common/users";
+import useSignOut from "@/app/hooks/useSignOut";
 
 interface UserMenuProps {
   currentUser?: User | null;
@@ -27,7 +27,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
   hasUserAlreadyListed,
   currentPathIsPetSitting,
 }) => {
-  const { signOut } = useAuth();
+  const { signOut } = useSignOut();
   const dispatch = useAppDispatch();
   const bgLocalization = useAppSelector((state) => state.bgLocalization.value);
 
@@ -72,7 +72,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
           {bgLocalization === "bg" ? (
             <div onClick={() => handleSetBGLocalization("en")}>
               <ReactCountryFlag
-                countryCode="US"
+                countryCode="GB"
                 svg
                 style={{
                   width: "1.4em",

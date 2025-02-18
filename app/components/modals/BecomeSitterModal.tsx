@@ -12,8 +12,7 @@ import Input from "../inputs/Input";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import LocationInput from "../inputs/LocationInput";
-import { create } from "pawpal-fe-common/listings";
-import clientSideWebTokenGetter from "@/app/context/clientSideWebTokenGetter";
+import useCreateListing from "@/app/context/TRQs/listings/mutations/useCreateListing";
 
 enum STEPS {
   CATEGORY = 0,
@@ -31,6 +30,7 @@ const toFixedNumber = (num: number) => {
 const BecomeSitterModal = () => {
   const router = useRouter();
   const becomeSitterModal = useBecomeSitterModal();
+  const { mutate: createListing } = useCreateListing();
 
   const [step, setStep] = useState(STEPS.CATEGORY);
   const [isLoading, setIsLoading] = useState(false);
@@ -95,32 +95,20 @@ const BecomeSitterModal = () => {
         );
       } else {
         setIsLoading(true);
-        const response = await create(
-          clientSideWebTokenGetter(),
-          {
-            category: data.category,
-            description: data.description,
-            publicAddress: data.location.publicAddress,
-            privateAddress: data.location.privateAddress,
-            latitude: data.location.lat,
-            longitude: data.location.lng,
-            price: toFixedNumber(parseFloat(data.price)),
-          },
-          data.images
-        );
+        await createListing({
+          category: data.category,
+          description: data.description,
+          publicAddress: data.location.publicAddress,
+          privateAddress: data.location.privateAddress,
+          latitude: data.location.lat,
+          longitude: data.location.lng,
+          price: toFixedNumber(parseFloat(data.price)),
+          images: data.images,
+        });
 
-        if (response?.success) {
-          toast.success("Обявата е успешно създадена!");
-          reset();
-          setStep(STEPS.CATEGORY);
-          becomeSitterModal.onClose();
-        } else {
-          if (response?.response?.data?.description) {
-            toast.error(response?.response?.data?.description);
-          } else {
-            toast.error("Нещо се обърка...");
-          }
-        }
+        reset();
+        setStep(STEPS.CATEGORY);
+        becomeSitterModal.onClose();
 
         setIsLoading(false);
       }

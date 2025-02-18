@@ -1,24 +1,16 @@
 "use client";
 
-// import { toast } from "react-hot-toast";
 import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Reservation, User } from "pawpal-fe-types";
 import Heading from "@/app/components/Heading";
 import MainContainer from "@/app/components/MainContainer";
 import ListingCard from "@/app/components/listings/ListingCard";
+import useReservations from "@/app/context/TRQs/listings/useReservations";
+import EmptyState from "@/app/components/EmptyState";
 
-interface ReservationsClientProps {
-  upcomingReservations: Array<Reservation> | null | undefined | any;
-  pastReservations: Array<Reservation> | null | undefined | any;
-  currentUser?: User | null;
-}
+const ReservationsClient = () => {
+  const { data: reservations } = useReservations();
 
-const ReservationsClient: React.FC<ReservationsClientProps> = ({
-  upcomingReservations,
-  pastReservations,
-  currentUser,
-}) => {
   const router = useRouter();
   const [deletingId, setDeletingId] = useState("");
 
@@ -49,6 +41,15 @@ const ReservationsClient: React.FC<ReservationsClientProps> = ({
     [router]
   );
 
+  if (!reservations || reservations?.length === 0) {
+    return (
+      <EmptyState
+        title="Няма намерени резервации"
+        subtitle="Изглежда, че не сте направили резервации."
+      />
+    );
+  }
+
   return (
     <MainContainer>
       <div
@@ -75,7 +76,7 @@ const ReservationsClient: React.FC<ReservationsClientProps> = ({
           gap-8
         "
         >
-          {upcomingReservations.map((reservation: any) => (
+          {reservations.map((reservation: any) => (
             <ListingCard
               key={reservation.id}
               data={reservation.listing}
@@ -85,7 +86,6 @@ const ReservationsClient: React.FC<ReservationsClientProps> = ({
               onAction={onCancel}
               disabled={deletingId === reservation.id}
               actionLabel="Отмени"
-              currentUser={currentUser}
             />
           ))}
         </div>
@@ -114,7 +114,7 @@ const ReservationsClient: React.FC<ReservationsClientProps> = ({
           gap-8
         "
         >
-          {pastReservations.map((reservation: any) => (
+          {reservations.map((reservation: any) => (
             <ListingCard
               key={reservation.id}
               data={reservation.listing}
@@ -123,7 +123,6 @@ const ReservationsClient: React.FC<ReservationsClientProps> = ({
               actionId={reservation.id}
               onAction={onSubmitFeedback}
               actionLabel="Дай отзив"
-              currentUser={currentUser}
             />
           ))}
         </div>

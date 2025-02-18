@@ -1,15 +1,13 @@
 "use client";
 
-import { User } from "pawpal-fe-types";
 import Heading from "@/app/components/Heading";
 import MyServicesContainer from "@/app/components/MyServicesContainer";
+import useCurrentUser from "@/app/context/TRQs/users/useCurrentUser";
 import Image from "next/image";
 
-interface MyServicesClientProps {
-  currentUser?: User | null;
-}
+const MyServicesClient = () => {
+  const { data: currentUser } = useCurrentUser();
 
-const MyServicesClient: React.FC<MyServicesClientProps> = ({ currentUser }) => {
   return (
     <MyServicesContainer>
       <Heading

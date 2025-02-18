@@ -5,7 +5,8 @@ import ToasterProvider from "./providers/ToasterProvider";
 import ClientOnly from "@/app/components/ClientOnly";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { ReduxProvider } from "./components/ReduxProvider";
+import { ReduxProvider } from "./providers/ReduxProvider";
+import TanStackReactQueryProvider from "./providers/TanStackReactQueryProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,12 +23,14 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ReduxProvider>
-          <ClientOnly>
-            <ToasterProvider />
-            <div>{children}</div>
-          </ClientOnly>
-        </ReduxProvider>
+        <TanStackReactQueryProvider>
+          <ReduxProvider>
+            <ClientOnly>
+              <ToasterProvider />
+              <div>{children}</div>
+            </ClientOnly>
+          </ReduxProvider>
+        </TanStackReactQueryProvider>
         <Analytics />
         <SpeedInsights />
       </body>

@@ -12,15 +12,12 @@ import SidebarOption from "./SidebarOption";
 import SidebarTitleSection from "./SidebarTitleSection";
 import SidebarToggleClose from "./SidebarToggleClose";
 import SidebarReturn from "./SidebarReturn";
-import { User } from "pawpal-fe-types";
+import useCurrentUser from "@/app/context/TRQs/users/useCurrentUser";
 
-const Sidebar = ({
-  currentUser,
-  requestsCount,
-}: {
-  currentUser: User | null;
-  requestsCount: number;
-}) => {
+const Sidebar = () => {
+  const { data: currentUser } = useCurrentUser();
+  const requestsCount = 1; // TODO: Implement TRQ for getting pending reservations count
+
   const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth);
   const [open, setOpen] = useState(true);
   const [selected, setSelected] = useState("Начало");
