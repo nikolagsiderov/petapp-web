@@ -1,19 +1,11 @@
 "use client";
 
-import "@/app/i18n";
-import { useAppSelector } from "@/app/context/state/hooks";
-import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { FaApple } from "react-icons/fa6";
 import { FaGooglePlay } from "react-icons/fa6";
 
 const RightBottom = () => {
-  const { t, i18n } = useTranslation();
-  const bgLocalization = useAppSelector((state) => state.bgLocalization.value);
-
-  useEffect(() => {
-    i18n.changeLanguage(bgLocalization);
-  }, [i18n, bgLocalization]);
+  const { t } = useTranslation();
 
   return (
     <div className="col-span-1 relative">

@@ -43,3 +43,14 @@
 
 - Fixed image uploading
 - Navigation bar menu now centered at all times
+
+# [0.2.2]
+
+## Added
+
+- Added new EmailInput component with email validation
+- Applied new EmailInput component in Login page
+
+## Changed
+
+- Localization now pre-loaded in ClientOnly component
