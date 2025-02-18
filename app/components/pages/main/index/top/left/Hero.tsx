@@ -1,18 +1,10 @@
 "use client";
 
 import { FaInstagram, FaSquareFacebook, FaTiktok } from "react-icons/fa6";
-import "@/app/i18n";
 import { useTranslation } from "react-i18next";
-import { useEffect } from "react";
-import { useAppSelector } from "@/app/context/state/hooks";
 
 const Hero = () => {
-  const { t, i18n } = useTranslation();
-  const bgLocalization = useAppSelector((state) => state.bgLocalization.value);
-
-  useEffect(() => {
-    i18n.changeLanguage(bgLocalization);
-  }, [i18n, bgLocalization]);
+  const { t } = useTranslation();
 
   return (
     <div className="mb-4">

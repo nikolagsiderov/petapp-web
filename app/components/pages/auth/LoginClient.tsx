@@ -10,6 +10,7 @@ import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
+import EmailInput from "../../inputs/EmailInput";
 
 const LoginClient = () => {
   const router = useRouter();
@@ -43,7 +44,7 @@ const LoginClient = () => {
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <Heading title="Добре дошли в PawPal" subtitle="Влез в своя акаунт!" />
-      <Input
+      <EmailInput
         id="email"
         label="Имейл"
         disabled={loading}

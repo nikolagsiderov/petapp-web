@@ -1,18 +1,10 @@
 "use client";
 
-import { useAppSelector } from "@/app/context/state/hooks";
-import { useEffect } from "react";
-import "@/app/i18n";
 import { useTranslation } from "react-i18next";
 import { FaCirclePlus } from "react-icons/fa6";
 
 const FAQ = () => {
-  const { t, i18n } = useTranslation();
-  const bgLocalization = useAppSelector((state) => state.bgLocalization.value);
-
-  useEffect(() => {
-    i18n.changeLanguage(bgLocalization);
-  }, [i18n, bgLocalization]);
+  const { t } = useTranslation();
 
   return (
     <div className="justify-center items-center flex flex-col">

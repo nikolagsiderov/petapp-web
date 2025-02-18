@@ -1,19 +1,11 @@
 "use client";
 
-import "@/app/i18n";
 import { useTranslation } from "react-i18next";
 import MainContainer from "./MainContainer";
 import { FaSquareFacebook, FaInstagram, FaTiktok } from "react-icons/fa6";
-import { useAppSelector } from "@/app/context/state/hooks";
-import { useEffect } from "react";
 
 const Footer = () => {
-  const { t, i18n } = useTranslation();
-  const bgLocalization = useAppSelector((state) => state.bgLocalization.value);
-
-  useEffect(() => {
-    i18n.changeLanguage(bgLocalization);
-  }, [i18n, bgLocalization]);
+  const { t } = useTranslation();
 
   return (
     <div className="hidden md:block fixed bottom-0 w-full z-30 bg-white/20 backdrop-blur">
