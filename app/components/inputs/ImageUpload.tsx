@@ -10,11 +10,15 @@ interface ImageUploadProps {
 
 const ImageUpload: React.FC<ImageUploadProps> = ({ onChange }) => {
   const [preview, setPreview] = useState<string | null>(null);
+
   const handleUpload = async (event: any) => {
-    const images = event.target.files;
-    const uri = URL.createObjectURL(images[0]);
-    setPreview(uri);
-    onChange(images);
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const previewUrl = URL.createObjectURL(file);
+    setPreview(previewUrl);
+
+    onChange(file);
   };
 
   return (

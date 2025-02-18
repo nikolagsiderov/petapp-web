@@ -1,9 +1,8 @@
 {
   "name": "petapp",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "scripts": {
-    "local": "env-cmd -f .env.local next dev",
     "dev": "env-cmd -f .env.development next dev",
     "build": "next build",
     "start": "next start",

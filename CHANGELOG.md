@@ -32,3 +32,14 @@
 ## Changed
 
 - Changed website language icon from USA to GB
+
+# [0.2.1]
+
+## Added
+
+- Basic loader component when listings are loading
+
+## Fixed
+
+- Fixed image uploading
+- Navigation bar menu now centered at all times
