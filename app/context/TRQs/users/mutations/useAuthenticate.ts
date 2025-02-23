@@ -3,10 +3,8 @@
 import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import {
-  authenticateAsync,
-  IAuthenticatePayload,
-} from "pawpal-fe-common/users";
+import { authenticateAsync } from "pawpal-fe-common/users-api";
+import { IAuthenticatePayload } from "pawpal-fe-common/users-interfaces";
 import useAuthentication from "../../useAuthentication";
 import useCurrentUser from "../useCurrentUser";
 

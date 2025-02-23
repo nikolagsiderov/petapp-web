@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
-import { getCurrentUserListingsAsync } from "pawpal-fe-common/listings";
+import { getCurrentUserListingsAsync } from "pawpal-fe-common/listings-api";
 import useAuthentication from "../useAuthentication";
 
 const useCurrentUserListings = () => {

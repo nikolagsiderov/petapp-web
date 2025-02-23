@@ -37,6 +37,7 @@ const LoginModal = () => {
     await authenticate({
       email: data.email,
       password: data.password,
+      extendRefreshTokenExpiration: false,
     });
 
     setLoading(false);

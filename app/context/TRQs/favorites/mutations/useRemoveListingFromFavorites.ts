@@ -2,7 +2,7 @@
 
 import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { removeListingFromFavoritesAsync } from "pawpal-fe-common/favorites";
+import { removeListingFromFavoritesAsync } from "pawpal-fe-common/favorites-api";
 import toast from "react-hot-toast";
 import useFavoriteListings from "../../listings/useFavoriteListings";
 

@@ -2,10 +2,8 @@
 
 import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
 import { useMutation } from "@tanstack/react-query";
-import {
-  createReviewAsync,
-  ICreateReviewPayload,
-} from "pawpal-fe-common/reviews";
+import { createReviewAsync } from "pawpal-fe-common/reviews-api";
+import { ICreateReviewPayload } from "pawpal-fe-common/reviews-interfaces";
 import toast from "react-hot-toast";
 
 const useCreateReview = () => {

@@ -2,7 +2,7 @@
 
 import { Circle, GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import Heading from "../Heading";
-import { Listing } from "pawpal-fe-common/listings";
+import { Listing } from "pawpal-fe-common/listings-types";
 
 interface ListingMapProps {
   listing: Listing;

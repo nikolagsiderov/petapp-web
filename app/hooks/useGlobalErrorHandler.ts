@@ -2,20 +2,19 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
-import useSignOut from "./useSignOut";
 import toast from "react-hot-toast";
 
 const useGlobalErrorHandler = () => {
   const router = useRouter();
-  const { signOut } = useSignOut();
 
   const handleError = useCallback(
     async (error?: any | null) => {
       if (error) {
         if (error?.response?.status === 401) {
-          signOut();
+          // TODO: Sign out
           router.push("/auth");
         } else {
+          console.log(JSON.stringify(error, null));
           const errorCode: string = error?.response?.data?.code ?? "00000";
           const errorMessage: string = error?.response?.data?.description
             ? error?.response?.data?.description
@@ -27,7 +26,7 @@ const useGlobalErrorHandler = () => {
         toast.error("Опи, нещо се обърка...");
       }
     },
-    [router, signOut]
+    [router]
   );
 
   return { handleError };

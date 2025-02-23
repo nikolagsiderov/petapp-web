@@ -1,6 +1,6 @@
 "use client";
 
-import { getCurrentUserAsync } from "pawpal-fe-common/users";
+import { getCurrentUserAsync } from "pawpal-fe-common/users-api";
 import useAuthentication from "../useAuthentication";
 import { useQuery } from "@tanstack/react-query";
 import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";

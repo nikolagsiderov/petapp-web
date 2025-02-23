@@ -10,7 +10,7 @@ import { FaStar } from "react-icons/fa6";
 import { categories } from "../navbar/main/Categories";
 import { reservationStatuses } from "pawpal-fe-common/constants";
 import useListingReviews from "@/app/context/TRQs/reviews/useListingReviews";
-import { Listing, Reservation } from "pawpal-fe-common/listings";
+import { Listing, Reservation } from "pawpal-fe-common/listings-types";
 
 interface ListingCardProps {
   horizontal?: boolean;

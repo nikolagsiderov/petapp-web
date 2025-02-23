@@ -2,10 +2,8 @@
 
 import { useQuery } from "@tanstack/react-query";
 import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
-import {
-  getListingsAsync,
-  IGetListingsParams,
-} from "pawpal-fe-common/listings";
+import { getListingsAsync } from "pawpal-fe-common/listings-api";
+import { IGetListingsParams } from "pawpal-fe-common/listings-interfaces";
 
 const useListings = (searchParams: IGetListingsParams) => {
   const { handleError } = useGlobalErrorHandler();

@@ -39,7 +39,7 @@ const Middle = () => {
           >
             <IoMdPaw size={64} className="fill-rose-500" />
           </div>
-          <h3 className="text-3xl font-bold">{t("PetSitting")}</h3>
+          <h3 className="text-3xl font-bold">{t("Pet_SittingOrStay")}</h3>
           <p>{t("PetSittingDescription")}</p>
         </div>
         <div
@@ -59,7 +59,7 @@ const Middle = () => {
           >
             <FaDog size={64} className="fill-rose-500" />
           </div>
-          <h3 className="text-3xl font-bold">{t("FindAHome")}</h3>
+          <h3 className="text-3xl font-bold">{t("Find_a_home")}</h3>
           <p>{t("FindAHomeDescription")}</p>
         </div>
         <div
@@ -79,7 +79,7 @@ const Middle = () => {
           >
             <IoMdLocate size={64} className="fill-rose-500" />
           </div>
-          <h3 className="text-3xl font-bold">{t("LostFound")}</h3>
+          <h3 className="text-3xl font-bold">{t("LostOrFound")}</h3>
           <p>{t("LostFoundDescription")}</p>
         </div>
         <div
@@ -99,7 +99,7 @@ const Middle = () => {
           >
             <IoMdHeart size={64} className="fill-rose-500" />
           </div>
-          <h3 className="text-3xl font-bold">{t("FindAPartner")}</h3>
+          <h3 className="text-3xl font-bold">{t("Find_a_partner")}</h3>
           <p>{t("FindAPartnerDescription")}</p>
         </div>
       </div>

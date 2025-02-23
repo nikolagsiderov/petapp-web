@@ -13,8 +13,7 @@ import ReactCountryFlag from "react-country-flag";
 import { useAppDispatch, useAppSelector } from "@/app/context/state/hooks";
 import { set as setBGLocalization } from "@/app/context/state/features/bgLocalizationReducer";
 import { FiTag, FiUser, FiGrid, FiLogOut } from "react-icons/fi";
-import { User } from "pawpal-fe-common/users";
-import useSignOut from "@/app/hooks/useSignOut";
+import { User } from "pawpal-fe-common/users-types";
 
 interface UserMenuProps {
   currentUser?: User | null;
@@ -27,7 +26,6 @@ const UserMenu: React.FC<UserMenuProps> = ({
   hasUserAlreadyListed,
   currentPathIsPetSitting,
 }) => {
-  const { signOut } = useSignOut();
   const dispatch = useAppDispatch();
   const bgLocalization = useAppSelector((state) => state.bgLocalization.value);
 
@@ -139,7 +137,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
                 />
                 <hr />
                 <MenuItem
-                  onClick={signOut}
+                  onClick={() => {}}
                   Icon={FiLogOut}
                   label="Излез"
                   fontWeightClass={"font-light"}
