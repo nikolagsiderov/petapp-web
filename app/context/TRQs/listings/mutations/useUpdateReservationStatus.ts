@@ -2,10 +2,8 @@
 
 import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  IUpdateReservationStatusPayload,
-  updateReservationStatusAsync,
-} from "pawpal-fe-common/listings";
+import { updateReservationStatusAsync } from "pawpal-fe-common/listings-api";
+import { IUpdateReservationStatusPayload } from "pawpal-fe-common/listings-interfaces";
 import toast from "react-hot-toast";
 import usePetSitterReservations from "../usePetSitterReservations";
 

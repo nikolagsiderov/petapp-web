@@ -54,3 +54,14 @@
 ## Changed
 
 - Localization now pre-loaded in ClientOnly component
+
+# [0.2.3]
+
+## Added
+
+- Upgraded pawpal-fe-common@0.0.163
+- Added new Verification page, redirecting to mobile app, if user has it installed
+
+## Changed
+
+- Updated client import namespaces to latest pawpal-fe-common package version

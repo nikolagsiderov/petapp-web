@@ -7,7 +7,7 @@ import { categories } from "../navbar/main/Categories";
 import CategoryInput from "../inputs/CategoryInput";
 import Input from "../inputs/Input";
 import LocationInput from "../inputs/LocationInput";
-import { Listing, Reservation } from "pawpal-fe-common/listings";
+import { Listing, Reservation } from "pawpal-fe-common/listings-types";
 
 interface ListingEditProps {
   listing: Listing;

@@ -18,15 +18,15 @@ const Footer = () => {
             </div>
             <div className="font-black">·</div>
             <div className="hover:underline cursor-pointer">
-              {t("TermsOfUse")}
+              {t("Terms_of_Use")}
             </div>
             <div className="font-black">·</div>
             <div className="hover:underline cursor-pointer">
-              {t("PrivacyAndCookiesPolicy")}
+              {t("Privacy_and_Cookies_Policy")}
             </div>
             <div className="font-black">·</div>
             <div className="flex flex-row overflow-hidden justify-center items-center gap-2">
-              <div>{t("FollowUsOnSocialMedia")}</div>
+              <div>{t("Follow_us_on_social_media")}</div>
               <div className="cursor-pointer">
                 <FaSquareFacebook size={18} className="text-blue-500" />
               </div>

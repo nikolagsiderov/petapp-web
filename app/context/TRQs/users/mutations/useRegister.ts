@@ -3,7 +3,8 @@
 import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { IRegisterPayload, registerAsync } from "pawpal-fe-common/users";
+import { registerAsync } from "pawpal-fe-common/users-api";
+import { IRegisterPayload } from "pawpal-fe-common/users-interfaces";
 import useAuthentication from "../../useAuthentication";
 import useCurrentUser from "../useCurrentUser";
 import toast from "react-hot-toast";

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Heading from "../Heading";
 import HeartButton from "../HeartButton";
-import { Listing } from "pawpal-fe-common/listings";
+import { Listing } from "pawpal-fe-common/listings-types";
 
 interface ListingHeadProps {
   address: string;

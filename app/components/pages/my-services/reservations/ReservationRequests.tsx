@@ -11,7 +11,7 @@ const ReservationRequests = () => {
   const { data: reservations } = usePetSitterReservations();
 
   const awaitingApproval = reservations?.filter(
-    (request) => request.status === reservationStatuses.pending
+    (request: any) => request.status === reservationStatuses.pending
   );
 
   if (!reservations || reservations.length === 0) {

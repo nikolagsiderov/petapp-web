@@ -6,7 +6,7 @@ import useLoginModal from "./useLoginModal";
 import useAuthentication from "../context/TRQs/useAuthentication";
 import useAddListingToFavorites from "../context/TRQs/favorites/mutations/useAddListingToFavorites";
 import useRemoveListingFromFavorites from "../context/TRQs/favorites/mutations/useRemoveListingFromFavorites";
-import { Listing } from "pawpal-fe-common/listings";
+import { Listing } from "pawpal-fe-common/listings-types";
 
 interface IUseFavorite {
   listing: Listing;

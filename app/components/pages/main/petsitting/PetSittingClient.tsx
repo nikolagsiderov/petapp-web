@@ -5,7 +5,7 @@ import ListView from "./ListView";
 import MapView from "./MapView";
 import { FaMapLocationDot, FaListUl } from "react-icons/fa6";
 import { useState } from "react";
-import { IGetListingsParams, Listing } from "pawpal-fe-common/listings";
+import { IGetListingsParams } from "pawpal-fe-common/listings-interfaces";
 import useListings from "@/app/context/TRQs/listings/useListings";
 import EmptyState from "@/app/components/EmptyState";
 import Loader from "@/app/components/Loader";

@@ -2,10 +2,8 @@
 
 import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  createListingAsync,
-  ICreateListingPayload,
-} from "pawpal-fe-common/listings";
+import { createListingAsync } from "pawpal-fe-common/listings-api";
+import { ICreateListingPayload } from "pawpal-fe-common/listings-interfaces";
 import toast from "react-hot-toast";
 import useListings from "../useListings";
 

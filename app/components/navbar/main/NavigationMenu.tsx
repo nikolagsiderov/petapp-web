@@ -24,7 +24,7 @@ const NavigationMenu = () => {
       >
         <div className="flex flex-row gap-1 justify-center items-center">
           <IoMdPaw size={24} className="fill-rose-500" />
-          {t("PetSitting")}
+          {t("Pet_SittingOrStay")}
         </div>
       </div>
       <div
@@ -35,7 +35,7 @@ const NavigationMenu = () => {
       >
         <div className="flex flex-row gap-1 justify-center items-center">
           <IoMdLocate size={24} className="fill-rose-500" />
-          {t("LostFound")}
+          {t("LostOrFound")}
         </div>
       </div>
     </div>

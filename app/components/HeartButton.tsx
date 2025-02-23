@@ -2,7 +2,7 @@
 
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import useFavorite from "../hooks/useFavorite";
-import { Listing } from "pawpal-fe-common/listings";
+import { Listing } from "pawpal-fe-common/listings-types";
 
 interface HeartButtonProps {
   listing: Listing;

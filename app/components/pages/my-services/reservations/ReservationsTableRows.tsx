@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { FaThumbsUp } from "react-icons/fa";
 import { TiCancel } from "react-icons/ti";
-import { Reservation } from "pawpal-fe-common/listings";
+import { Reservation } from "pawpal-fe-common/listings-types";
 import { reservationStatuses } from "pawpal-fe-common/constants";
 import useUpdateReservationStatus from "@/app/context/TRQs/listings/mutations/useUpdateReservationStatus";
 

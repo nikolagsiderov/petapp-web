@@ -2,10 +2,8 @@
 
 import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
 import { useMutation } from "@tanstack/react-query";
-import {
-  createReservationAsync,
-  ICreateReservationPayload,
-} from "pawpal-fe-common/listings";
+import { createReservationAsync } from "pawpal-fe-common/listings-api";
+import { ICreateReservationPayload } from "pawpal-fe-common/listings-interfaces";
 import toast from "react-hot-toast";
 
 const useCreateReservation = () => {
