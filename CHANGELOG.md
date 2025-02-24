@@ -65,3 +65,14 @@
 ## Changed
 
 - Updated client import namespaces to latest pawpal-fe-common package version
+
+# [0.2.4]
+
+## Added
+
+- Upgraded pawpal-fe-common@0.0.169
+- Added user email verification mutation
+
+## Changed
+
+- Minor re-design of the verification page

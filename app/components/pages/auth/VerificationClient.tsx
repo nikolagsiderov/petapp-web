@@ -8,8 +8,11 @@ import { useTranslation } from "react-i18next";
 import { useRouter } from "next/navigation";
 import Button from "../../Button";
 import useLoginModal from "@/app/hooks/useLoginModal";
+import useVerifyEmail from "@/app/context/TRQs/users/mutations/useVerifyEmail";
+import EmptyState from "../../EmptyState";
 
-const VerificationClient = ({ id }: { id: string }) => {
+const VerificationClient = ({ id }: { id: string | null | undefined }) => {
+  const { mutate: verifyEmail } = useVerifyEmail();
   const { t } = useTranslation();
   const router = useRouter();
   const loginModal = useLoginModal();
@@ -19,17 +22,16 @@ const VerificationClient = ({ id }: { id: string }) => {
   useEffect(() => {
     if (id) {
       // Attempt to open mobile application, if user has it installed
-      const mobileAppUrl = `petapp://auth/verification?id=${id}`;
+      const mobileAppUrl = `petapp://verification?id=${id}`;
       window.location.href = mobileAppUrl;
 
       setTimeout(() => {
-        // TODO: Send verification request to backend
+        verifyEmail({ userId: id });
         setIsLoading(false);
 
-        // TODO: Check user session
+        // TODO: Check user session after HTTP-only implementation
         // if user is not authenticated
-        if (false) {
-          // Neshto drugo
+        if (true) {
         } else {
           setTimeout(() => {
             router.push("/petsitting");
@@ -37,9 +39,20 @@ const VerificationClient = ({ id }: { id: string }) => {
         }
       }, 5000); // Wait 5 seconds before proceeding with verification on web client, if user does not open mobile app or app is not installed
     }
-  }, [id, router]);
+  }, [id, router, verifyEmail]);
 
-  if (isLoading) {
+  if (!id) {
+    return (
+      <EmptyState
+        title={t("Invalid_verification_parameters")}
+        subtitle={t(
+          "Please_contact_us_if_you_are_unable_to_verify_your_email_address"
+        )}
+      />
+    );
+  }
+
+  if (id && isLoading) {
     return <Loader />;
   }
 
@@ -48,20 +61,18 @@ const VerificationClient = ({ id }: { id: string }) => {
       <div className="text-rose-500 h-[60vh] flex flex-col gap-2 justify-center items-center">
         <Heading
           title={t("Verification_complete")}
-          subtitle={t(
-            "Your_account_has_been_successfully_verified_Redirecting_you_to_platform"
-          )}
+          subtitle={t("Your_email_address_has_been_successfully_verified")}
           center
         />
         <div className="w-48 mt-4">
           {false ? (
             <Button
-              label="Влез в своя профил"
+              label={t("Sign_in_to_your_account_easily")}
               onClick={() => loginModal.onOpen()}
             />
           ) : (
             <Button
-              label="Продължи"
+              label={t("Continue")}
               onClick={() => router.push("/petsitting")}
             />
           )}
