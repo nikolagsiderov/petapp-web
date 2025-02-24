@@ -7,10 +7,12 @@ import Heading from "../../Heading";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/navigation";
 import Button from "../../Button";
+import useLoginModal from "@/app/hooks/useLoginModal";
 
 const VerificationClient = ({ id }: { id: string }) => {
   const { t } = useTranslation();
   const router = useRouter();
+  const loginModal = useLoginModal();
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -24,9 +26,15 @@ const VerificationClient = ({ id }: { id: string }) => {
         // TODO: Send verification request to backend
         setIsLoading(false);
 
-        setTimeout(() => {
-          router.push("/petsitting");
-        }, 10000); // After the initial 5 seconds wait we assume that the user has proceeded to verify in web client, therefore, after successful verification we redirect him to platform
+        // TODO: Check user session
+        // if user is not authenticated
+        if (false) {
+          // Neshto drugo
+        } else {
+          setTimeout(() => {
+            router.push("/petsitting");
+          }, 10000); // After the initial 5 seconds wait we assume that the user has proceeded to verify in web client, therefore, after successful verification we redirect him to platform
+        }
       }, 5000); // Wait 5 seconds before proceeding with verification on web client, if user does not open mobile app or app is not installed
     }
   }, [id, router]);
@@ -46,7 +54,17 @@ const VerificationClient = ({ id }: { id: string }) => {
           center
         />
         <div className="w-48 mt-4">
-          <Button label="Продължи" onClick={() => router.push("/petsitting")} />
+          {false ? (
+            <Button
+              label="Влез в своя профил"
+              onClick={() => loginModal.onOpen()}
+            />
+          ) : (
+            <Button
+              label="Продължи"
+              onClick={() => router.push("/petsitting")}
+            />
+          )}
         </div>
       </div>
     </MainContainer>
