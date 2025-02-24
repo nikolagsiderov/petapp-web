@@ -16,23 +16,19 @@ interface IParams {
 const VerificationPage = async ({ searchParams }: IParams) => {
   const { id } = searchParams;
 
-  if (id) {
-    return (
-      <ClientOnly>
-        <LoginModal />
-        <Navbar />
-        <MainContainer>
-          <div className="lg:pt-12 pt-28 pb-12 lg:pb-4">
-            <VerificationClient id={id} />
-          </div>
-        </MainContainer>
-        <Footer />
-        <BottomNav />
-      </ClientOnly>
-    );
-  }
-
-  return <EmptyState />;
+  return (
+    <ClientOnly>
+      <LoginModal />
+      <Navbar />
+      <MainContainer>
+        <div className="lg:pt-12 pt-28 pb-12 lg:pb-4">
+          <VerificationClient id={id} />
+        </div>
+      </MainContainer>
+      <Footer />
+      <BottomNav />
+    </ClientOnly>
+  );
 };
 
 export default VerificationPage;
