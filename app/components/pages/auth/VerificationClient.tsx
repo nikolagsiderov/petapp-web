@@ -8,16 +8,16 @@ import { useTranslation } from "react-i18next";
 import { useRouter } from "next/navigation";
 import Button from "../../Button";
 
-const VerificationClient = ({ token }: { token: string }) => {
+const VerificationClient = ({ id }: { id: string }) => {
   const { t } = useTranslation();
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (token) {
+    if (id) {
       // Attempt to open mobile application, if user has it installed
-      const mobileAppUrl = `petapp://auth/verification?token=${token}`;
+      const mobileAppUrl = `petapp://auth/verification?id=${id}`;
       window.location.href = mobileAppUrl;
 
       setTimeout(() => {
@@ -29,7 +29,7 @@ const VerificationClient = ({ token }: { token: string }) => {
         }, 10000); // After the initial 5 seconds wait we assume that the user has proceeded to verify in web client, therefore, after successful verification we redirect him to platform
       }, 5000); // Wait 5 seconds before proceeding with verification on web client, if user does not open mobile app or app is not installed
     }
-  }, [token, router]);
+  }, [id, router]);
 
   if (isLoading) {
     return <Loader />;

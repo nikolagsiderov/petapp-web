@@ -5,19 +5,19 @@ import VerificationClient from "@/app/components/pages/auth/VerificationClient";
 
 interface IParams {
   searchParams: {
-    token: string;
+    id?: string;
   };
 }
 
 const VerificationPage = async ({ searchParams }: IParams) => {
-  const { token } = searchParams;
+  const { id } = searchParams;
 
-  if (token) {
+  if (id) {
     return (
       <ClientOnly>
         <MainContainer>
           <div className="lg:pt-12 pt-28 pb-12 lg:pb-4">
-            <VerificationClient token={token} />
+            <VerificationClient id={id} />
           </div>
         </MainContainer>
       </ClientOnly>
