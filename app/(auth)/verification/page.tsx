@@ -1,5 +1,6 @@
 import ClientOnly from "@/app/components/ClientOnly";
 import EmptyState from "@/app/components/EmptyState";
+import MainContainer from "@/app/components/MainContainer";
 import VerificationClient from "@/app/components/pages/auth/VerificationClient";
 
 interface IParams {
@@ -14,7 +15,11 @@ const VerificationPage = async ({ searchParams }: IParams) => {
   if (token) {
     return (
       <ClientOnly>
-        <VerificationClient token={token} />
+        <MainContainer>
+          <div className="lg:pt-12 pt-28 pb-12 lg:pb-4">
+            <VerificationClient token={token} />
+          </div>
+        </MainContainer>
       </ClientOnly>
     );
   }
