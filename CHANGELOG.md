@@ -77,7 +77,7 @@
 
 - Minor re-design of the verification page
 
-# [0.2.4]
+# [0.2.5]
 
 ## Added
 
