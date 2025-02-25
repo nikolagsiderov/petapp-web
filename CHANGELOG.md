@@ -91,7 +91,7 @@
 
 ## Added
 
-- Upgraded pawpal-fe-common@0.0.177
+- Upgraded pawpal-fe-common@0.0.179
 - Handling authentication through HTTP-only access token cookie
 - Added AuthContext and provider
 - Added useSignOutBE query which calls the /api/v1/users/logout endpoint
