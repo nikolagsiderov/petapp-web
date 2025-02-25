@@ -19,7 +19,6 @@ const useCurrentUserListings = () => {
         // handleError(error);
       }
     },
-    refetchOnMount: true,
     enabled: authStatus,
   });
 };
