@@ -10,6 +10,7 @@ import Button from "../../Button";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import useVerifyEmail from "@/app/context/TRQs/users/mutations/useVerifyEmail";
 import EmptyState from "../../EmptyState";
+import { FiCheckCircle } from "react-icons/fi";
 
 const VerificationClient = ({ id }: { id: string | null | undefined }) => {
   const { mutate: verifyEmail } = useVerifyEmail();
@@ -24,19 +25,9 @@ const VerificationClient = ({ id }: { id: string | null | undefined }) => {
       // Attempt to open mobile application, if user has it installed
       const mobileAppUrl = `petapp://verification?id=${id}`;
       window.location.href = mobileAppUrl;
-
       setTimeout(() => {
         verifyEmail({ userId: id });
         setIsLoading(false);
-
-        // TODO: Check user session after HTTP-only implementation
-        // if user is not authenticated
-        if (true) {
-        } else {
-          setTimeout(() => {
-            router.push("/petsitting");
-          }, 10000); // After the initial 5 seconds wait we assume that the user has proceeded to verify in web client, therefore, after successful verification we redirect him to platform
-        }
       }, 5000); // Wait 5 seconds before proceeding with verification on web client, if user does not open mobile app or app is not installed
     }
   }, [id, router, verifyEmail]);
@@ -58,24 +49,20 @@ const VerificationClient = ({ id }: { id: string | null | undefined }) => {
 
   return (
     <MainContainer>
-      <div className="text-rose-500 h-[60vh] flex flex-col gap-2 justify-center items-center">
+      <div className="text-emerald-500 h-[60vh] flex flex-col gap-2 justify-center items-center">
+        <FiCheckCircle size={64} className="text-emerald-500" />
         <Heading
           title={t("Verification_complete")}
           subtitle={t("Your_email_address_has_been_successfully_verified")}
           center
         />
         <div className="w-48 mt-4">
-          {false ? (
-            <Button
-              label={t("Sign_in_to_your_account_easily")}
-              onClick={() => loginModal.onOpen()}
-            />
-          ) : (
-            <Button
-              label={t("Continue")}
-              onClick={() => router.push("/petsitting")}
-            />
-          )}
+          <Button
+            outline
+            small
+            label={t("Sign_in_to_your_profile")}
+            onClick={() => loginModal.onOpen()}
+          />
         </div>
       </div>
     </MainContainer>
