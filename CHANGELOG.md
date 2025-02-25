@@ -86,3 +86,17 @@
 ## Changed
 
 - Minor re-design of the verification page v2
+
+# [0.3.0]
+
+## Added
+
+- Upgraded pawpal-fe-common@0.0.177
+- Handling authentication through HTTP-only access token cookie
+- Added AuthContext and provider
+- Added useSignOutBE query which calls the /api/v1/users/logout endpoint
+- Added useAuth() hook which now implements queries enable status
+
+## Changed
+
+- Due to HTTP-only cookie nature, authentication will not be supported currently during local development, i.e. 'localhost', as it is not HTTPS

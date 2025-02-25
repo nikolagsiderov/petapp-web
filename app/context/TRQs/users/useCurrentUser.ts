@@ -1,13 +1,13 @@
 "use client";
 
 import { getCurrentUserAsync } from "pawpal-fe-common/users-api";
-import useAuthentication from "../useAuthentication";
 import { useQuery } from "@tanstack/react-query";
 import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
+import { useAuth } from "../../AuthContext";
 
 const useCurrentUser = () => {
   const { handleError } = useGlobalErrorHandler();
-  const { data: authenticated } = useAuthentication();
+  const { authStatus } = useAuth();
 
   return useQuery({
     queryKey: ["useCurrentUser"],
@@ -19,8 +19,7 @@ const useCurrentUser = () => {
         handleError(error);
       }
     },
-    refetchOnMount: true,
-    enabled: !!authenticated,
+    enabled: authStatus,
   });
 };
 

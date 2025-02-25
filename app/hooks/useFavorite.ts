@@ -3,10 +3,10 @@
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import useLoginModal from "./useLoginModal";
-import useAuthentication from "../context/TRQs/useAuthentication";
 import useAddListingToFavorites from "../context/TRQs/favorites/mutations/useAddListingToFavorites";
 import useRemoveListingFromFavorites from "../context/TRQs/favorites/mutations/useRemoveListingFromFavorites";
 import { Listing } from "pawpal-fe-common/listings-types";
+import { useAuth } from "../context/AuthContext";
 
 interface IUseFavorite {
   listing: Listing;
@@ -15,7 +15,7 @@ interface IUseFavorite {
 const useFavorite = ({ listing }: IUseFavorite) => {
   const router = useRouter();
   const loginModal = useLoginModal();
-  const { data: isAuthenticated } = useAuthentication();
+  const { authStatus } = useAuth();
   const { mutate: post } = useAddListingToFavorites();
   const { mutate: remove } = useRemoveListingFromFavorites();
 
@@ -23,7 +23,7 @@ const useFavorite = ({ listing }: IUseFavorite) => {
     async (e: React.MouseEvent<HTMLDivElement>) => {
       e.stopPropagation();
 
-      if (!isAuthenticated) {
+      if (!authStatus) {
         return loginModal.onOpen();
       }
 
@@ -35,7 +35,7 @@ const useFavorite = ({ listing }: IUseFavorite) => {
 
       router.refresh();
     },
-    [loginModal, router, isAuthenticated, listing, post, remove]
+    [loginModal, router, authStatus, listing, post, remove]
   );
 
   return {

@@ -3,10 +3,10 @@
 import { useQuery } from "@tanstack/react-query";
 import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
 import { getFavoriteListings } from "pawpal-fe-common/listings-api";
-import useAuthentication from "../useAuthentication";
+import { useAuth } from "../../AuthContext";
 
 const useFavoriteListings = () => {
-  const { data: authenticated } = useAuthentication();
+  const { authStatus } = useAuth();
   const { handleError } = useGlobalErrorHandler();
 
   return useQuery({
@@ -19,8 +19,7 @@ const useFavoriteListings = () => {
         handleError(error);
       }
     },
-    refetchOnMount: true,
-    enabled: !!authenticated,
+    enabled: authStatus,
   });
 };
 

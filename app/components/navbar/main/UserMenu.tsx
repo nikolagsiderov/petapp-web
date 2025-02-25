@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from "@/app/context/state/hooks";
 import { set as setBGLocalization } from "@/app/context/state/features/bgLocalizationReducer";
 import { FiTag, FiUser, FiGrid, FiLogOut } from "react-icons/fi";
 import { User } from "pawpal-fe-common/users-types";
+import useSignOut from "@/app/hooks/useSignOut";
 
 interface UserMenuProps {
   currentUser?: User | null;
@@ -39,6 +40,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
   const becomeSitterModal = useBecomeSitterModal();
+  const { signOut } = useSignOut();
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleOpen = useCallback(() => {
@@ -137,7 +139,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
                 />
                 <hr />
                 <MenuItem
-                  onClick={() => {}}
+                  onClick={() => signOut()}
                   Icon={FiLogOut}
                   label="Излез"
                   fontWeightClass={"font-light"}
