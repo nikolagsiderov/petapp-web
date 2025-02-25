@@ -3,10 +3,10 @@
 import { useQuery } from "@tanstack/react-query";
 import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
 import { getListingReviewsAsync } from "pawpal-fe-common/reviews-api";
-import useAuthentication from "../useAuthentication";
+import { useAuth } from "../../AuthContext";
 
 const useListingReviews = (targetItemId: string) => {
-  const { data: authenticated } = useAuthentication();
+  const { authStatus } = useAuth();
   const { handleError } = useGlobalErrorHandler();
 
   return useQuery({
@@ -20,7 +20,7 @@ const useListingReviews = (targetItemId: string) => {
       }
     },
     refetchOnMount: true,
-    enabled: !!authenticated,
+    enabled: authStatus,
   });
 };
 

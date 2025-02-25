@@ -2,26 +2,27 @@
 
 import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import { authenticateWithGoogleAsync } from "pawpal-fe-common/users-api";
 import { IAuthenticateWithGooglePayload } from "pawpal-fe-common/users-interfaces";
-import useAuthentication from "../../useAuthentication";
 import useCurrentUser from "../useCurrentUser";
+import useListings from "../../listings/useListings";
+import { useAuth } from "@/app/context/AuthContext";
 
 const useAuthenticateWithGoogle = () => {
   const queryClient = useQueryClient();
   const { handleError } = useGlobalErrorHandler();
-  const router = useRouter();
+  const { setAuthStatus } = useAuth();
 
   return useMutation({
     mutationFn: async (payload: IAuthenticateWithGooglePayload) =>
       await authenticateWithGoogleAsync(payload),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [useAuthentication.name],
-      });
+      setAuthStatus(true);
       queryClient.invalidateQueries({
         queryKey: [useCurrentUser.name],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [useListings.name],
       });
     },
     onError: (error) => {

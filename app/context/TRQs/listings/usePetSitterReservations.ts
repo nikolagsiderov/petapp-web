@@ -3,10 +3,10 @@
 import { useQuery } from "@tanstack/react-query";
 import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
 import { getPetsitterReservationsAsync } from "pawpal-fe-common/listings-api";
-import useAuthentication from "../useAuthentication";
+import { useAuth } from "../../AuthContext";
 
 const usePetSitterReservations = () => {
-  const { data: authenticated } = useAuthentication();
+  const { authStatus } = useAuth();
   const { handleError } = useGlobalErrorHandler();
 
   return useQuery({
@@ -20,7 +20,7 @@ const usePetSitterReservations = () => {
       }
     },
     refetchOnMount: true,
-    enabled: !!authenticated,
+    enabled: authStatus,
   });
 };
 

@@ -3,10 +3,10 @@
 import { useQuery } from "@tanstack/react-query";
 import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
 import { getCurrentUserListingsAsync } from "pawpal-fe-common/listings-api";
-import useAuthentication from "../useAuthentication";
+import { useAuth } from "../../AuthContext";
 
 const useCurrentUserListings = () => {
-  const { data: authenticated } = useAuthentication();
+  const { authStatus } = useAuth();
   const { handleError } = useGlobalErrorHandler();
 
   return useQuery({
@@ -16,11 +16,11 @@ const useCurrentUserListings = () => {
         const res = await getCurrentUserListingsAsync();
         return res;
       } catch (error) {
-        handleError(error);
+        // handleError(error);
       }
     },
     refetchOnMount: true,
-    enabled: !!authenticated,
+    enabled: authStatus,
   });
 };
 

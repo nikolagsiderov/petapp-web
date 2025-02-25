@@ -12,10 +12,10 @@ import ListingInfo from "@/app/components/listings/ListingInfo";
 import ListingReservation from "@/app/components/listings/ListingReservation";
 import ListingReviews from "@/app/components/listings/ListingReviews";
 import ListingMap from "@/app/components/listings/ListingMap";
-import useAuthentication from "@/app/context/TRQs/useAuthentication";
 import useCreateReservation from "@/app/context/TRQs/listings/mutations/useCreateReservation";
 import useListingById from "@/app/context/TRQs/listings/useListingById";
 import EmptyState from "@/app/components/EmptyState";
+import { useAuth } from "@/app/context/AuthContext";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -32,7 +32,7 @@ const ListingClient: React.FC<ListingClientProps> = ({ id }) => {
   // const reviews = await getReviews(params); // TODO: GET reviews and utilize
 
   const loginModal = useLoginModal();
-  const { data: isAuthenticated } = useAuthentication();
+  const { authStatus } = useAuth();
   const { mutate: createReservation } = useCreateReservation();
 
   const category = useMemo(() => {
@@ -56,7 +56,7 @@ const ListingClient: React.FC<ListingClientProps> = ({ id }) => {
   }, [dateRange, listing]);
 
   const onSubmit = async () => {
-    if (!isAuthenticated) {
+    if (!authStatus) {
       return loginModal.onOpen();
     }
 

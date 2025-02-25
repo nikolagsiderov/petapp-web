@@ -1,30 +1,22 @@
 "use client";
 
 import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { registerAsync } from "pawpal-fe-common/users-api";
 import { IRegisterPayload } from "pawpal-fe-common/users-interfaces";
-import useAuthentication from "../../useAuthentication";
-import useCurrentUser from "../useCurrentUser";
-import toast from "react-hot-toast";
 
 const useRegister = () => {
   const { handleError } = useGlobalErrorHandler();
-  const queryClient = useQueryClient();
   const router = useRouter();
 
   return useMutation({
-    mutationFn: async (payload: IRegisterPayload) => registerAsync(payload),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [useAuthentication.name],
-      });
-      queryClient.invalidateQueries({
-        queryKey: [useCurrentUser.name],
-      });
-      router.replace("/(tabs)/profile");
-      toast.success("Успешно се регистрирахте!");
+    mutationFn: async (payload: IRegisterPayload) => {
+      registerAsync(payload);
+      return payload.email;
+    },
+    onSuccess: (email: string) => {
+      router.replace(`/auth/verification_required?email=${email}`);
     },
     onError: (error) => {
       handleError(error ?? null);

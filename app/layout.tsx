@@ -7,6 +7,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ReduxProvider } from "./providers/ReduxProvider";
 import TanStackReactQueryProvider from "./providers/TanStackReactQueryProvider";
+import { AuthProvider } from "./context/AuthContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,14 +24,16 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <TanStackReactQueryProvider>
-          <ReduxProvider>
-            <ClientOnly>
-              <ToasterProvider />
-              <div>{children}</div>
-            </ClientOnly>
-          </ReduxProvider>
-        </TanStackReactQueryProvider>
+        <AuthProvider>
+          <TanStackReactQueryProvider>
+            <ReduxProvider>
+              <ClientOnly>
+                <ToasterProvider />
+                <div>{children}</div>
+              </ClientOnly>
+            </ReduxProvider>
+          </TanStackReactQueryProvider>
+        </AuthProvider>
         <Analytics />
         <SpeedInsights />
       </body>
