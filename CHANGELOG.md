@@ -76,3 +76,13 @@
 ## Changed
 
 - Minor re-design of the verification page
+
+# [0.2.5]
+
+## Added
+
+- Upgraded pawpal-fe-common@0.0.172
+
+## Changed
+
+- Minor re-design of the verification page v2
