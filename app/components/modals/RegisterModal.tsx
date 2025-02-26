@@ -1,24 +1,38 @@
 "use client";
 
-import { FcGoogle } from "react-icons/fc";
 import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
+import { GoogleLogin, GoogleCredentialResponse } from "@react-oauth/google";
 import Modal from "./Modal";
 import Heading from "../Heading";
 import Input from "../inputs/Input";
 import toast from "react-hot-toast";
-import Button from "../Button";
 import useLoginModal from "@/app/hooks/useLoginModal";
-import { useRouter } from "next/navigation";
 import useRegister from "@/app/context/TRQs/users/mutations/useRegister";
+import useAuthenticateWithGoogle from "@/app/context/TRQs/users/mutations/useAuthenticateWithGoogle";
 
 const RegisterModal = () => {
-  const router = useRouter();
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
   const [loading, setLoading] = useState(false);
-  const { mutate: registerUser } = useRegister();
+
+  const onRegisterUserSuccessCallback = () => {
+    setLoading(false);
+    registerModal.onClose();
+  };
+
+  const { mutate: registerUser } = useRegister(onRegisterUserSuccessCallback);
+
+  const onSignInWithGoogleSuccessCallback = () => {
+    setLoading(false);
+    registerModal.onClose();
+    toast.success("Добре дошли");
+  };
+
+  const { mutate: signInWithGoogle } = useAuthenticateWithGoogle(
+    onSignInWithGoogleSuccessCallback
+  );
 
   const {
     register,
@@ -42,9 +56,23 @@ const RegisterModal = () => {
       email: data.email,
       password: data.password,
     });
+  };
 
-    setLoading(false);
-    registerModal.onClose();
+  const handleGoogleSignIn = async (response: GoogleCredentialResponse) => {
+    if (response?.credential) {
+      const { credential } = response;
+      try {
+        setLoading(true);
+        await signInWithGoogle({ idToken: credential, platform: "web" });
+      } catch (error) {
+        toast.error("Google Sign-In failed!"); // TODO: Handle failure
+      }
+    }
+  };
+
+  const handleGoogleError = (error: any) => {
+    toast.error("Google Sign-In failed!");
+    console.error("Google Login Error:", error);
   };
 
   const toggle = useCallback(() => {
@@ -93,12 +121,12 @@ const RegisterModal = () => {
 
   const footerContent = (
     <div className="flex flex-col gap-4 mt-3">
-      <hr />
-      <Button
-        outline
-        label="Продължи с Google"
-        icon={FcGoogle}
-        onClick={() => {}}
+      <GoogleLogin
+        onSuccess={handleGoogleSignIn}
+        onError={() => handleGoogleError}
+        text="continue_with"
+        shape="circle"
+        theme="outline"
       />
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="justify-center flex flex-row items-center gap-2">
