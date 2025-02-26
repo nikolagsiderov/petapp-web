@@ -4,10 +4,7 @@ import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useLoginModal from "@/app/hooks/useLoginModal";
-import {
-  GoogleLogin,
-  GoogleCredentialResponse,
-} from "@react-oauth/google";
+import { GoogleLogin, GoogleCredentialResponse } from "@react-oauth/google";
 import Modal from "./Modal";
 import Heading from "../Heading";
 import Input from "../inputs/Input";
@@ -108,6 +105,9 @@ const LoginModal = () => {
       <GoogleLogin
         onSuccess={handleGoogleSignIn}
         onError={() => handleGoogleError}
+        text="continue_with"
+        shape="circle"
+        theme="outline"
       />
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="justify-center flex flex-row items-center gap-2">

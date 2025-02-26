@@ -4,10 +4,7 @@ import Button from "@/app/components/Button";
 import ClientOnly from "@/app/components/ClientOnly";
 import Heading from "@/app/components/Heading";
 import Input from "@/app/components/inputs/Input";
-import {
-  GoogleLogin,
-  GoogleCredentialResponse,
-} from "@react-oauth/google";
+import { GoogleLogin, GoogleCredentialResponse } from "@react-oauth/google";
 import useAuthenticate from "@/app/context/TRQs/users/mutations/useAuthenticate";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -103,6 +100,9 @@ const LoginClient = () => {
       <GoogleLogin
         onSuccess={handleGoogleSignIn}
         onError={() => handleGoogleError}
+        text="continue_with"
+        shape="circle"
+        theme="outline"
       />
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="justify-center flex flex-row items-center gap-2">
