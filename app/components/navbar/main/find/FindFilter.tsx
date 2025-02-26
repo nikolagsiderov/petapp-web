@@ -6,8 +6,10 @@ import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { BiSearch } from "react-icons/bi";
 import { differenceInDays } from "date-fns";
+import { useTranslation } from "react-i18next";
 
 const FindFilter = () => {
+  const { t } = useTranslation();
   const searchModal = useSearchModal();
   const params = useSearchParams();
   const { getByValue } = useTowns();
@@ -28,7 +30,7 @@ const FindFilter = () => {
       return address;
     }
 
-    return "Къде";
+    return t("Where");
   }, [address, getByValue]);
 
   const locationSecondaryLabel = useMemo(() => {
@@ -36,7 +38,7 @@ const FindFilter = () => {
       return null;
     }
 
-    return "Последна известна локация";
+    return t("Last_known_location");
   }, [address]);
 
   const locationLabelIsTextLarger = useMemo(() => {
@@ -54,13 +56,13 @@ const FindFilter = () => {
       let diff = differenceInDays(end, start);
 
       if (diff === 0) {
-        return `${++diff} ден`;
+        return `${++diff} ${t("day")}`;
       }
 
-      return `${++diff} дни`;
+      return `${++diff} ${t("days")}`;
     }
 
-    return "Кога";
+    return t("When");
   }, [startDate, endDate]);
 
   const durationSecondaryLabel = useMemo(() => {
@@ -76,7 +78,7 @@ const FindFilter = () => {
       return null;
     }
 
-    return "Последно видяно";
+    return t("Last_seen");
   }, [startDate, endDate]);
 
   const durationLabelIsTextLarger = useMemo(() => {
@@ -100,7 +102,7 @@ const FindFilter = () => {
       return `${category}`;
     }
 
-    return "Всички сигнали";
+    return t("All_reports");
   }, [category]);
 
   return (

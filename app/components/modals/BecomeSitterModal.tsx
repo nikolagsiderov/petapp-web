@@ -10,9 +10,9 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import ImageUpload from "../inputs/ImageUpload";
 import Input from "../inputs/Input";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 import LocationInput from "../inputs/LocationInput";
 import useCreateListing from "@/app/context/TRQs/listings/mutations/useCreateListing";
+import { useTranslation } from "react-i18next";
 
 enum STEPS {
   CATEGORY = 0,
@@ -28,7 +28,7 @@ const toFixedNumber = (num: number) => {
 };
 
 const BecomeSitterModal = () => {
-  const router = useRouter();
+  const { t } = useTranslation();
   const becomeSitterModal = useBecomeSitterModal();
   const { mutate: createListing } = useCreateListing();
 
@@ -90,9 +90,7 @@ const BecomeSitterModal = () => {
         data.price <= 0 ||
         data.images == null
       ) {
-        toast.error(
-          "Моля въведи категория, локация, снимка, описание и цена, за да продължиш."
-        );
+        toast.error(t("All_fields_are_required"));
       } else {
         setIsLoading(true);
         await createListing({
@@ -117,10 +115,10 @@ const BecomeSitterModal = () => {
 
   const actionLabel = useMemo(() => {
     if (step === STEPS.PRICE) {
-      return "Стани гледач";
+      return t("Become_pet_sitter");
     }
 
-    return "Продължи";
+    return t("Continue");
   }, [step]);
 
   const secondaryActionLabel = useMemo(() => {
@@ -128,14 +126,14 @@ const BecomeSitterModal = () => {
       return undefined;
     }
 
-    return "Назад";
+    return t("Back");
   }, [step]);
 
   let bodyContent = (
     <div className="flex flex-col gap-8">
       <Heading
-        title="Избери домашен любимец"
-        subtitle="Какъв домашен любимец е добре дошъл при вас"
+        title={t("Select_a_pet")}
+        subtitle={t("What_type_of_pet_is_welcome_at_your_place")}
       />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[50svh] overflow-y-auto">
         {categories.map((item) => (
@@ -157,8 +155,8 @@ const BecomeSitterModal = () => {
     bodyContent = (
       <div className="flex flex-col gap-8">
         <Heading
-          title="Къде се намирате"
-          subtitle="Помогнете на хората да ви намират лесно"
+          title={t("Where_are_you_located")}
+          subtitle={t("Help_people_find_you_easily")}
         />
         <LocationInput
           onChange={(value) => setCustomValue("location", value)}
@@ -171,8 +169,8 @@ const BecomeSitterModal = () => {
     bodyContent = (
       <div className="flex flex-col gap-8">
         <Heading
-          title="Качи снимка"
-          subtitle="Добави снимка към твоята обява"
+          title={t("Add_a_photo")}
+          subtitle={t("Add_a_photo_of_your_accommodation_or_your_pets")}
         />
         <ImageUpload onChange={(value) => setCustomValue("images", value)} />
       </div>
@@ -183,12 +181,14 @@ const BecomeSitterModal = () => {
     bodyContent = (
       <div className="flex flex-col gap-8">
         <Heading
-          title="Описание"
-          subtitle="Добави кратко описание за себе си и твоята обява"
+          title={t("Description_of_listing")}
+          subtitle={t(
+            "Add_a_brief_description_about_yourself_and_your_listing"
+          )}
         />
         <Input
           id="description"
-          label="Описание"
+          label={t("Description_of_listing")}
           textarea
           disabled={isLoading}
           register={register}
@@ -203,12 +203,12 @@ const BecomeSitterModal = () => {
     bodyContent = (
       <div className="flex flex-col gap-8">
         <Heading
-          title="Цена"
-          subtitle="Каква е цената на твоята обявя на ден"
+          title={t("Price_of_listing")}
+          subtitle={t("What_will_be_the_price_per_day_for_your_listing")}
         />
         <Input
           id="price"
-          label="Цена"
+          label={t("Price_of_listing")}
           type="number"
           disabled={isLoading}
           register={register}
@@ -221,7 +221,7 @@ const BecomeSitterModal = () => {
 
   return (
     <Modal
-      title="Стани гледач"
+      title={t("Become_pet_sitter")}
       isOpen={becomeSitterModal.isOpen}
       onClose={becomeSitterModal.onClose}
       onSubmit={handleSubmit(onSubmit)}

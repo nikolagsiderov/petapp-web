@@ -1,3 +1,13 @@
+# [0.2.9]
+
+## Added
+
+- Enable localization
+
+## TODO
+
+- I am at app/components/navbar/main/UserMenu.tsx
+
 # [0.2.8]
 
 ## Added

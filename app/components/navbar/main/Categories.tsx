@@ -19,6 +19,7 @@ export const categories = [
     icon: FaDog,
     imageSrc: "/vectors/dog.svg",
     description: "Тази обява се отнася за кучета.",
+    descriptionEN: "This listing is for dogs.",
   },
   {
     label: "Котета",
@@ -26,6 +27,7 @@ export const categories = [
     icon: FaCat,
     imageSrc: "/vectors/cat.svg",
     description: "Тази обява се отнася за котки.",
+    descriptionEN: "This listing is for cats.",
   },
   {
     label: "Зайчета",
@@ -33,6 +35,7 @@ export const categories = [
     icon: GiRabbit,
     imageSrc: "/vectors/bunny.svg",
     description: "Тази обява се отнася за зайци.",
+    descriptionEN: "This listing is for rabbits.",
   },
   {
     label: "Птици",
@@ -40,6 +43,7 @@ export const categories = [
     icon: GiParrotHead,
     imageSrc: "/vectors/bird.svg",
     description: "Тази обява се отнася за птици.",
+    descriptionEN: "This listing is for birds.",
   },
   {
     label: "Рибки",
@@ -47,6 +51,7 @@ export const categories = [
     icon: IoFish,
     imageSrc: "/vectors/fish.svg",
     description: "Тази обява се отнася за риби.",
+    descriptionEN: "This listing is for fish.",
   },
   {
     label: "Гризачи",
@@ -54,6 +59,7 @@ export const categories = [
     icon: MdPestControlRodent,
     imageSrc: "/vectors/squirrel.svg",
     description: "Тази обява се отнася за гризачи.",
+    descriptionEN: "This listing is for rodents.",
   },
 ];
 

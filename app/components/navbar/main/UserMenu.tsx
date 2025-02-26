@@ -27,13 +27,6 @@ const UserMenu: React.FC<UserMenuProps> = ({
   hasUserAlreadyListed,
   currentPathIsPetSitting,
 }) => {
-  const dispatch = useAppDispatch();
-  const bgLocalization = useAppSelector((state) => state.bgLocalization.value);
-
-  const handleSetBGLocalization = (payload: string) => {
-    dispatch(setBGLocalization(payload));
-  };
-
   const ref = useRef<HTMLDivElement | null>(null);
   const additionalRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();

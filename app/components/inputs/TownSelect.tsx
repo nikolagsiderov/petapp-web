@@ -1,6 +1,7 @@
 "use client";
 
 import useTowns from "@/app/hooks/useTowns";
+import { useTranslation } from "react-i18next";
 import Select from "react-select";
 
 export type TownSelectValue = {
@@ -17,12 +18,13 @@ interface TownSelectProps {
 }
 
 const TownSelect: React.FC<TownSelectProps> = ({ value, onChange }) => {
+  const { t } = useTranslation();
   const { getAll } = useTowns();
 
   return (
     <div>
       <Select
-        placeholder="Избери локация..."
+        placeholder={t("Select_location")}
         isClearable
         options={getAll()}
         value={value}

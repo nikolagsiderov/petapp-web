@@ -12,6 +12,7 @@ import { reservationStatuses } from "pawpal-fe-common/constants";
 import useListingReviews from "@/app/context/TRQs/reviews/useListingReviews";
 import { Listing, Reservation } from "pawpal-fe-common/listings-types";
 import { usePawPalImage } from "pawpal-fe-common/hooks";
+import { useTranslation } from "react-i18next";
 
 interface ListingCardProps {
   horizontal?: boolean;
@@ -35,6 +36,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
   listingUserName,
 }) => {
   const router = useRouter();
+  const { t } = useTranslation();
   const { data: reviewsData } = useListingReviews(data.id);
   const { getImageSrc } = usePawPalImage();
 
@@ -109,7 +111,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
           )} */}
           <div className="absolute bottom-3 left-3">
             <span className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 tracking-tighter">
-              Настанява <span className="lowercase ml-1">{category}</span>
+              {t("Hosts")} <span className="lowercase ml-1">{category}</span>
             </span>
           </div>
           {!reservation && (
@@ -140,9 +142,9 @@ const ListingCard: React.FC<ListingCardProps> = ({
             <div className="flex flex-row items-center gap-1">
               <div className="font-semibold">{price.toFixed(2)}</div>{" "}
               {reservation ? (
-                <div className="font-light">лева общо</div>
+                <div className="font-light">{t("total_price")}</div>
               ) : (
-                <div className="font-light">лв/ден</div>
+                <div className="font-light">{t("BGN_per_day")}</div>
               )}
             </div>
           </div>
@@ -179,11 +181,11 @@ const ListingCard: React.FC<ListingCardProps> = ({
             >
               {reservation.status === reservationStatuses.accepted ? (
                 <div className="font-light text-emerald-800 text-sm">
-                  <span>Резервацията е одобрена</span>
+                  <span>{t("Reservation_request_accepted")}</span>
                 </div>
               ) : (
                 <div className="font-light text-rose-800 text-sm">
-                  <span>Тази резервация все още очаква да се одобри</span>
+                  <span>{t("Reservation_request_still_pending")}</span>
                 </div>
               )}
             </div>
