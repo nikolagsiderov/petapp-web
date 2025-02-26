@@ -4,17 +4,33 @@ import Button from "@/app/components/Button";
 import ClientOnly from "@/app/components/ClientOnly";
 import Heading from "@/app/components/Heading";
 import Input from "@/app/components/inputs/Input";
+import { GoogleLogin, GoogleCredentialResponse } from "@react-oauth/google";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { FcGoogle } from "react-icons/fc";
 import useRegister from "@/app/context/TRQs/users/mutations/useRegister";
+import useAuthenticateWithGoogle from "@/app/context/TRQs/users/mutations/useAuthenticateWithGoogle";
 
 const RegisterClient = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const { mutate: registerUser } = useRegister();
+
+  const onRegisterUserSuccessCallback = () => {
+    setLoading(false);
+  };
+
+  const { mutate: registerUser } = useRegister(onRegisterUserSuccessCallback);
+
+  const onSignInWithGoogleSuccessCallback = () => {
+    setLoading(false);
+    router.replace("/");
+    toast.success("Добре дошли");
+  };
+
+  const { mutate: signInWithGoogle } = useAuthenticateWithGoogle(
+    onSignInWithGoogleSuccessCallback
+  );
 
   const {
     register,
@@ -40,6 +56,23 @@ const RegisterClient = () => {
     });
 
     setLoading(false);
+  };
+
+  const handleGoogleSignIn = async (response: GoogleCredentialResponse) => {
+    if (response?.credential) {
+      const { credential } = response;
+      try {
+        setLoading(true);
+        await signInWithGoogle({ idToken: credential, platform: "web" });
+      } catch (error) {
+        toast.error("Google Sign-In failed!"); // TODO: Handle failure
+      }
+    }
+  };
+
+  const handleGoogleError = (error: any) => {
+    toast.error("Google Sign-In failed!");
+    console.error("Google Login Error:", error);
   };
 
   const bodyContent = (
@@ -83,12 +116,12 @@ const RegisterClient = () => {
 
   const footerContent = (
     <div className="flex flex-col gap-4 mt-3">
-      <hr />
-      <Button
-        outline
-        label="Продължи с Google"
-        icon={FcGoogle}
-        onClick={() => {}}
+      <GoogleLogin
+        onSuccess={handleGoogleSignIn}
+        onError={() => handleGoogleError}
+        text="continue_with"
+        shape="circle"
+        theme="outline"
       />
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="justify-center flex flex-row items-center gap-2">

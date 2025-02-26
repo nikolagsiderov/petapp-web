@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { registerAsync } from "pawpal-fe-common/users-api";
 import { IRegisterPayload } from "pawpal-fe-common/users-interfaces";
 
-const useRegister = () => {
+const useRegister = (onSuccessCallback?: () => void) => {
   const { handleError } = useGlobalErrorHandler();
   const router = useRouter();
 
@@ -16,6 +16,10 @@ const useRegister = () => {
       return payload.email;
     },
     onSuccess: (email: string) => {
+      if (onSuccessCallback) {
+        onSuccessCallback();
+      }
+      
       router.replace(`/verification-required?email=${email}`);
     },
     onError: (error) => {

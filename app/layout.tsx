@@ -8,6 +8,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ReduxProvider } from "./providers/ReduxProvider";
 import TanStackReactQueryProvider from "./providers/TanStackReactQueryProvider";
 import { AuthProvider } from "./context/AuthContext";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,10 +28,12 @@ export default async function RootLayout({
         <AuthProvider>
           <TanStackReactQueryProvider>
             <ReduxProvider>
-              <ClientOnly>
-                <ToasterProvider />
-                <div>{children}</div>
-              </ClientOnly>
+              <GoogleOAuthProvider clientId="508483481007-bnvs2k6jpc0ei0t075ecps22b5cbga8f.apps.googleusercontent.com">
+                <ClientOnly>
+                  <ToasterProvider />
+                  <div>{children}</div>
+                </ClientOnly>
+              </GoogleOAuthProvider>
             </ReduxProvider>
           </TanStackReactQueryProvider>
         </AuthProvider>

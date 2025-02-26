@@ -7,11 +7,14 @@ import { IAuthenticateWithGooglePayload } from "pawpal-fe-common/users-interface
 import useCurrentUser from "../useCurrentUser";
 import useListings from "../../listings/useListings";
 import { useAuth } from "@/app/context/AuthContext";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
-const useAuthenticateWithGoogle = () => {
+const useAuthenticateWithGoogle = (onSuccessCallback?: () => void) => {
   const queryClient = useQueryClient();
   const { handleError } = useGlobalErrorHandler();
   const { setAuthStatus } = useAuth();
+  const router = useRouter();
 
   return useMutation({
     mutationFn: async (payload: IAuthenticateWithGooglePayload) =>
@@ -24,6 +27,10 @@ const useAuthenticateWithGoogle = () => {
       queryClient.invalidateQueries({
         queryKey: [useListings.name],
       });
+
+      if (onSuccessCallback) {
+        onSuccessCallback();
+      }
     },
     onError: (error) => {
       handleError(error ?? null);

@@ -1,7 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["pawpaldevassets.blob.core.windows.net"],
+    domains: [
+      "pawpaldevassets.blob.core.windows.net",
+      "lh3.googleusercontent.com",
+    ],
   },
   webpack: (config) => {
     config.resolve.alias["expo-secure-store"] = false;

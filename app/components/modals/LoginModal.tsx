@@ -1,28 +1,36 @@
 "use client";
 
-import { FcGoogle } from "react-icons/fc";
 import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useLoginModal from "@/app/hooks/useLoginModal";
+import { GoogleLogin, GoogleCredentialResponse } from "@react-oauth/google";
 import Modal from "./Modal";
 import Heading from "../Heading";
 import Input from "../inputs/Input";
 import toast from "react-hot-toast";
-import Button from "../Button";
-import { useRouter } from "next/navigation";
 import useAuthenticate from "@/app/context/TRQs/users/mutations/useAuthenticate";
 import Checkbox from "../inputs/Checkbox";
 import { useTranslation } from "react-i18next";
+import useAuthenticateWithGoogle from "@/app/context/TRQs/users/mutations/useAuthenticateWithGoogle";
 
 const LoginModal = () => {
-  const router = useRouter();
   const { t } = useTranslation();
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
   const [loading, setLoading] = useState<boolean>(false);
   const [rememberMe, setRememberMe] = useState<boolean>(false);
-  const { mutate: authenticate } = useAuthenticate();
+
+  const onSignInSuccessCallback = () => {
+    setLoading(false);
+    loginModal.onClose();
+    toast.success("Добре дошли");
+  };
+
+  const { mutate: authenticate } = useAuthenticate(onSignInSuccessCallback);
+  const { mutate: signInWithGoogle } = useAuthenticateWithGoogle(
+    onSignInSuccessCallback
+  );
 
   const {
     register,
@@ -43,15 +51,27 @@ const LoginModal = () => {
       password: data.password,
       extendRefreshTokenExpiration: rememberMe,
     });
-
-    setLoading(false);
-    toast.success("Добре дошли!");
-    loginModal.onClose();
-    router.refresh();
   };
 
   const handleRememberMe = () => {
     setRememberMe(!rememberMe);
+  };
+
+  const handleGoogleSignIn = async (response: GoogleCredentialResponse) => {
+    if (response?.credential) {
+      const { credential } = response;
+      try {
+        setLoading(true);
+        await signInWithGoogle({ idToken: credential, platform: "web" });
+      } catch (error) {
+        toast.error("Google Sign-In failed!"); // TODO: Handle failure
+      }
+    }
+  };
+
+  const handleGoogleError = (error: any) => {
+    toast.error("Google Sign-In failed!");
+    console.error("Google Login Error:", error);
   };
 
   const toggle = useCallback(() => {
@@ -91,12 +111,12 @@ const LoginModal = () => {
 
   const footerContent = (
     <div className="flex flex-col gap-4 mt-3">
-      <hr />
-      <Button
-        outline
-        label="Продължи с Google"
-        icon={FcGoogle}
-        onClick={() => {}}
+      <GoogleLogin
+        onSuccess={handleGoogleSignIn}
+        onError={() => handleGoogleError}
+        text="continue_with"
+        shape="circle"
+        theme="outline"
       />
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="justify-center flex flex-row items-center gap-2">
