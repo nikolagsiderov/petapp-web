@@ -11,15 +11,19 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
 import EmailInput from "../../inputs/EmailInput";
+import { useTranslation } from "react-i18next";
+import Checkbox from "../../inputs/Checkbox";
 
 const LoginClient = () => {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const { t } = useTranslation();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [rememberMe, setRememberMe] = useState<boolean>(false);
   const { mutate: authenticate } = useAuthenticate();
 
   const {
     register,
-    handleSubmit,
+    handleSubmit, 
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
@@ -34,12 +38,16 @@ const LoginClient = () => {
     await authenticate({
       email: data.email,
       password: data.password,
-      extendRefreshTokenExpiration: false,
+      extendRefreshTokenExpiration: rememberMe,
     });
 
     setLoading(false);
     router.push("/");
     toast.success("Добре дошли!");
+  };
+
+  const handleRememberMe = () => {
+    setRememberMe(!rememberMe);
   };
 
   const bodyContent = (
@@ -62,6 +70,13 @@ const LoginClient = () => {
         errors={errors}
         required
       />
+      <div className="w-full flex justify-end">
+        <Checkbox
+          label={t("Remember_me")}
+          checked={rememberMe}
+          handleCheck={handleRememberMe}
+        />
+      </div>
     </div>
   );
 

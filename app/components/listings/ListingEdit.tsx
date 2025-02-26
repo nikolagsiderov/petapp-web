@@ -8,6 +8,7 @@ import CategoryInput from "../inputs/CategoryInput";
 import Input from "../inputs/Input";
 import LocationInput from "../inputs/LocationInput";
 import { Listing, Reservation } from "pawpal-fe-common/listings-types";
+import { usePawPalImage } from "pawpal-fe-common/hooks";
 
 interface ListingEditProps {
   listing: Listing;
@@ -15,6 +16,7 @@ interface ListingEditProps {
 }
 
 const ListingEdit: React.FC<ListingEditProps> = ({ listing, reservation }) => {
+  const { getImageSrc } = usePawPalImage();
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -32,7 +34,7 @@ const ListingEdit: React.FC<ListingEditProps> = ({ listing, reservation }) => {
         lat: listing.latitude,
         lng: listing.longitude,
       },
-      imageSrc: `https://pawpaldevassets.blob.core.windows.net/${listing.imageRelativePaths[0]}`,
+      imageSrc: getImageSrc(listing.imageRelativePaths[0]),
       price: listing.price,
       description: listing.description,
     },

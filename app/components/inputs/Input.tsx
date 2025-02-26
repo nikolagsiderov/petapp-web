@@ -32,7 +32,7 @@ const Input: React.FC<InputProps> = ({
           cols={50}
           name={id}
           id={id}
-          className={`peer w-full p-4 pt-6 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed pl-4" ${
+          className={`peer w-full p-4 pt-6 font-light bg-white border-2 rounded-xl outline-none transition disabled:opacity-70 disabled:cursor-not-allowed pl-4" ${
             errors[id] ? "border-rose-500" : "border-neutral-300"
           }
       ${errors[id] ? "focus:border-rose-500" : "focus:border-black"}`}
@@ -44,7 +44,7 @@ const Input: React.FC<InputProps> = ({
           {...register(id, { required })}
           placeholder=" "
           type={type}
-          className={`peer w-full p-4 pt-6 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed pl-4" ${
+          className={`peer w-full p-4 pt-6 font-light bg-white border-2 rounded-xl outline-none transition disabled:opacity-70 disabled:cursor-not-allowed pl-4" ${
             errors[id] ? "border-rose-500" : "border-neutral-300"
           }
         ${errors[id] ? "focus:border-rose-500" : "focus:border-black"}`}

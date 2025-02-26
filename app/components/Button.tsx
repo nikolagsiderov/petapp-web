@@ -34,7 +34,7 @@ const Button: React.FC<ButtonProps> = ({
       type={type === "submit" ? "submit" : "button"}
       disabled={disabled}
       className={`relative disabled:opacity-70 disabled:cursor-not-allowed ${
-        roundedFull ? "rounded-full" : "rounded-lg"
+        roundedFull ? "rounded-full" : "rounded-xl"
       } hover:opacity-80 transition w-full ${
         outline ? "bg-white" : "bg-rose-500"
       } ${outline ? "border-black" : removeOutline ? "" : "border-rose-500"} ${

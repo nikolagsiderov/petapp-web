@@ -44,9 +44,7 @@ const RegisterModal = () => {
     });
 
     setLoading(false);
-    toast.success("Успешно се регистрирахте.");
     registerModal.onClose();
-    router.push("/auth");
   };
 
   const toggle = useCallback(() => {

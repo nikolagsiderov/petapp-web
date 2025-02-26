@@ -1,3 +1,12 @@
+# [0.2.7]
+
+## Added
+
+- Upgraded pawpal-fe-common@0.0.190
+- Added verification required page after user registration
+- Added new checkbox input component
+- Added new checkbox component in LoginClient and LoginModal as 'Remember me' option
+
 # [0.2.6]
 
 ## Added
