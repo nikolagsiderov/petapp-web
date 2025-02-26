@@ -20,8 +20,17 @@ const LoginClient = () => {
   const { t } = useTranslation();
   const [loading, setLoading] = useState<boolean>(false);
   const [rememberMe, setRememberMe] = useState<boolean>(false);
-  const { mutate: authenticate } = useAuthenticate();
-  const { mutate: signInWithGoogle } = useAuthenticateWithGoogle();
+
+  const onSignInSuccessCallback = () => {
+    setLoading(false);
+    router.replace("/");
+    toast.success("Добре дошли");
+  };
+
+  const { mutate: authenticate } = useAuthenticate(onSignInSuccessCallback);
+  const { mutate: signInWithGoogle } = useAuthenticateWithGoogle(
+    onSignInSuccessCallback
+  );
 
   const {
     register,

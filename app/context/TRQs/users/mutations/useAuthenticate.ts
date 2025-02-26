@@ -10,7 +10,7 @@ import useListings from "../../listings/useListings";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
-const useAuthenticate = () => {
+const useAuthenticate = (onSuccessCallback?: () => void) => {
   const queryClient = useQueryClient();
   const { handleError } = useGlobalErrorHandler();
   const { setAuthStatus } = useAuth();
@@ -28,8 +28,9 @@ const useAuthenticate = () => {
         queryKey: [useListings.name],
       });
 
-      router.replace("/");
-      toast.success("Добре дошли");
+      if (onSuccessCallback) {
+        onSuccessCallback();
+      }
     },
     onError: (error) => {
       handleError(error ?? null);
