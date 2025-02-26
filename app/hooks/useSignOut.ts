@@ -1,7 +1,6 @@
 "use client";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { removeRefreshToken } from "pawpal-fe-common/context";
 import useCurrentUser from "@/app/context/TRQs/users/useCurrentUser";
 import { useAuth } from "@/app/context/AuthContext";
 import { useRouter } from "next/navigation";
@@ -16,7 +15,6 @@ const useSignOut = () => {
   const signOut = async () => {
     setAuthStatus(false);
     signOutRequest();
-    await removeRefreshToken();
     queryClient.removeQueries({
       queryKey: [useCurrentUser.name],
     });
