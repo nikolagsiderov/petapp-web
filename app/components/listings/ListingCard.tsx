@@ -11,6 +11,7 @@ import { categories } from "../navbar/main/Categories";
 import { reservationStatuses } from "pawpal-fe-common/constants";
 import useListingReviews from "@/app/context/TRQs/reviews/useListingReviews";
 import { Listing, Reservation } from "pawpal-fe-common/listings-types";
+import { usePawPalImage } from "pawpal-fe-common/hooks";
 
 interface ListingCardProps {
   horizontal?: boolean;
@@ -35,6 +36,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
 }) => {
   const router = useRouter();
   const { data: reviewsData } = useListingReviews(data.id);
+  const { getImageSrc } = usePawPalImage();
 
   const handleAction = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -89,7 +91,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
             alt="Listing"
             src={
               data.imageRelativePaths
-                ? `https://pawpaldevassets.blob.core.windows.net/${data.imageRelativePaths[0]}`
+                ? getImageSrc(data.imageRelativePaths[0])
                 : "/images/listing-default-image.png"
             }
             className="object-cover h-full w-full group-hover:scale-110 transition"

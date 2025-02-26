@@ -12,12 +12,16 @@ import toast from "react-hot-toast";
 import Button from "../Button";
 import { useRouter } from "next/navigation";
 import useAuthenticate from "@/app/context/TRQs/users/mutations/useAuthenticate";
+import Checkbox from "../inputs/Checkbox";
+import { useTranslation } from "react-i18next";
 
 const LoginModal = () => {
   const router = useRouter();
+  const { t } = useTranslation();
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [rememberMe, setRememberMe] = useState<boolean>(false);
   const { mutate: authenticate } = useAuthenticate();
 
   const {
@@ -37,13 +41,17 @@ const LoginModal = () => {
     await authenticate({
       email: data.email,
       password: data.password,
-      extendRefreshTokenExpiration: false,
+      extendRefreshTokenExpiration: rememberMe,
     });
 
     setLoading(false);
     toast.success("Добре дошли!");
     loginModal.onClose();
     router.refresh();
+  };
+
+  const handleRememberMe = () => {
+    setRememberMe(!rememberMe);
   };
 
   const toggle = useCallback(() => {
@@ -71,6 +79,13 @@ const LoginModal = () => {
         errors={errors}
         required
       />
+      <div className="w-full flex justify-end">
+        <Checkbox
+          label={t("Remember_me")}
+          checked={rememberMe}
+          handleCheck={handleRememberMe}
+        />
+      </div>
     </div>
   );
 

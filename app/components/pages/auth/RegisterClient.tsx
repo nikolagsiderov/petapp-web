@@ -40,8 +40,6 @@ const RegisterClient = () => {
     });
 
     setLoading(false);
-    toast.success("Успешно се регистрирахте.");
-    router.push("/auth");
   };
 
   const bodyContent = (

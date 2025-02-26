@@ -12,11 +12,11 @@ const useRegister = () => {
 
   return useMutation({
     mutationFn: async (payload: IRegisterPayload) => {
-      registerAsync(payload);
+      await registerAsync(payload);
       return payload.email;
     },
     onSuccess: (email: string) => {
-      router.replace(`/auth/verification_required?email=${email}`);
+      router.replace(`/verification-required?email=${email}`);
     },
     onError: (error) => {
       handleError(error ?? null);

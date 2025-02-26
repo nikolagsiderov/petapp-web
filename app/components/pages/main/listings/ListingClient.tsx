@@ -16,6 +16,7 @@ import useCreateReservation from "@/app/context/TRQs/listings/mutations/useCreat
 import useListingById from "@/app/context/TRQs/listings/useListingById";
 import EmptyState from "@/app/components/EmptyState";
 import { useAuth } from "@/app/context/AuthContext";
+import { usePawPalImage } from "pawpal-fe-common/hooks";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -31,6 +32,7 @@ const ListingClient: React.FC<ListingClientProps> = ({ id }) => {
   const { data: listing } = useListingById(id);
   // const reviews = await getReviews(params); // TODO: GET reviews and utilize
 
+  const { getImageSrc } = usePawPalImage();
   const loginModal = useLoginModal();
   const { authStatus } = useAuth();
   const { mutate: createReservation } = useCreateReservation();
@@ -96,7 +98,7 @@ const ListingClient: React.FC<ListingClientProps> = ({ id }) => {
       >
         <div className="flex flex-col gap-6">
           <ListingHead
-            imageSrc={`https://pawpaldevassets.blob.core.windows.net/${listing.imageRelativePaths[0]}`}
+            imageSrc={getImageSrc(listing.imageRelativePaths[0])}
             address={listing.address}
             listing={listing}
           />
