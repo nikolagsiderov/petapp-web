@@ -1,3 +1,9 @@
+# [0.2.8]
+
+## Added
+
+- Added Google authentication support
+
 # [0.2.7]
 
 ## Added

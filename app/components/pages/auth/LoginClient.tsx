@@ -4,15 +4,19 @@ import Button from "@/app/components/Button";
 import ClientOnly from "@/app/components/ClientOnly";
 import Heading from "@/app/components/Heading";
 import Input from "@/app/components/inputs/Input";
+import {
+  GoogleLogin,
+  GoogleCredentialResponse,
+} from "@react-oauth/google";
 import useAuthenticate from "@/app/context/TRQs/users/mutations/useAuthenticate";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { FcGoogle } from "react-icons/fc";
 import EmailInput from "../../inputs/EmailInput";
 import { useTranslation } from "react-i18next";
 import Checkbox from "../../inputs/Checkbox";
+import useAuthenticateWithGoogle from "@/app/context/TRQs/users/mutations/useAuthenticateWithGoogle";
 
 const LoginClient = () => {
   const router = useRouter();
@@ -20,10 +24,11 @@ const LoginClient = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [rememberMe, setRememberMe] = useState<boolean>(false);
   const { mutate: authenticate } = useAuthenticate();
+  const { mutate: signInWithGoogle } = useAuthenticateWithGoogle();
 
   const {
     register,
-    handleSubmit, 
+    handleSubmit,
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
@@ -40,14 +45,27 @@ const LoginClient = () => {
       password: data.password,
       extendRefreshTokenExpiration: rememberMe,
     });
-
-    setLoading(false);
-    router.push("/");
-    toast.success("Добре дошли!");
   };
 
   const handleRememberMe = () => {
     setRememberMe(!rememberMe);
+  };
+
+  const handleGoogleSignIn = async (response: GoogleCredentialResponse) => {
+    if (response?.credential) {
+      const { credential } = response;
+      try {
+        setLoading(true);
+        await signInWithGoogle({ idToken: credential, platform: "web" });
+      } catch (error) {
+        toast.error("Google Sign-In failed!"); // TODO: Handle failure
+      }
+    }
+  };
+
+  const handleGoogleError = (error: any) => {
+    toast.error("Google Sign-In failed!");
+    console.error("Google Login Error:", error);
   };
 
   const bodyContent = (
@@ -82,12 +100,9 @@ const LoginClient = () => {
 
   const footerContent = (
     <div className="flex flex-col gap-4 mt-3">
-      <hr />
-      <Button
-        outline
-        label="Продължи с Google"
-        icon={FcGoogle}
-        onClick={() => {}}
+      <GoogleLogin
+        onSuccess={handleGoogleSignIn}
+        onError={() => handleGoogleError}
       />
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="justify-center flex flex-row items-center gap-2">

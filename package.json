@@ -1,6 +1,6 @@
 {
   "name": "petapp",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "private": true,
   "scripts": {
     "dev": "env-cmd -f .env.development next dev",
@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@react-google-maps/api": "^2.19.3",
+    "@react-oauth/google": "^0.12.1",
     "@reduxjs/toolkit": "^2.4.0",
     "@tanstack/react-query": "^5.66.3",
     "@tanstack/react-query-devtools": "^5.66.3",
