@@ -2,7 +2,7 @@
 
 ## Added
 
-- Upgraded pawpal-fe-common@0.0.190 to enable full scale localization
+- Upgraded pawpal-fe-common@0.0.191 to enable full scale localization
 
 ## Changed
 
