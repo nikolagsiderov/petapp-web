@@ -3,9 +3,7 @@
 import React from "react";
 import useScrollingEffect from "@/app/hooks/useScroll";
 import { useRouter } from "next/navigation";
-import { IoMdHeart } from "react-icons/io";
 import { IoMdLocate } from "react-icons/io";
-import { FaDog } from "react-icons/fa";
 import { IoMdPaw } from "react-icons/io";
 import useBottomNavigation from "@/app/hooks/useBottomNavigation";
 
@@ -14,8 +12,7 @@ const BottomNav = () => {
   const scrollDirection = useScrollingEffect();
   const navClass = scrollDirection === "up" ? "" : "opacity-25 duration-200";
 
-  const { isPetSitting, isBuyingActive, isFindActive, isLoveActive } =
-    useBottomNavigation();
+  const { isPetSitting, isFindActive } = useBottomNavigation();
 
   return (
     <div
@@ -32,28 +29,11 @@ const BottomNav = () => {
             <IoMdPaw size={24} />
           )}
         </div>
-        <div
-          onClick={() => router.push("/buying")}
-          className="flex items-center"
-        >
-          {isBuyingActive ? (
-            <FaDog className="fill-rose-500" size={24} />
-          ) : (
-            <FaDog size={24} />
-          )}
-        </div>
         <div onClick={() => router.push("/find")} className="flex items-center">
           {isFindActive ? (
             <IoMdLocate className="fill-rose-500" size={24} />
           ) : (
             <IoMdLocate size={24} />
-          )}
-        </div>
-        <div onClick={() => router.push("/love")} className="flex items-center">
-          {isLoveActive ? (
-            <IoMdHeart className="fill-rose-500" size={24} />
-          ) : (
-            <IoMdHeart size={24} />
           )}
         </div>
       </div>

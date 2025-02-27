@@ -1,13 +1,12 @@
-import EmptyState from "@/app/components/EmptyState";
 import ClientOnly from "@/app/components/ClientOnly";
+import FindClient from "@/app/components/pages/main/find/FindClient";
+import FindModal from "@/app/components/modals/FindModal";
 
-const FindPage = () => {
+const FindPage = async () => {
   return (
     <ClientOnly>
-      <EmptyState
-        title="Опи! Няма ме!"
-        subtitle="Тази страница все още не съществува."
-      />
+      <FindModal />
+      <FindClient />
     </ClientOnly>
   );
 };

@@ -1,24 +1,40 @@
 "use client";
 
-import axios from "axios";
-import { FcGoogle } from "react-icons/fc";
 import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
+import { GoogleLogin, GoogleCredentialResponse } from "@react-oauth/google";
 import Modal from "./Modal";
 import Heading from "../Heading";
 import Input from "../inputs/Input";
 import toast from "react-hot-toast";
-import Button from "../Button";
-import { signIn } from "next-auth/react";
 import useLoginModal from "@/app/hooks/useLoginModal";
-import { useRouter } from "next/navigation";
+import useRegister from "@/app/context/TRQs/users/mutations/useRegister";
+import useAuthenticateWithGoogle from "@/app/context/TRQs/users/mutations/useAuthenticateWithGoogle";
+import { useTranslation } from "react-i18next";
 
 const RegisterModal = () => {
-  const router = useRouter();
+  const { t } = useTranslation();
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const onRegisterUserSuccessCallback = () => {
+    setLoading(false);
+    registerModal.onClose();
+  };
+
+  const { mutate: registerUser } = useRegister(onRegisterUserSuccessCallback);
+
+  const onSignInWithGoogleSuccessCallback = () => {
+    setLoading(false);
+    registerModal.onClose();
+    toast.success(t("Welcome"));
+  };
+
+  const { mutate: signInWithGoogle } = useAuthenticateWithGoogle(
+    onSignInWithGoogleSuccessCallback
+  );
 
   const {
     register,
@@ -26,40 +42,38 @@ const RegisterModal = () => {
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
-      name: "",
+      firstName: "",
+      lastName: "",
       email: "",
       password: "",
     },
   });
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    setIsLoading(true);
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    setLoading(true);
 
-    axios
-      .post("/api/register", data)
-      .then(() => {
-        registerModal.onClose();
+    await registerUser({
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
+      password: data.password,
+    });
+  };
 
-        signIn("credentials", {
-          ...data,
-          redirect: false,
-        }).then((callback) => {
-          if (callback?.ok) {
-            toast.success("Добре дошли!");
-            router.refresh();
-          }
+  const handleGoogleSignIn = async (response: GoogleCredentialResponse) => {
+    if (response?.credential) {
+      const { credential } = response;
+      try {
+        setLoading(true);
+        await signInWithGoogle({ idToken: credential, platform: "web" });
+      } catch (error) {
+        // TODO: Handle failure
+      }
+    }
+  };
 
-          if (callback?.error) {
-            toast.error(callback.error);
-          }
-        });
-      })
-      .catch((error) => {
-        toast.error("Грешка при регистрацията");
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+  const handleGoogleError = (error: any) => {
+    // TODO: Handle failure
   };
 
   const toggle = useCallback(() => {
@@ -69,19 +83,30 @@ const RegisterModal = () => {
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
-      <Heading title="Добре дошли в PawPal" subtitle="Създай акаунт!" />
+      <Heading
+        title={`${t("Welcome_to")} PawPal`}
+        subtitle={t("Fill_in_to_create_your_account")}
+      />
       <Input
-        id="email"
-        label="Имейл"
-        disabled={isLoading}
+        id="firstName"
+        label={t("First_name")}
+        disabled={loading}
         register={register}
         errors={errors}
         required
       />
       <Input
-        id="name"
-        label="Име"
-        disabled={isLoading}
+        id="lastName"
+        label={t("Last_name")}
+        disabled={loading}
+        register={register}
+        errors={errors}
+        required
+      />
+      <Input
+        id="email"
+        label={t("Email")}
+        disabled={loading}
         register={register}
         errors={errors}
         required
@@ -89,8 +114,8 @@ const RegisterModal = () => {
       <Input
         id="password"
         type="password"
-        label="Парола"
-        disabled={isLoading}
+        label={t("Password")}
+        disabled={loading}
         register={register}
         errors={errors}
         required
@@ -100,21 +125,21 @@ const RegisterModal = () => {
 
   const footerContent = (
     <div className="flex flex-col gap-4 mt-3">
-      <hr />
-      <Button
-        outline
-        label="Продължи с Google"
-        icon={FcGoogle}
-        onClick={() => signIn("google")}
+      <GoogleLogin
+        onSuccess={handleGoogleSignIn}
+        onError={() => handleGoogleError}
+        text="continue_with"
+        shape="circle"
+        theme="outline"
       />
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="justify-center flex flex-row items-center gap-2">
-          <div>Вече имаш акаунт?</div>
+          <div>{t("Already_have_an_account")}</div>
           <div
             onClick={toggle}
             className="text-neutral-800 cursor-pointer hover:underline"
           >
-            Влез
+            {t("Sign_in")}
           </div>
         </div>
       </div>
@@ -123,10 +148,10 @@ const RegisterModal = () => {
 
   return (
     <Modal
-      disabled={isLoading}
+      disabled={loading}
       isOpen={registerModal.isOpen}
-      title="Регистрирай се"
-      actionLabel="Продължи"
+      title={t("Sign_up")}
+      actionLabel={t("Continue")}
       onClose={registerModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}

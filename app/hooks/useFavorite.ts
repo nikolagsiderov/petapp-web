@@ -1,58 +1,44 @@
-import axios from "axios";
+"use client";
+
 import { useRouter } from "next/navigation";
-import { useCallback, useMemo } from "react";
-import { toast } from "react-hot-toast";
-import { SafeUser } from "../types";
+import { useCallback } from "react";
 import useLoginModal from "./useLoginModal";
+import useAddListingToFavorites from "../context/TRQs/favorites/mutations/useAddListingToFavorites";
+import useRemoveListingFromFavorites from "../context/TRQs/favorites/mutations/useRemoveListingFromFavorites";
+import { Listing } from "pawpal-fe-common/listings-types";
+import { useAuth } from "../context/AuthContext";
 
 interface IUseFavorite {
-  listingId: string;
-  currentUser?: SafeUser | null;
+  listing: Listing;
 }
 
-const useFavorite = ({ listingId, currentUser }: IUseFavorite) => {
+const useFavorite = ({ listing }: IUseFavorite) => {
   const router = useRouter();
   const loginModal = useLoginModal();
-  const hasFavorited = useMemo(() => {
-    const list = currentUser?.favoriteIds || [];
-
-    return list.includes(listingId);
-  }, [currentUser, listingId]);
+  const { authStatus } = useAuth();
+  const { mutate: post } = useAddListingToFavorites();
+  const { mutate: remove } = useRemoveListingFromFavorites();
 
   const toggleFavorite = useCallback(
     async (e: React.MouseEvent<HTMLDivElement>) => {
       e.stopPropagation();
 
-      if (!currentUser) {
+      if (!authStatus) {
         return loginModal.onOpen();
       }
 
-      try {
-        let request;
-
-        if (hasFavorited) {
-          request = () => axios.delete(`/api/favorites/${listingId}`);
-        } else {
-          request = () => axios.post(`/api/favorites/${listingId}`);
-        }
-
-        const response = await request();
-        router.refresh();
-
-        if (response.data.created) {
-          toast.success(response.data.message);
-        } else if (response.data.deleted) {
-          toast.error(response.data.message);
-        }
-      } catch (error) {
-        toast.error("Нещо се обърка.");
+      if (listing.isFavorite) {
+        remove(listing.id);
+      } else {
+        post(listing.id);
       }
+
+      router.refresh();
     },
-    [currentUser, hasFavorited, listingId, loginModal, router]
+    [loginModal, router, authStatus, listing, post, remove]
   );
 
   return {
-    hasFavorited,
     toggleFavorite,
   };
 };

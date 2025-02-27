@@ -4,15 +4,15 @@ import useBecomeSitterModal from "@/app/hooks/useBecomeSitterModal";
 import Modal from "./Modal";
 import { useMemo, useState } from "react";
 import Heading from "../Heading";
-import { categories } from "../navbar/main/petsitting/Categories";
+import { categories } from "../navbar/main/Categories";
 import CategoryInput from "../inputs/CategoryInput";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import ImageUpload from "../inputs/ImageUpload";
 import Input from "../inputs/Input";
-import axios from "axios";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 import LocationInput from "../inputs/LocationInput";
+import useCreateListing from "@/app/context/TRQs/listings/mutations/useCreateListing";
+import { useTranslation } from "react-i18next";
 
 enum STEPS {
   CATEGORY = 0,
@@ -22,9 +22,15 @@ enum STEPS {
   PRICE = 4,
 }
 
+const toFixedNumber = (num: number) => {
+  const pow = Math.pow(10, 2);
+  return Math.round(num * pow) / pow;
+};
+
 const BecomeSitterModal = () => {
-  const router = useRouter();
+  const { t, i18n } = useTranslation();
   const becomeSitterModal = useBecomeSitterModal();
+  const { mutate: createListing } = useCreateListing();
 
   const [step, setStep] = useState(STEPS.CATEGORY);
   const [isLoading, setIsLoading] = useState(false);
@@ -40,7 +46,7 @@ const BecomeSitterModal = () => {
     defaultValues: {
       category: "",
       location: null,
-      imageSrc: "",
+      images: "",
       price: 1,
       description: "",
     },
@@ -48,7 +54,7 @@ const BecomeSitterModal = () => {
 
   const category = watch("category");
   const location = watch("location");
-  const imageSrc = watch("imageSrc");
+  const images = watch("images");
 
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
@@ -66,7 +72,7 @@ const BecomeSitterModal = () => {
     setStep((value) => value + 1);
   };
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     if (step !== STEPS.PRICE) {
       return onNext();
     } else {
@@ -75,52 +81,44 @@ const BecomeSitterModal = () => {
         data.category == "" ||
         data.location == null ||
         data.location == "" ||
+        data.location?.lat == null ||
+        data.location?.lng == null ||
         data.description == null ||
         data.description == "" ||
         data.price == null ||
         data.price == "" ||
-        data.price <= 0
+        data.price <= 0 ||
+        data.images == null
       ) {
-        toast.error(
-          "Моля въведи категория, локация, описание и цена, за да продължиш."
-        );
+        toast.error(t("All_fields_are_required"));
       } else {
         setIsLoading(true);
+        await createListing({
+          category: data.category,
+          description: data.description,
+          publicAddress: data.location.publicAddress,
+          privateAddress: data.location.privateAddress,
+          latitude: data.location.lat,
+          longitude: data.location.lng,
+          price: toFixedNumber(parseFloat(data.price)),
+          images: data.images,
+        });
 
-        axios
-          .post("/api/listings", data)
-          .then(() => {
-            toast.success("Обявата е успешно създадена!");
-            router.refresh();
-            reset();
-            setStep(STEPS.CATEGORY);
-            becomeSitterModal.onClose();
-          })
-          .catch((error) => {
-            if (
-              error &&
-              error.response &&
-              error.response.data &&
-              error.response.data.message
-            ) {
-              toast.error(error.response.data.message);
-            } else {
-              toast.error("Нещо се обърка.");
-            }
-          })
-          .finally(() => {
-            setIsLoading(false);
-          });
+        reset();
+        setStep(STEPS.CATEGORY);
+        becomeSitterModal.onClose();
+
+        setIsLoading(false);
       }
     }
   };
 
   const actionLabel = useMemo(() => {
     if (step === STEPS.PRICE) {
-      return "Стани гледач";
+      return t("Become_pet_sitter");
     }
 
-    return "Продължи";
+    return t("Continue");
   }, [step]);
 
   const secondaryActionLabel = useMemo(() => {
@@ -128,22 +126,23 @@ const BecomeSitterModal = () => {
       return undefined;
     }
 
-    return "Назад";
+    return t("Back");
   }, [step]);
 
   let bodyContent = (
     <div className="flex flex-col gap-8">
       <Heading
-        title="Избери домашен любимец"
-        subtitle="Какъв домашен любимец е добре дошъл при вас"
+        title={t("Select_a_pet")}
+        subtitle={t("What_type_of_pet_is_welcome_at_your_place")}
       />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[50svh] overflow-y-auto">
         {categories.map((item) => (
           <div key={item.label} className="col-span-1">
             <CategoryInput
               onClick={(category) => setCustomValue("category", category)}
-              selected={category === item.label}
-              label={item.label}
+              selected={category === item.value}
+              label={i18n.language === "bg" ? item.label : item.value}
+              value={item.value}
               icon={item.icon}
             />
           </div>
@@ -156,13 +155,11 @@ const BecomeSitterModal = () => {
     bodyContent = (
       <div className="flex flex-col gap-8">
         <Heading
-          title="Къде се намирате"
-          subtitle="Помогнете на хората да ви намират лесно"
+          title={t("Where_are_you_located")}
+          subtitle={t("Help_people_find_you_easily")}
         />
         <LocationInput
-          onChange={(locationValue) =>
-            setCustomValue("location", locationValue)
-          }
+          onChange={(value) => setCustomValue("location", value)}
         />
       </div>
     );
@@ -172,13 +169,10 @@ const BecomeSitterModal = () => {
     bodyContent = (
       <div className="flex flex-col gap-8">
         <Heading
-          title="Качи снимка"
-          subtitle="Добави снимка към твоята обява"
+          title={t("Add_a_photo")}
+          subtitle={t("Add_a_photo_of_your_accommodation_or_your_pets")}
         />
-        <ImageUpload
-          value={imageSrc}
-          onChange={(value) => setCustomValue("imageSrc", value)}
-        />
+        <ImageUpload onChange={(value) => setCustomValue("images", value)} />
       </div>
     );
   }
@@ -187,12 +181,14 @@ const BecomeSitterModal = () => {
     bodyContent = (
       <div className="flex flex-col gap-8">
         <Heading
-          title="Описание"
-          subtitle="Добави кратко описание за себе си и твоята обява"
+          title={t("Description_of_listing")}
+          subtitle={t(
+            "Add_a_brief_description_about_yourself_and_your_listing"
+          )}
         />
         <Input
           id="description"
-          label="Описание"
+          label={t("Description_of_listing")}
           textarea
           disabled={isLoading}
           register={register}
@@ -207,12 +203,12 @@ const BecomeSitterModal = () => {
     bodyContent = (
       <div className="flex flex-col gap-8">
         <Heading
-          title="Цена"
-          subtitle="Каква е цената на твоята обявя на ден"
+          title={t("Price_of_listing")}
+          subtitle={t("What_will_be_the_price_per_day_for_your_listing")}
         />
         <Input
           id="price"
-          label="Цена"
+          label={t("Price_of_listing")}
           type="number"
           disabled={isLoading}
           register={register}
@@ -225,7 +221,7 @@ const BecomeSitterModal = () => {
 
   return (
     <Modal
-      title="Стани гледач"
+      title={t("Become_pet_sitter")}
       isOpen={becomeSitterModal.isOpen}
       onClose={becomeSitterModal.onClose}
       onSubmit={handleSubmit(onSubmit)}

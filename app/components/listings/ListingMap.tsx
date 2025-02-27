@@ -1,14 +1,17 @@
 "use client";
 
-import { SafeListing } from "@/app/types";
 import { Circle, GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import Heading from "../Heading";
+import { Listing } from "pawpal-fe-common/listings-types";
+import { mapsStyle } from "pawpal-fe-common/constants";
+import { useTranslation } from "react-i18next";
 
 interface ListingMapProps {
-  listing: SafeListing;
+  listing: Listing;
 }
 
 const ListingMap: React.FC<ListingMapProps> = ({ listing }) => {
+  const { t } = useTranslation();
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: "AIzaSyCPASOspif-cElvaiBWxsuLwAHKq9YyKbs",
     libraries: ["places"],
@@ -21,8 +24,8 @@ const ListingMap: React.FC<ListingMapProps> = ({ listing }) => {
       <GoogleMap
         mapContainerClassName="w-full h-[36rem] rounded-2xl"
         center={{
-          lat: listing.lat + 0.001,
-          lng: listing.lng - 0.001,
+          lat: listing.latitude + 0.001,
+          lng: listing.longitude - 0.001,
         }}
         zoom={15}
         options={{
@@ -31,12 +34,13 @@ const ListingMap: React.FC<ListingMapProps> = ({ listing }) => {
           zoomControl: false,
           scrollwheel: false,
           disableDoubleClickZoom: true,
+          styles: mapsStyle,
         }}
       >
         <Circle
           center={{
-            lat: listing.lat + 0.001,
-            lng: listing.lng - 0.001,
+            lat: listing.latitude + 0.001,
+            lng: listing.longitude - 0.001,
           }}
           radius={300}
           options={{
@@ -49,8 +53,9 @@ const ListingMap: React.FC<ListingMapProps> = ({ listing }) => {
         />
       </GoogleMap>
       <div className="text-xs">
-        * Локацията на картата е ориентировъчна. Точният адрес ще бъде показан
-        след резервация.
+        {t(
+          "The_location_on_the_map_is_approximate_The_exact_address_will_be_displayed_after_reservation"
+        )}
       </div>
     </div>
   ) : (

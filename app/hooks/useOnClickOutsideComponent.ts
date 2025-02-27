@@ -1,8 +1,11 @@
+"use client";
+
 import { useEffect } from "react";
 
 const useOnClickOutsideComponent = (
   ref: React.MutableRefObject<HTMLElement | undefined | null>,
-  handler: any
+  handler: any,
+  additionalRef?: React.MutableRefObject<HTMLElement | undefined | null>
 ) => {
   useEffect(() => {
     const listener = (event: any) => {
@@ -10,6 +13,15 @@ const useOnClickOutsideComponent = (
       if (!ref.current || ref.current.contains(event.target)) {
         return;
       }
+
+      // Do nothing if clicking on the additional ref component
+      if (
+        additionalRef &&
+        (!additionalRef.current || additionalRef.current.contains(event.target))
+      ) {
+        return;
+      }
+
       handler(event);
     };
     document.addEventListener("mousedown", listener);
@@ -18,7 +30,7 @@ const useOnClickOutsideComponent = (
       document.removeEventListener("mousedown", listener);
       document.removeEventListener("touchstart", listener);
     };
-  }, [ref, handler]);
+  }, [ref, additionalRef, handler]);
 };
 
 export default useOnClickOutsideComponent;

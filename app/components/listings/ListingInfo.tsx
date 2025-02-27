@@ -1,12 +1,12 @@
 "use client";
 
 import { IconType } from "react-icons";
-import { SafeReview, SafeUser } from "@/app/types";
 import Avatar from "../Avatar";
 import ListingCategory from "./ListingCategory";
+import { useTranslation } from "react-i18next";
 
 interface ListingInfoProps {
-  user: SafeUser;
+  user: any;
   description: string;
   category:
     | {
@@ -22,6 +22,8 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
   description,
   category,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="col-span-4 flex flex-col gap-8">
       <div className="flex flex-col gap-2">
@@ -35,7 +37,9 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
             gap-2
           "
         >
-          <div>Обявата е публикувана от {user?.name}</div>
+          <div>
+            {t("The_listing_was_posted_by")} {user?.firstName} {user?.lastName}
+          </div>
           <Avatar width={60} height={60} src={user?.image} />
         </div>
         <div

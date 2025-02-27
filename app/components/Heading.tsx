@@ -40,7 +40,7 @@ const Heading: React.FC<HeadingProps> = ({
           <div className="lg:col-span-4 col-span-12">
             <div className="aspect-square relative overflow-hidden">
               <Image
-                alt="Listing"
+                alt="Heading image"
                 src={imageSrc}
                 className="object-cover h-full w-full"
                 fill

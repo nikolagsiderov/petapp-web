@@ -6,6 +6,7 @@ import { IconType } from "react-icons";
 interface ButtonProps {
   label: ReactNode;
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  type?: string;
   disabled?: boolean;
   outline?: boolean;
   small?: boolean;
@@ -18,6 +19,7 @@ interface ButtonProps {
 const Button: React.FC<ButtonProps> = ({
   label,
   onClick,
+  type,
   disabled,
   outline,
   small,
@@ -29,9 +31,10 @@ const Button: React.FC<ButtonProps> = ({
   return (
     <button
       onClick={onClick}
+      type={type === "submit" ? "submit" : "button"}
       disabled={disabled}
       className={`relative disabled:opacity-70 disabled:cursor-not-allowed ${
-        roundedFull ? "rounded-full" : "rounded-lg"
+        roundedFull ? "rounded-full" : "rounded-xl"
       } hover:opacity-80 transition w-full ${
         outline ? "bg-white" : "bg-rose-500"
       } ${outline ? "border-black" : removeOutline ? "" : "border-rose-500"} ${

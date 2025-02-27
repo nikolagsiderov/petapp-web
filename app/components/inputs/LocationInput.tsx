@@ -5,21 +5,25 @@ import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import parseGooglePlacesPublicAddress from "@/app/hooks/parseGooglePlacesPublicAddress";
+import { useGooglePublicAddress as parseGooglePublicAddress } from "pawpal-fe-common/hooks";
+import { useTranslation } from "react-i18next";
 
-export type LocationValue = {
-  address: string;
+export type Location = {
+  publicAddress: string;
+  privateAddress: string;
   lat: number;
   lng: number;
 };
 
 interface LocationInputProps {
-  onChange: (locationValue: LocationValue) => void;
+  onChange: (value: Location) => void;
 }
 
 const LocationInput: React.FC<LocationInputProps> = ({ onChange }) => {
+  const { t } = useTranslation();
+
   const [searchResult, setSearchResult] = useState<any>(null);
   const [privateAddress, setPrivateAddress] = useState<any>(null);
   const [publicAddress, setPublicAddress] = useState<string>("");
@@ -45,37 +49,38 @@ const LocationInput: React.FC<LocationInputProps> = ({ onChange }) => {
     setSearchResult(autocomplete);
   }
 
-  function onPlaceChanged() {
+  const onPlaceChanged = async () => {
     if (searchResult != null) {
       const place = searchResult.getPlace();
 
       setPrivateAddress(place.formatted_address);
-      parseGooglePlacesPublicAddress({ googlePlace: place, setPublicAddress });
-
-      console.log(privateAddress);
-      console.log(publicAddress);
-      handleSelect();
+      parseGooglePublicAddress({ googlePlace: place, setPublicAddress });
     } else {
-      toast.error("Моля въведете и изберете адрес.");
-    }
-  }
-
-  const handleSelect = async () => {
-    setValue(privateAddress, false);
-    clearSuggestions();
-
-    if (privateAddress !== null) {
-      const results = await getGeocode({ address: privateAddress });
-      const { lat, lng } = await getLatLng(results[0]);
-
-      onChange({ address: publicAddress, lat, lng });
+      toast.error(t("Field_is_required"));
     }
   };
+
+  useEffect(() => {
+    const updateAddressesStateAsync = async () => {
+      if (publicAddress !== null && privateAddress !== null) {
+        setValue(privateAddress, false);
+
+        const results = await getGeocode({ address: privateAddress });
+        const { lat, lng } = await getLatLng(results[0]);
+
+        onChange({ publicAddress, privateAddress, lat, lng });
+      }
+
+      clearSuggestions();
+    };
+
+    updateAddressesStateAsync();
+  }, [privateAddress, publicAddress]);
 
   return isLoaded ? (
     <Autocomplete onPlaceChanged={onPlaceChanged} onLoad={onLoad}>
       <input
-        placeholder="Въведи адрес..."
+        placeholder={t("Enter_address")}
         className="w-full py-2 px-4 text-gray-900 placeholder:text-gray-400 focus:outline-0 border-gray-400 focus:border-gray-700 border-2 rounded sm:text-sm/6"
       />
     </Autocomplete>

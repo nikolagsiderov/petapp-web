@@ -1,30 +1,28 @@
 "use client";
 
-import { SafeListing, SafeReservation, SafeUser } from "@/app/types";
 import { useRouter } from "next/navigation";
 import { ReactNode, useCallback, useMemo } from "react";
 import { format } from "date-fns";
 import Image from "next/image";
 import HeartButton from "../HeartButton";
 import Button from "../Button";
-import { RiVipDiamondFill, RiVipDiamondLine } from "react-icons/ri";
 import { FaStar } from "react-icons/fa6";
-import useTowns from "@/app/hooks/useTowns";
+import { categories } from "../navbar/main/Categories";
+import { reservationStatuses } from "pawpal-fe-common/constants";
+import useListingReviews from "@/app/context/TRQs/reviews/useListingReviews";
+import { Listing, Reservation } from "pawpal-fe-common/listings-types";
+import { usePawPalImage } from "pawpal-fe-common/hooks";
+import { useTranslation } from "react-i18next";
 
 interface ListingCardProps {
   horizontal?: boolean;
-  data: SafeListing;
-  reservation?: SafeReservation | null;
+  data: Listing;
+  reservation?: Reservation | null;
   onAction?: (id: string) => void;
   disabled?: boolean;
   actionLabel?: ReactNode;
   actionId?: string;
-  currentUser?: SafeUser | null;
   listingUserName: string;
-}
-
-interface IParams {
-  listingId?: string;
 }
 
 const ListingCard: React.FC<ListingCardProps> = ({
@@ -35,11 +33,12 @@ const ListingCard: React.FC<ListingCardProps> = ({
   disabled,
   actionLabel,
   actionId = "",
-  currentUser,
   listingUserName,
 }) => {
   const router = useRouter();
-  const { getByValue } = useTowns();
+  const { t, i18n } = useTranslation();
+  const { data: reviewsData } = useListingReviews(data.id);
+  const { getImageSrc } = usePawPalImage();
 
   const handleAction = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -54,6 +53,16 @@ const ListingCard: React.FC<ListingCardProps> = ({
     [onAction, actionId, disabled]
   );
 
+  const category = useMemo(() => {
+    const currentCategory = categories.find((c) => c.value === data.category);
+
+    if (i18n.language === "bg") {
+      return currentCategory?.label;
+    } else {
+      return currentCategory?.value;
+    }
+  }, [data.category, i18n.language]);
+
   const price = useMemo(() => {
     if (reservation) {
       return reservation.totalPrice;
@@ -67,8 +76,8 @@ const ListingCard: React.FC<ListingCardProps> = ({
       return null;
     }
 
-    const start = new Date(reservation.startDate);
-    const end = new Date(reservation.endDate);
+    const start = new Date(reservation.fromDate);
+    const end = new Date(reservation.toDate);
 
     return `${format(start, "PP")} - ${format(end, "PP")}`;
   }, [reservation]);
@@ -89,30 +98,31 @@ const ListingCard: React.FC<ListingCardProps> = ({
           <Image
             alt="Listing"
             src={
-              data.imageSrc
-                ? data.imageSrc
-                : "/images/review page background.png"
+              data.imageRelativePaths
+                ? getImageSrc(data.imageRelativePaths[0])
+                : "/images/listing-default-image.png"
             }
             className="object-cover h-full w-full group-hover:scale-110 transition"
             fill
           />
-          {!reservation && (
-            <div className="absolute top-3 left-3">
-              <RiVipDiamondLine
-                size={28}
-                className="fill-white absolute -top-[2px] -left-[2px]"
-              />
-              <RiVipDiamondFill size={24} className="fill-amber-400" />
-            </div>
-          )}
+          {/* {!reservation && (
+            // TODO: #47: Implement premium listings option
+            // <div className="absolute top-3 left-3">
+            //   <RiVipDiamondLine
+            //     size={28}
+            //     className="fill-white absolute -top-[2px] -left-[2px]"
+            //   />
+            //   <RiVipDiamondFill size={24} className="fill-amber-400" />
+            // </div>
+          )} */}
           <div className="absolute bottom-3 left-3">
             <span className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 tracking-tighter">
-              Настанява <span className="lowercase ml-1">{data.category}</span>
+              {t("Hosts")} <span className="lowercase ml-1">{category}</span>
             </span>
           </div>
           {!reservation && (
             <div className="absolute top-3 right-3">
-              <HeartButton listingId={data.id} currentUser={currentUser} />
+              <HeartButton listing={data} />
             </div>
           )}
         </div>
@@ -125,38 +135,42 @@ const ListingCard: React.FC<ListingCardProps> = ({
                 ? !reservation
                   ? "col-span-9"
                   : "col-span-12"
-                : "row-span-10"
+                : "row-span-9"
             }
           >
             <div className="font-semibold text-lg">{listingUserName}</div>
-            <div className="font-light text-sm w-64 overflow-hidden truncate">{data.address}</div>
+            <div className="font-light text-sm w-56 overflow-hidden truncate">
+              {data.address}
+            </div>
             <div className="font-light text-neutral-500">
               {reservation && reservationDate}
             </div>
             <div className="flex flex-row items-center gap-1">
               <div className="font-semibold">{price.toFixed(2)}</div>{" "}
               {reservation ? (
-                <div className="font-light">лева общо</div>
+                <div className="font-light">{t("total_price")}</div>
               ) : (
-                <div className="font-light">лв/ден</div>
+                <div className="font-light">{t("BGN_per_day")}</div>
               )}
             </div>
           </div>
-          <div
-            className={
-              !horizontal
-                ? !reservation
-                  ? "col-span-3 flex flex-row top-0 text-sm font-semibold justify-end"
-                  : "hidden"
-                : "row-span-2 flex flex-row top-0 text-sm font-semibold justify-start items-center"
-            }
-          >
-            <FaStar
-              size={!horizontal ? 16 : 14}
-              className={`fill-amber-400 ${!horizontal && "pt-1"}`}
-            />{" "}
-            4.5/5
-          </div>
+          {reviewsData && reviewsData?.totalScore && (
+            <div
+              className={
+                !horizontal
+                  ? !reservation
+                    ? "col-span-3 flex flex-row top-0 text-sm font-semibold justify-end"
+                    : "hidden"
+                  : "row-span-2 flex flex-row top-0 text-sm font-semibold justify-start items-center"
+              }
+            >
+              <FaStar
+                size={!horizontal ? 16 : 14}
+                className={`fill-amber-400 ${!horizontal && "pt-1"}`}
+              />{" "}
+              {reviewsData.totalScore}/5
+            </div>
+          )}
         </div>
         {reservation && (
           <div
@@ -171,13 +185,13 @@ const ListingCard: React.FC<ListingCardProps> = ({
                   : "row-span-10"
               }
             >
-              {reservation.approved ? (
+              {reservation.status === reservationStatuses.accepted ? (
                 <div className="font-light text-emerald-800 text-sm">
-                  <span>Резервацията е одобрена</span>
+                  <span>{t("Reservation_request_accepted")}</span>
                 </div>
               ) : (
                 <div className="font-light text-rose-800 text-sm">
-                  <span>Тази резервация все още очаква да се одобри</span>
+                  <span>{t("Reservation_request_still_pending")}</span>
                 </div>
               )}
             </div>

@@ -1,23 +1,20 @@
 "use client";
 
 import Image from "next/image";
-import { SafeUser } from "@/app/types";
 import Heading from "../Heading";
 import HeartButton from "../HeartButton";
-import { FaStar } from "react-icons/fa6";
+import { Listing } from "pawpal-fe-common/listings-types";
 
 interface ListingHeadProps {
   address: string;
   imageSrc: string;
-  id: string;
-  currentUser?: SafeUser | null;
+  listing: Listing;
 }
 
 const ListingHead: React.FC<ListingHeadProps> = ({
   address,
   imageSrc,
-  id,
-  currentUser,
+  listing,
 }) => {
   return (
     <>
@@ -32,7 +29,7 @@ const ListingHead: React.FC<ListingHeadProps> = ({
         "
       >
         <Image
-          src={imageSrc ? imageSrc : "/images/review page background.png"}
+          src={imageSrc ? imageSrc : "/images/listing-default-image.png"}
           fill
           className="object-cover w-full"
           alt="Image"
@@ -44,7 +41,7 @@ const ListingHead: React.FC<ListingHeadProps> = ({
             right-5
           "
         >
-          <HeartButton listingId={id} currentUser={currentUser} />
+          <HeartButton listing={listing} />
         </div>
       </div>
     </>

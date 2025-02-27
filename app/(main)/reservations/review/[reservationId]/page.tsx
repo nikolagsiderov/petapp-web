@@ -1,39 +1,14 @@
-import EmptyState from "@/app/components/EmptyState";
-import getCurrentUser from "@/app/actions/getCurrentUser";
-import ReviewClient from "./ReviewClient";
+import ReviewClient from "@/app/components/pages/main/reservations/review/ReviewClient";
 import ClientOnly from "@/app/components/ClientOnly";
-import { getReservationById } from "@/app/actions/reservations/getActions";
 
 interface IParams {
-  reservationId?: string;
+  reservationId: string;
 }
 
 const ReviewPage = async ({ params }: { params: IParams }) => {
-  const currentUser = await getCurrentUser();
-  const reservation = await getReservationById(params);
-
-  if (!currentUser) {
-    return (
-      <ClientOnly>
-        <EmptyState title="Нямате достъп" subtitle="Влезте в своя профил" />
-      </ClientOnly>
-    );
-  }
-
-  if (!reservation) {
-    return (
-      <ClientOnly>
-        <EmptyState
-          title="Няма намерена резервация"
-          subtitle="Изглежда, че не тази резервация не съществува."
-        />
-      </ClientOnly>
-    );
-  }
-
   return (
     <ClientOnly>
-      <ReviewClient reservation={reservation} />
+      <ReviewClient reservationId={params.reservationId} />
     </ClientOnly>
   );
 };

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Loader from "./Loader";
+import "@/app/i18n";
 
 interface ClientOnlyProps {
   children: React.ReactNode;
