@@ -8,7 +8,7 @@ const Right = () => {
       <div className="flex flex-col w-full">
         <div className="aspect-square w-full relative overflow-hidden">
           <Image
-            alt="Listing"
+            alt="Dog Banner"
             src={"/images/dog banner.png"}
             className="object-cover h-full w-full"
             fill

@@ -24,7 +24,7 @@ const LoginClient = () => {
   const onSignInSuccessCallback = () => {
     setLoading(false);
     router.replace("/");
-    toast.success("Добре дошли");
+    toast.success(t("Welcome"));
   };
 
   const { mutate: authenticate } = useAuthenticate(onSignInSuccessCallback);
@@ -64,22 +64,24 @@ const LoginClient = () => {
         setLoading(true);
         await signInWithGoogle({ idToken: credential, platform: "web" });
       } catch (error) {
-        toast.error("Google Sign-In failed!"); // TODO: Handle failure
+        // TODO: Handle failure
       }
     }
   };
 
   const handleGoogleError = (error: any) => {
-    toast.error("Google Sign-In failed!");
-    console.error("Google Login Error:", error);
+    // TODO: Handle failure
   };
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
-      <Heading title="Добре дошли в PawPal" subtitle="Влез в своя акаунт!" />
+      <Heading
+        title={`${t("Welcome_to")} PawPal`}
+        subtitle={t("Sign_in_to_your_profile")}
+      />
       <EmailInput
         id="email"
-        label="Имейл"
+        label={t("Email")}
         disabled={loading}
         register={register}
         errors={errors}
@@ -88,7 +90,7 @@ const LoginClient = () => {
       <Input
         id="password"
         type="password"
-        label="Парола"
+        label={t("Password")}
         disabled={loading}
         register={register}
         errors={errors}
@@ -115,12 +117,12 @@ const LoginClient = () => {
       />
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="justify-center flex flex-row items-center gap-2">
-          <div>Нямаш акаунт?</div>
+          <div>{t("Dont_have_an_account")}</div>
           <div
             onClick={() => router.push("/register")}
             className="text-neutral-800 cursor-pointer hover:underline"
           >
-            Регистрирай се
+            {t("Sign_up")}
           </div>
         </div>
       </div>
@@ -134,14 +136,14 @@ const LoginClient = () => {
           <div className={`translate duration-300 h-full translate-y-0`}>
             <div className="translate h-full lg:h-auto md:h-auto border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
               <div className="flex items-center p-6 rounded-t justify-center relative border-b-[1px]">
-                <div className="text-lg font-semibold">Влез</div>
+                <div className="text-lg font-semibold">{t("Sign_in")}</div>
               </div>
               <div className="relative p-6 flex-auto">{bodyContent}</div>
               <div className="flex flex-col gap-2 p-6">
                 <div className="flex flex-row items-center gap-4 w-full">
                   <Button
                     disabled={loading}
-                    label="Продължи"
+                    label={t("Continue")}
                     onClick={handleSubmit(onSubmit)}
                   />
                 </div>

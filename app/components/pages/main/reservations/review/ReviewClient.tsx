@@ -10,12 +10,14 @@ import Button from "@/app/components/Button";
 import Rating from "@/app/components/inputs/Rating";
 import useCreateReview from "@/app/context/TRQs/reviews/mutations/useCreateReview";
 import useReservationById from "@/app/context/TRQs/listings/useReservationById";
+import { useTranslation } from "react-i18next";
 
 interface IReviewClientProps {
   reservationId: string;
 }
 
 const ReviewClient: React.FC<IReviewClientProps> = ({ reservationId }) => {
+  const { t } = useTranslation();
   const { data: reservation } = useReservationById(reservationId);
 
   const router = useRouter();
@@ -54,7 +56,7 @@ const ReviewClient: React.FC<IReviewClientProps> = ({ reservationId }) => {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true);
 
-    const response = await post({
+    await post({
       targetItemId: data.listingId,
       associatedEntityType: "Listing",
       reservationId: data.reservationId,
@@ -78,8 +80,8 @@ const ReviewClient: React.FC<IReviewClientProps> = ({ reservationId }) => {
         "
       >
         <Heading
-          title="Отзив"
-          subtitle="Отзивите са от решаващо значение за изграждането на доверие в PawPal. Те са важен начин за обратна връзка между гледачите и търсещите такива, помагат на общността ни да взема информирани решения и да разбира какво да очаква, когато се правят планове. Вярваме, че справедливата система за оставяне на отзиви е тази, която уважава и защитава искрените отзиви на нашата общност, и разполагаме с редица предпазни мерки, които помагат за изграждане на доверие в нашата система."
+          title={t("Feedback")}
+          subtitle={t("FeedbackDescription")}
           imageSrc="/images/review page background.png"
         />
         <div
@@ -92,8 +94,8 @@ const ReviewClient: React.FC<IReviewClientProps> = ({ reservationId }) => {
         >
           <div className="flex flex-col gap-8">
             <Heading
-              title="Дай оценка на комуникацията ви"
-              subtitle="Тук трябва да се поясни какво се означава тази оценка..."
+              title={t("Communication")}
+              subtitle={t("CommunicationDescription")}
               textSizeClass={"text-sm"}
             />
             <Rating
@@ -103,8 +105,8 @@ const ReviewClient: React.FC<IReviewClientProps> = ({ reservationId }) => {
           </div>
           <div className="flex flex-col gap-8">
             <Heading
-              title="Дай оценка на точността"
-              subtitle="Тук трябва да се поясни какво се означава тази оценка..."
+              title={t("Accuracy")}
+              subtitle={t("AccuracyDescription")}
               textSizeClass={"text-sm"}
             />
             <Rating
@@ -114,13 +116,13 @@ const ReviewClient: React.FC<IReviewClientProps> = ({ reservationId }) => {
           </div>
           <div className="flex flex-col gap-8">
             <Heading
-              title="Напиши публично ревю/коментар"
-              subtitle="Остави публичен коментар относно престоя на твоя домашен любимец при <човека>. Този коментар ще бъде видим за всички."
+              title={t("Public_comment")}
+              subtitle={t("PublicCommentDescription")}
               textSizeClass={"text-sm"}
             />
             <Input
               id="publicMessage"
-              label="Публичен коментар"
+              label={t("Public_comment")}
               textarea
               disabled={isLoading}
               register={register}
@@ -130,13 +132,13 @@ const ReviewClient: React.FC<IReviewClientProps> = ({ reservationId }) => {
           </div>
           <div className="flex flex-col gap-8">
             <Heading
-              title="Напиши частен коментар"
-              subtitle="Този коментар ще бъде видим само и единствено от <човека>. Този коментар няма да бъде споделен към обявата."
+              title={t("Private_comment")}
+              subtitle={t("PrivateCommentDescription")}
               textSizeClass={"text-sm"}
             />
             <Input
               id="privateMessage"
-              label="Частен коментар"
+              label={t("Private_comment")}
               textarea
               disabled={isLoading}
               register={register}
@@ -147,7 +149,7 @@ const ReviewClient: React.FC<IReviewClientProps> = ({ reservationId }) => {
           <div className="flex flex-col lg:items-end items-center">
             <div className="w-64">
               <Button
-                label="Публикувай отзив"
+                label={t("Post_review")}
                 onClick={handleSubmit(onSubmit)}
                 small
               />

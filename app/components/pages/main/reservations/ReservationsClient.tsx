@@ -7,8 +7,10 @@ import MainContainer from "@/app/components/MainContainer";
 import ListingCard from "@/app/components/listings/ListingCard";
 import useReservations from "@/app/context/TRQs/listings/useReservations";
 import EmptyState from "@/app/components/EmptyState";
+import { useTranslation } from "react-i18next";
 
 const ReservationsClient = () => {
+  const { t } = useTranslation();
   const { data: reservations } = useReservations();
 
   const router = useRouter();
@@ -44,8 +46,8 @@ const ReservationsClient = () => {
   if (!reservations || reservations?.length === 0) {
     return (
       <EmptyState
-        title="Няма намерени резервации"
-        subtitle="Изглежда, че не сте направили резервации."
+        title={t("No_reservations_found")}
+        subtitle={t("It_looks_like_you_havent_made_any_reservations")}
       />
     );
   }
@@ -59,10 +61,7 @@ const ReservationsClient = () => {
           lg:pt-24 pt-32 pb-20
         "
       >
-        <Heading
-          title="Резервации"
-          subtitle="Предстоящи и планувани резервации"
-        />
+        <Heading title={t("Reservations")} />
         <div
           className="
           mt-10
@@ -97,10 +96,7 @@ const ReservationsClient = () => {
           pb-20
         "
       >
-        <Heading
-          title="Изминали резервации"
-          subtitle="Моля върнете обратна връзка/отзив от вашите изминали резервации"
-        />
+        <Heading title={t("Past_reservations")} />
         <div
           className="
           mt-10
@@ -122,7 +118,7 @@ const ReservationsClient = () => {
               reservation={reservation}
               actionId={reservation.id}
               onAction={onSubmitFeedback}
-              actionLabel="Дай отзив"
+              actionLabel={t("Leave_a_review")}
             />
           ))}
         </div>

@@ -1,26 +1,22 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import {
-  FiBarChart,
-  FiHome,
-  FiSettings,
-  FiLayout,
-  FiTag,
-} from "react-icons/fi";
+import { FiHome, FiLayout, FiTag } from "react-icons/fi";
 import SidebarOption from "./SidebarOption";
 import SidebarTitleSection from "./SidebarTitleSection";
 import SidebarToggleClose from "./SidebarToggleClose";
 import SidebarReturn from "./SidebarReturn";
 import useCurrentUser from "@/app/context/TRQs/users/useCurrentUser";
+import { useTranslation } from "react-i18next";
 
 const Sidebar = () => {
+  const { t } = useTranslation();
   const { data: currentUser } = useCurrentUser();
   const requestsCount = 1; // TODO: Implement TRQ for getting pending reservations count
 
   const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth);
   const [open, setOpen] = useState(true);
-  const [selected, setSelected] = useState("Начало");
+  const [selected, setSelected] = useState(t("Dashboard"));
 
   const handleScreenSizeChange = () => {
     setScreenWidth(window.innerWidth);
@@ -60,7 +56,7 @@ const Sidebar = () => {
         <SidebarOption
           route="/my-services"
           Icon={FiHome}
-          title="Начало"
+          title={t("Dashboard")}
           selected={selected}
           setSelected={setSelected}
           open={open}
@@ -68,7 +64,7 @@ const Sidebar = () => {
         <SidebarOption
           route="/my-services/reservations"
           Icon={FiTag}
-          title="Резервации"
+          title={t("Reservations")}
           selected={selected}
           setSelected={setSelected}
           open={open}
@@ -77,23 +73,7 @@ const Sidebar = () => {
         <SidebarOption
           route="/my-services/listing"
           Icon={FiLayout}
-          title="Моята обява"
-          selected={selected}
-          setSelected={setSelected}
-          open={open}
-        />
-        <SidebarOption
-          route="/my-services/statistics"
-          Icon={FiBarChart}
-          title="Статистика"
-          selected={selected}
-          setSelected={setSelected}
-          open={open}
-        />
-        <SidebarOption
-          route="/my-services/settings"
-          Icon={FiSettings}
-          title="Настройки"
+          title={t("Listing")}
           selected={selected}
           setSelected={setSelected}
           open={open}

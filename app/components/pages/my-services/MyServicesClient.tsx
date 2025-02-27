@@ -4,17 +4,18 @@ import Heading from "@/app/components/Heading";
 import MyServicesContainer from "@/app/components/MyServicesContainer";
 import useCurrentUser from "@/app/context/TRQs/users/useCurrentUser";
 import Image from "next/image";
+import { useTranslation } from "react-i18next";
 
 const MyServicesClient = () => {
+  const { t } = useTranslation();
   const { data: currentUser } = useCurrentUser();
 
   return (
     <MyServicesContainer>
       <Heading
-        title={`Здравейте, ${
+        title={`${t("Welcome")}, ${
           currentUser?.firstName + " " + currentUser?.lastName
         }!`}
-        subtitle="Началната страница на управленския панел все още не е имплементирана."
       />
       <Image
         className="fixed bottom-0 right-0 md:w-auto w-1/2"

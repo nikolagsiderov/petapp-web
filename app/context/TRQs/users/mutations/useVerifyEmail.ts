@@ -1,3 +1,5 @@
+"use client";
+
 import { useMutation } from "@tanstack/react-query";
 import { verifyEmailAsync } from "pawpal-fe-common/users-api";
 import { IVerifyEmailPayload } from "pawpal-fe-common/users-interfaces";
@@ -9,9 +11,6 @@ const useVerifyEmail = () => {
   return useMutation({
     mutationFn: async (payload: IVerifyEmailPayload) =>
       verifyEmailAsync(payload),
-    onSuccess: () => {
-      // TODO: After email verification
-    },
     onError: (error) => {
       handleError(error ?? null);
     },

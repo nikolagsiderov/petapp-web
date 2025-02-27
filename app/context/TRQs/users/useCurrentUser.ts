@@ -10,7 +10,7 @@ const useCurrentUser = () => {
   const { authStatus } = useAuth();
 
   return useQuery({
-    queryKey: ["useCurrentUser"],
+    queryKey: [useCurrentUser.name],
     queryFn: async () => {
       try {
         const res = await getCurrentUserAsync();

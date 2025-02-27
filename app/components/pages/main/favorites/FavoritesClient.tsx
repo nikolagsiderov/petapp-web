@@ -5,15 +5,17 @@ import Heading from "@/app/components/Heading";
 import MainContainer from "@/app/components/MainContainer";
 import ListingCard from "@/app/components/listings/ListingCard";
 import useFavoriteListings from "@/app/context/TRQs/listings/useFavoriteListings";
+import { useTranslation } from "react-i18next";
 
 const FavoritesClient = () => {
+  const { t } = useTranslation();
   const { data: listings } = useFavoriteListings();
 
   if (!listings || listings.length === 0) {
     return (
       <EmptyState
-        title="Нямате запазени обяви"
-        subtitle="Изглежда, че не сте запазили обяви."
+        title={t("No_favorite_listings")}
+        subtitle={t("It_looks_like_you_havent_added_any_listings_to_favorites")}
       />
     );
   }
@@ -27,7 +29,9 @@ const FavoritesClient = () => {
           lg:pt-28 pt-36 pb-24
         "
       >
-        <Heading title="Запазени обяви" subtitle="Списък със запазени обяви!" />
+        <Heading
+          title={t("Favorite_listings")}
+        />
         <div
           className="
           mt-10

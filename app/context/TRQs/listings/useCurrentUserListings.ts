@@ -16,7 +16,7 @@ const useCurrentUserListings = () => {
         const res = await getCurrentUserListingsAsync();
         return res;
       } catch (error) {
-        // handleError(error);
+        handleError(error);
       }
     },
     enabled: authStatus,

@@ -29,7 +29,7 @@ const useGlobalErrorHandler = () => {
           toast.error(t(errorCode));
         }
       } else {
-        toast.error("Опи, нещо се обърка...");
+        toast.error(t("00000"));
       }
     },
     [router]

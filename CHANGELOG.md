@@ -2,11 +2,11 @@
 
 ## Added
 
-- Enable localization
+- Upgraded pawpal-fe-common@0.0.190 to enable full scale localization
 
-## TODO
+## Changed
 
-- I am at app/components/navbar/main/UserMenu.tsx
+- Removed Redux
 
 # [0.2.8]
 

@@ -9,12 +9,7 @@ const ListingClient = () => {
   const { data: listings } = useCurrentUserListings();
 
   if (!listings || listings.length === 0) {
-    return (
-      <EmptyState
-        title="Нямате обявя"
-        subtitle="Все още не е имплементирана възможността да си създадеш от тук."
-      />
-    );
+    return <EmptyState />;
   }
 
   return (

@@ -29,7 +29,7 @@ const RegisterModal = () => {
   const onSignInWithGoogleSuccessCallback = () => {
     setLoading(false);
     registerModal.onClose();
-    toast.success("Добре дошли");
+    toast.success(t("Welcome"));
   };
 
   const { mutate: signInWithGoogle } = useAuthenticateWithGoogle(
