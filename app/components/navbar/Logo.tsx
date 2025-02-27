@@ -13,7 +13,7 @@ const Logo: React.FC<LogoProps> = ({ includeCompanyName }) => {
   return (
     <Image
       onClick={() => router.push("/")}
-      alt="logo"
+      alt="PawPal Logo"
       className="block cursor-pointer"
       height="50"
       width="50"

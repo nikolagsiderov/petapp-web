@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import Button from "../Button";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { categories } from "../navbar/main/Categories";
@@ -9,6 +9,7 @@ import Input from "../inputs/Input";
 import LocationInput from "../inputs/LocationInput";
 import { Listing, Reservation } from "pawpal-fe-common/listings-types";
 import { usePawPalImage } from "pawpal-fe-common/hooks";
+import { useTranslation } from "react-i18next";
 
 interface ListingEditProps {
   listing: Listing;
@@ -16,6 +17,7 @@ interface ListingEditProps {
 }
 
 const ListingEdit: React.FC<ListingEditProps> = ({ listing, reservation }) => {
+  const { t, i18n } = useTranslation();
   const { getImageSrc } = usePawPalImage();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -79,26 +81,13 @@ const ListingEdit: React.FC<ListingEditProps> = ({ listing, reservation }) => {
     //   });
   };
 
-  const onDelete = useCallback(() => {
-    if (listing) {
-      // axios
-      //   .delete(`/api/listings/${listing.id}`)
-      //   .then(() => {
-      //     toast.success("Обявата е изтрита!");
-      //     router.refresh();
-      //   })
-      //   .catch((error) => {
-      //     toast.error(error?.response?.data?.error);
-      //   })
-      //   .finally(() => {});
-    }
-  }, [listing]);
-
   return (
     <>
       <div className="w-full h-full relative gap-4 grid grid-cols-12">
         <div className="col-span-12 whitespace-pre-wrap">
-          <div className="py-4 px-1 font-semibold">Описание:</div>
+          <div className="py-4 px-1 font-semibold">
+            {t("Description_of_listing")}:
+          </div>
           <Input
             id="description"
             label="Описание"
@@ -111,14 +100,14 @@ const ListingEdit: React.FC<ListingEditProps> = ({ listing, reservation }) => {
         </div>
       </div>
       <div className="w-full h-full relative gap-4 grid grid-cols-12">
-        <div className="px-1 font-semibold">Категория:</div>
+        <div className="px-1 font-semibold">{t("Pet")}:</div>
         <div className="col-span-12 flex flex-row gap-4 overflow-y-hidden">
           {categories.map((item) => (
             <div key={item.label} className="col-span-1">
               <CategoryInput
                 onClick={(category) => setCustomValue("category", category)}
-                selected={category === item.label}
-                label={item.label}
+                selected={category === item.value}
+                label={i18n.language === "bg" ? item.label : item.value}
                 icon={item.icon}
                 value={item.value}
               />
@@ -127,7 +116,9 @@ const ListingEdit: React.FC<ListingEditProps> = ({ listing, reservation }) => {
         </div>
       </div>
       <div className="w-full h-full relative gap-4 grid grid-cols-12 overflow-hidden">
-        <div className="col-span-12 lg:col-span-1 font-semibold">Адрес:</div>
+        <div className="col-span-12 lg:col-span-1 font-semibold">
+          {t("Location")}:
+        </div>
         <div className="col-span-12 lg:col-span-4">
           <LocationInput
             onChange={(locationValue) =>
@@ -135,11 +126,13 @@ const ListingEdit: React.FC<ListingEditProps> = ({ listing, reservation }) => {
             }
           />
         </div>
-        <div className="col-span-12 lg:col-span-1 font-semibold">Цена:</div>
+        <div className="col-span-12 lg:col-span-1 font-semibold">
+          {t("Price_per_day")}:
+        </div>
         <div className="col-span-4 lg:col-span-2">
           <Input
             id="price"
-            label="Цена"
+            label={t("Price_per_day")}
             type="number"
             disabled={isLoading}
             register={register}
@@ -150,10 +143,7 @@ const ListingEdit: React.FC<ListingEditProps> = ({ listing, reservation }) => {
       </div>
       <div className="w-full h-full relative gap-4 grid grid-cols-12 overflow-hidden">
         <div className="col-span-6 lg:col-span-2 flex flex-row gap-32">
-          <Button small label={"Запази промени"} onClick={() => onSubmit} />
-        </div>
-        <div className="col-span-6 lg:col-span-2 flex flex-row gap-32">
-          <Button small label={"Изтрий"} onClick={onDelete} />
+          <Button small label={t("Save_changes")} onClick={() => onSubmit} />
         </div>
       </div>
     </>

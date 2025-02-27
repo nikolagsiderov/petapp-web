@@ -2,8 +2,10 @@
 
 import { useRouter } from "next/navigation";
 import Logo from "../Logo";
+import { useTranslation } from "react-i18next";
 
 const SidebarReturn = ({ open }: { open: boolean }) => {
+  const { t } = useTranslation();
   const router = useRouter();
 
   return (
@@ -15,7 +17,7 @@ const SidebarReturn = ({ open }: { open: boolean }) => {
     >
       <div className={`flex items-center py-3 justify-center`}>
         {open ? (
-          <span className="text-sm font-medium">Към платформата</span>
+          <span className="text-sm font-medium">{t("Switch_to_platform")}</span>
         ) : (
           <div className="grid size-8 place-content-center">
             <Logo />

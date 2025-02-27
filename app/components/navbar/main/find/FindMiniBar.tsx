@@ -4,6 +4,7 @@ import MainContainer from "../../../MainContainer";
 import CategoryBox from "../../../CategoryBox";
 import { usePathname, useSearchParams } from "next/navigation";
 import { IoMdFlag } from "react-icons/io";
+import { useTranslation } from "react-i18next";
 
 // TODO: Brainstorm on the possible urgency categories
 // Also, consider moving all categories outside of FE
@@ -17,16 +18,17 @@ export const categories = [
   {
     label: "Забелязано",
     className: "bg-amber-500 uppercase",
-    value: "Spotted"
+    value: "Spotted",
   },
   {
     label: "Изгубено",
     className: "bg-rose-900 uppercase",
-    value: "Lost"
+    value: "Lost",
   },
 ];
 
 const FindMiniBar = () => {
+  const { t, i18n } = useTranslation();
   const params = useSearchParams();
   const category = params?.get("category");
   const pathname = usePathname();
@@ -42,13 +44,13 @@ const FindMiniBar = () => {
             onClick={() => {}}
           >
             <IoMdFlag className="text-3xl lg:text-xl" />
-            Докладвай намерено
+            {t("Report_found")}
           </div>
           <div className="flex flex-row items-center">
             {categories.map((item) => (
               <CategoryBox
                 key={item.label}
-                label={item.label}
+                label={i18n.language === "bg" ? item.label : item.value}
                 urgencyClassName={item.className}
                 selected={category === item.label}
                 value={item.value}
@@ -60,7 +62,7 @@ const FindMiniBar = () => {
             onClick={() => {}}
           >
             <IoMdFlag className="text-3xl lg:text-xl" />
-            Докладвай изгубено
+            {t("Report_lost")}
           </div>
         </div>
       </MainContainer>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslation } from "react-i18next";
 import { IconType } from "react-icons";
 
 interface CategoryInputProps {
@@ -17,6 +18,7 @@ const CategoryInput: React.FC<CategoryInputProps> = ({
   selected,
   onClick,
 }) => {
+  const { i18n } = useTranslation();
   return (
     <div
       onClick={() => onClick(value)}
@@ -25,7 +27,9 @@ const CategoryInput: React.FC<CategoryInputProps> = ({
       }`}
     >
       <Icon size={30} />
-      <div className="font-semibold">{label}</div>
+      <div className="font-semibold">
+        {i18n.language === "bg" ? label : value}
+      </div>
     </div>
   );
 };

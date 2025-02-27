@@ -9,6 +9,7 @@ import { IoFish } from "react-icons/io5";
 import CategoryBox from "../../CategoryBox";
 import { useSearchParams } from "next/navigation";
 import { MdPestControlRodent } from "react-icons/md";
+import { useTranslation } from "react-i18next";
 
 // TODO: Consider moving all categories outside of FE
 // Maybe store them in DB
@@ -19,6 +20,7 @@ export const categories = [
     icon: FaDog,
     imageSrc: "/vectors/dog.svg",
     description: "Тази обява се отнася за кучета.",
+    descriptionEN: "This listing is for dogs.",
   },
   {
     label: "Котета",
@@ -26,6 +28,7 @@ export const categories = [
     icon: FaCat,
     imageSrc: "/vectors/cat.svg",
     description: "Тази обява се отнася за котки.",
+    descriptionEN: "This listing is for cats.",
   },
   {
     label: "Зайчета",
@@ -33,6 +36,7 @@ export const categories = [
     icon: GiRabbit,
     imageSrc: "/vectors/bunny.svg",
     description: "Тази обява се отнася за зайци.",
+    descriptionEN: "This listing is for rabbits.",
   },
   {
     label: "Птици",
@@ -40,6 +44,7 @@ export const categories = [
     icon: GiParrotHead,
     imageSrc: "/vectors/bird.svg",
     description: "Тази обява се отнася за птици.",
+    descriptionEN: "This listing is for birds.",
   },
   {
     label: "Рибки",
@@ -47,6 +52,7 @@ export const categories = [
     icon: IoFish,
     imageSrc: "/vectors/fish.svg",
     description: "Тази обява се отнася за риби.",
+    descriptionEN: "This listing is for fish.",
   },
   {
     label: "Гризачи",
@@ -54,10 +60,12 @@ export const categories = [
     icon: MdPestControlRodent,
     imageSrc: "/vectors/squirrel.svg",
     description: "Тази обява се отнася за гризачи.",
+    descriptionEN: "This listing is for rodents.",
   },
 ];
 
 const Categories = () => {
+  const { i18n } = useTranslation();
   const params = useSearchParams();
   const category = params?.get("category");
 
@@ -67,7 +75,7 @@ const Categories = () => {
         {categories.map((item) => (
           <CategoryBox
             key={item.label}
-            label={item.label}
+            label={i18n.language === "bg" ? item.label : item.value}
             value={item.value}
             selected={category === item.value}
             imageSrc={item.imageSrc}

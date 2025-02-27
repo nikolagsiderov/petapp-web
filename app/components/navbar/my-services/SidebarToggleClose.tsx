@@ -1,6 +1,7 @@
 "use client";
 
 import React, { Dispatch, SetStateAction } from "react";
+import { useTranslation } from "react-i18next";
 import { FiChevronsRight } from "react-icons/fi";
 
 const SidebarToggleClose = ({
@@ -10,6 +11,7 @@ const SidebarToggleClose = ({
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
+  const { t } = useTranslation();
   return (
     <button
       onClick={() => setOpen((pv) => !pv)}
@@ -21,7 +23,7 @@ const SidebarToggleClose = ({
             className={`transition-transform ${open && "rotate-180"}`}
           />
         </div>
-        {open && <span className="text-xs font-medium">Скрий меню</span>}
+        {open && <span className="text-xs font-medium">{t("Hide_menu")}</span>}
       </div>
     </button>
   );

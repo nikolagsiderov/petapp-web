@@ -9,6 +9,8 @@ import { TiCancel } from "react-icons/ti";
 import { Reservation } from "pawpal-fe-common/listings-types";
 import { reservationStatuses } from "pawpal-fe-common/constants";
 import useUpdateReservationStatus from "@/app/context/TRQs/listings/mutations/useUpdateReservationStatus";
+import { useTranslation } from "react-i18next";
+import Avatar from "@/app/components/Avatar";
 
 interface TableRowsProps {
   request: Reservation;
@@ -16,6 +18,7 @@ interface TableRowsProps {
 }
 
 const ReservationsTableRows = ({ request, index }: TableRowsProps) => {
+  const { t } = useTranslation();
   const router = useRouter();
   const { mutate: updateReservationStatus } = useUpdateReservationStatus();
 
@@ -26,7 +29,7 @@ const ReservationsTableRows = ({ request, index }: TableRowsProps) => {
         status: reservationStatuses.accepted,
       });
 
-      toast.success("Резервацията е одобрена!");
+      toast.success(t("Reservation_request_accepted"));
       router.refresh();
     },
     [router, updateReservationStatus]
@@ -39,7 +42,7 @@ const ReservationsTableRows = ({ request, index }: TableRowsProps) => {
         status: reservationStatuses.rejected,
       });
 
-      toast.success("Резервацията е отменена!");
+      toast.success(t("Reservation_request_rejected"));
       router.refresh();
     },
     [router, updateReservationStatus]
@@ -68,7 +71,9 @@ const ReservationsTableRows = ({ request, index }: TableRowsProps) => {
             className="flex flex-row gap-1 justify-center items-center rounded-xl transition cursor-pointer py-1 px-2 bg-rose-500 hover:bg-rose-700 text-white"
           >
             <TiCancel size={24} />{" "}
-            <span className="text-xs font-semibold uppercase">Отмени</span>
+            <span className="text-xs font-semibold uppercase">
+              {t("Reject_request")}
+            </span>
           </div>
         ) : (
           <div
@@ -76,7 +81,9 @@ const ReservationsTableRows = ({ request, index }: TableRowsProps) => {
             className="flex flex-row gap-2 justify-center items-center rounded-xl transition cursor-pointer py-2 px-4 bg-emerald-500 hover:bg-emerald-700 text-white"
           >
             <FaThumbsUp size={16} />{" "}
-            <span className="text-xs font-semibold uppercase">Одобри</span>
+            <span className="text-xs font-semibold uppercase">
+              {t("Accept_request")}
+            </span>
           </div>
         )}
       </td>
@@ -87,12 +94,13 @@ const ReservationsTableRows = ({ request, index }: TableRowsProps) => {
       </td>
 
       <td className="p-4 flex items-center gap-3 overflow-hidden">
-        {/* // TODO: Add 'user' property in 'reservation' object, we need the person who made the reservation... */}
-        {/* <Avatar src={request.user.image} /> */}
+        <Avatar src={request.user.externalProfilePictureUrl} />
         <div>
-          {/* <span className="block mb-1 font-medium">{request.user.name}</span> */}
+          <span className="block mb-1 font-medium">
+            {request.user.firstName} {request.user.lastName}
+          </span>
           <span className="block text-xs text-slate-500">
-            {/* {request.user.email} */}
+            {request.user.email}
           </span>
         </div>
       </td>
@@ -106,9 +114,9 @@ const ReservationsTableRows = ({ request, index }: TableRowsProps) => {
           }`}
         >
           {request.status === reservationStatuses.accepted ? (
-            <span>Одобрена</span>
+            <span>{t("Approved")}</span>
           ) : (
-            <span>Чака одобрение</span>
+            <span>{t("Waiting_approval")}</span>
           )}
         </span>
       </td>

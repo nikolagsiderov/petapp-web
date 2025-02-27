@@ -5,6 +5,7 @@ import { useCallback } from "react";
 import { IconType } from "react-icons";
 import qs from "query-string";
 import Avatar from "./Avatar";
+import { useTranslation } from "react-i18next";
 
 interface CategoryBoxProps {
   icon?: IconType | null;
@@ -23,6 +24,7 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({
   selected,
   urgencyClassName,
 }) => {
+  const { i18n } = useTranslation();
   const router = useRouter();
   const pathname = usePathname();
   const params = useSearchParams();
@@ -73,14 +75,16 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({
               height={35}
             />
           )}
-          <div className="font-semibold -mt-1">{label}</div>
+          <div className="font-semibold -mt-1">
+            {i18n.language === "bg" ? label : value}
+          </div>
         </>
       )}
       {pathname === "/find" && (
         <span
           className={`px-2 py-1 text-sm font-semibold rounded text-white ${urgencyClassName}`}
         >
-          {label}
+          {i18n.language === "bg" ? label : value}
         </span>
       )}
     </div>

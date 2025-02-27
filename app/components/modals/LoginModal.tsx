@@ -24,7 +24,7 @@ const LoginModal = () => {
   const onSignInSuccessCallback = () => {
     setLoading(false);
     loginModal.onClose();
-    toast.success("Добре дошли");
+    toast.success(t("Welcome"));
   };
 
   const { mutate: authenticate } = useAuthenticate(onSignInSuccessCallback);
@@ -64,14 +64,13 @@ const LoginModal = () => {
         setLoading(true);
         await signInWithGoogle({ idToken: credential, platform: "web" });
       } catch (error) {
-        toast.error("Google Sign-In failed!"); // TODO: Handle failure
+        // TODO: Handle failure
       }
     }
   };
 
   const handleGoogleError = (error: any) => {
-    toast.error("Google Sign-In failed!");
-    console.error("Google Login Error:", error);
+    // TODO: Handle failure
   };
 
   const toggle = useCallback(() => {
@@ -81,10 +80,13 @@ const LoginModal = () => {
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
-      <Heading title="Добре дошли в PawPal" subtitle="Влез в своя акаунт!" />
+      <Heading
+        title={`${t("Welcome_to")} PawPal`}
+        subtitle={t("Sign_in_to_your_profile")}
+      />
       <Input
         id="email"
-        label="Имейл"
+        label={t("Email")}
         disabled={loading}
         register={register}
         errors={errors}
@@ -93,7 +95,7 @@ const LoginModal = () => {
       <Input
         id="password"
         type="password"
-        label="Парола"
+        label={t("Password")}
         disabled={loading}
         register={register}
         errors={errors}
@@ -120,12 +122,12 @@ const LoginModal = () => {
       />
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="justify-center flex flex-row items-center gap-2">
-          <div>Нямаш акаунт?</div>
+          <div>{t("Dont_have_an_account")}</div>
           <div
             onClick={toggle}
             className="text-neutral-800 cursor-pointer hover:underline"
           >
-            Регистрирай се
+            {t("Sign_up")}
           </div>
         </div>
       </div>
@@ -136,8 +138,8 @@ const LoginModal = () => {
     <Modal
       disabled={loading}
       isOpen={loginModal.isOpen}
-      title="Влез"
-      actionLabel="Продължи"
+      title={t("Sign_in")}
+      actionLabel={t("Continue")}
       onClose={loginModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}

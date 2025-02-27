@@ -1,12 +1,10 @@
 "use client";
 
-import { GoogleMap, MarkerF, useJsApiLoader } from "@react-google-maps/api";
-import { useRouter } from "next/navigation";
+import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import { useState, useEffect } from "react";
 
 const Left = () => {
   const [userLocation, setUserLocation] = useState<any>(null);
-  const router = useRouter();
 
   useEffect(() => {
     getUserLocation();
@@ -19,10 +17,6 @@ const Left = () => {
         lng: pos.coords.longitude,
       });
     });
-  };
-
-  const handleMapSelect = (listingId: string) => {
-    router.push(`/listings/${listingId}`);
   };
 
   const centerCoords = { lat: 42.7587, lng: 25.2058 };

@@ -20,9 +20,9 @@ const SidebarTitleSection = ({
           {open && (
             <div>
               <span className="block text-xs font-semibold">{username}</span>
-              <span className="block text-xs text-slate-500">
+              {/* <span className="block text-xs text-slate-500">
                 Безплатен лиценз
-              </span>
+              </span> */}
             </div>
           )}
         </div>

@@ -10,6 +10,7 @@ import Modal from "./Modal";
 import Calendar from "../inputs/Calendar";
 import Heading from "../Heading";
 import TownSelect, { TownSelectValue } from "../inputs/TownSelect";
+import { useTranslation } from "react-i18next";
 
 enum STEPS {
   LOCATION = 0,
@@ -17,6 +18,7 @@ enum STEPS {
 }
 
 const FilterPetSittersModal = () => {
+  const { t } = useTranslation();
   const router = useRouter();
   const searchModal = useSearchModal();
   const params = useSearchParams();
@@ -77,10 +79,10 @@ const FilterPetSittersModal = () => {
 
   const actionLabel = useMemo(() => {
     if (step === STEPS.DATE) {
-      return "Търси";
+      return t("Search");
     }
 
-    return "Продължи";
+    return t("Continue");
   }, [step]);
 
   const secondaryActionLabel = useMemo(() => {
@@ -88,15 +90,12 @@ const FilterPetSittersModal = () => {
       return undefined;
     }
 
-    return "Назад";
+    return t("Back");
   }, [step]);
 
   let bodyContent = (
     <div className="flex flex-col gap-8">
-      <Heading
-        title="От къде сте?"
-        subtitle="Къде се намира вашия домашен любимец?"
-      />
+      <Heading title={t("Search_by_town")} />
       <TownSelect
         value={townValue}
         onChange={(value) => setTownValue(value as TownSelectValue)}
@@ -108,8 +107,8 @@ const FilterPetSittersModal = () => {
     bodyContent = (
       <div className="flex flex-col gap-8">
         <Heading
-          title="Кога ще ви е необходим гледач?"
-          subtitle="Изберете дати, когато ще оставите вашия домашен любимец."
+          title={t("When_do_you_need_a_pet_sitter")}
+          subtitle={t("Select_dates")}
         />
         <Calendar
           onChange={(value) => setDateRange(value.selection)}
@@ -122,7 +121,7 @@ const FilterPetSittersModal = () => {
   return (
     <Modal
       isOpen={searchModal.isOpen}
-      title="Филтрирай"
+      title={t("Search")}
       actionLabel={actionLabel}
       onSubmit={onSubmit}
       secondaryActionLabel={secondaryActionLabel}

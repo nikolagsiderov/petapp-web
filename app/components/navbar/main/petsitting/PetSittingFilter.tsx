@@ -7,8 +7,10 @@ import { useMemo } from "react";
 import { BiSearch } from "react-icons/bi";
 import { differenceInDays } from "date-fns";
 import { categories } from "../Categories";
+import { useTranslation } from "react-i18next";
 
 const PetSittingFilter = () => {
+  const { t, i18n } = useTranslation();
   const searchModal = useSearchModal();
   const params = useSearchParams();
   const { getByValue } = useTowns();
@@ -29,7 +31,7 @@ const PetSittingFilter = () => {
       return address;
     }
 
-    return "Къде";
+    return t("Where");
   }, [address, getByValue]);
 
   const locationSecondaryLabel = useMemo(() => {
@@ -37,7 +39,7 @@ const PetSittingFilter = () => {
       return null;
     }
 
-    return "Избери локация";
+    return t("Select_location");
   }, [address]);
 
   const locationLabelIsTextLarger = useMemo(() => {
@@ -55,13 +57,13 @@ const PetSittingFilter = () => {
       let diff = differenceInDays(end, start);
 
       if (diff === 0) {
-        return `${++diff} ден`;
+        return `${++diff} ${t("day")}`;
       }
 
-      return `${++diff} дни`;
+      return `${++diff} ${t("days")}`;
     }
 
-    return "Кога";
+    return t("When");
   }, [startDate, endDate]);
 
   const durationSecondaryLabel = useMemo(() => {
@@ -77,7 +79,7 @@ const PetSittingFilter = () => {
       return null;
     }
 
-    return "Избери дати";
+    return t("Select_dates");
   }, [startDate, endDate]);
 
   const durationLabelIsTextLarger = useMemo(() => {
@@ -98,11 +100,17 @@ const PetSittingFilter = () => {
 
   const categoryLabel = useMemo(() => {
     if (category) {
-      return `${categories.filter((c) => c.value === category)[0].label}`;
+      const currentCategory = categories.filter((c) => c.value === category)[0];
+
+      if (i18n.language === "bg") {
+        return currentCategory?.label;
+      } else {
+        return currentCategory?.value;
+      }
     }
 
-    return "Домашен любимец";
-  }, [category]);
+    return t("Pet");
+  }, [category, i18n.language]);
 
   return (
     <div

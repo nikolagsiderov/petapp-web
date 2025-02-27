@@ -10,7 +10,7 @@ const useListingReviews = (targetItemId: string) => {
   const { handleError } = useGlobalErrorHandler();
 
   return useQuery({
-    queryKey: ["useListingReviews"],
+    queryKey: [useListingReviews.name],
     queryFn: async () => {
       try {
         const res = await getListingReviewsAsync(targetItemId);

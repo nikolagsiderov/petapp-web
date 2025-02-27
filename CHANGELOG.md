@@ -1,3 +1,13 @@
+# [0.2.9]
+
+## Added
+
+- Upgraded pawpal-fe-common@0.0.191 to enable full scale localization
+
+## Changed
+
+- Removed Redux
+
 # [0.2.8]
 
 ## Added

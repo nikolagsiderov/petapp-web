@@ -3,6 +3,7 @@
 import { IconType } from "react-icons";
 import Avatar from "../Avatar";
 import ListingCategory from "./ListingCategory";
+import { useTranslation } from "react-i18next";
 
 interface ListingInfoProps {
   user: any;
@@ -21,6 +22,8 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
   description,
   category,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="col-span-4 flex flex-col gap-8">
       <div className="flex flex-col gap-2">
@@ -35,7 +38,7 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
           "
         >
           <div>
-            Обявата е публикувана от {user?.firstName} {user?.lastName}
+            {t("The_listing_was_posted_by")} {user?.firstName} {user?.lastName}
           </div>
           <Avatar width={60} height={60} src={user?.image} />
         </div>

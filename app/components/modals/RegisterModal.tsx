@@ -11,8 +11,10 @@ import toast from "react-hot-toast";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import useRegister from "@/app/context/TRQs/users/mutations/useRegister";
 import useAuthenticateWithGoogle from "@/app/context/TRQs/users/mutations/useAuthenticateWithGoogle";
+import { useTranslation } from "react-i18next";
 
 const RegisterModal = () => {
+  const { t } = useTranslation();
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
   const [loading, setLoading] = useState(false);
@@ -27,7 +29,7 @@ const RegisterModal = () => {
   const onSignInWithGoogleSuccessCallback = () => {
     setLoading(false);
     registerModal.onClose();
-    toast.success("Добре дошли");
+    toast.success(t("Welcome"));
   };
 
   const { mutate: signInWithGoogle } = useAuthenticateWithGoogle(
@@ -65,14 +67,13 @@ const RegisterModal = () => {
         setLoading(true);
         await signInWithGoogle({ idToken: credential, platform: "web" });
       } catch (error) {
-        toast.error("Google Sign-In failed!"); // TODO: Handle failure
+        // TODO: Handle failure
       }
     }
   };
 
   const handleGoogleError = (error: any) => {
-    toast.error("Google Sign-In failed!");
-    console.error("Google Login Error:", error);
+    // TODO: Handle failure
   };
 
   const toggle = useCallback(() => {
@@ -82,18 +83,13 @@ const RegisterModal = () => {
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
-      <Heading title="Добре дошли в PawPal" subtitle="Създай акаунт!" />
-      <Input
-        id="email"
-        label="Имейл"
-        disabled={loading}
-        register={register}
-        errors={errors}
-        required
+      <Heading
+        title={`${t("Welcome_to")} PawPal`}
+        subtitle={t("Fill_in_to_create_your_account")}
       />
       <Input
         id="firstName"
-        label="Собствено име"
+        label={t("First_name")}
         disabled={loading}
         register={register}
         errors={errors}
@@ -101,7 +97,15 @@ const RegisterModal = () => {
       />
       <Input
         id="lastName"
-        label="Фамилия"
+        label={t("Last_name")}
+        disabled={loading}
+        register={register}
+        errors={errors}
+        required
+      />
+      <Input
+        id="email"
+        label={t("Email")}
         disabled={loading}
         register={register}
         errors={errors}
@@ -110,7 +114,7 @@ const RegisterModal = () => {
       <Input
         id="password"
         type="password"
-        label="Парола"
+        label={t("Password")}
         disabled={loading}
         register={register}
         errors={errors}
@@ -130,12 +134,12 @@ const RegisterModal = () => {
       />
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="justify-center flex flex-row items-center gap-2">
-          <div>Вече имаш акаунт?</div>
+          <div>{t("Already_have_an_account")}</div>
           <div
             onClick={toggle}
             className="text-neutral-800 cursor-pointer hover:underline"
           >
-            Влез
+            {t("Sign_in")}
           </div>
         </div>
       </div>
@@ -146,8 +150,8 @@ const RegisterModal = () => {
     <Modal
       disabled={loading}
       isOpen={registerModal.isOpen}
-      title="Регистрирай се"
-      actionLabel="Продължи"
+      title={t("Sign_up")}
+      actionLabel={t("Continue")}
       onClose={registerModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}

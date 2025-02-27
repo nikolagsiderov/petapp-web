@@ -4,6 +4,7 @@ import { Range } from "react-date-range";
 import Button from "../Button";
 import Calendar from "../inputs/Calendar";
 import { IoMdFlag } from "react-icons/io";
+import { useTranslation } from "react-i18next";
 
 interface ListingReservationProps {
   price: number;
@@ -24,6 +25,8 @@ const ListingReservation: React.FC<ListingReservationProps> = ({
   disabled,
   disabledDates,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="flex flex-col gap-8">
       <div
@@ -43,7 +46,7 @@ const ListingReservation: React.FC<ListingReservationProps> = ({
           <div className="text-2xl font-semibold">
             {price.toFixed(2)}{" "}
             <span className="font-light text-lg text-neutral-600">
-              лева на ден
+              {t("BGN_per_day")}
             </span>
           </div>
         </div>
@@ -57,7 +60,7 @@ const ListingReservation: React.FC<ListingReservationProps> = ({
         </div>
         <hr />
         <div className="p-4">
-          <Button disabled={disabled} label="Резервирай" onClick={onSubmit} />
+          <Button disabled={disabled} label={t("Reserve")} onClick={onSubmit} />
         </div>
         <hr />
         <div
@@ -71,8 +74,10 @@ const ListingReservation: React.FC<ListingReservationProps> = ({
           text-lg
         "
         >
-          <div>Общо</div>
-          <div>{totalPrice.toFixed(2)} лева</div>
+          <div>{t("Total_price_of_reservation")}</div>
+          <div>
+            {totalPrice.toFixed(2)} {t("BGN")}
+          </div>
         </div>
       </div>
       <div
@@ -80,7 +85,7 @@ const ListingReservation: React.FC<ListingReservationProps> = ({
         onClick={() => {}}
       >
         <IoMdFlag size={20} />
-        Докладвай тази обява
+        {t("Report_this_listing")}
       </div>
     </div>
   );

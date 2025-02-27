@@ -6,12 +6,14 @@ import { FaStarHalfAlt } from "react-icons/fa";
 import { format } from "date-fns";
 import { useMemo } from "react";
 import useListingReviews from "@/app/context/TRQs/reviews/useListingReviews";
+import { useTranslation } from "react-i18next";
 
 interface ListingReviewsProps {
   targetItemId: string;
 }
 
 const ListingReviews: React.FC<ListingReviewsProps> = ({ targetItemId }) => {
+  const { t } = useTranslation();
   const { data: reviewsData } = useListingReviews(targetItemId);
 
   const totalScoreView = useMemo(() => {
@@ -120,8 +122,10 @@ const ListingReviews: React.FC<ListingReviewsProps> = ({ targetItemId }) => {
                   {totalScoreView}
                 </div>
                 <div>
-                  Обща оценка от {reviewsData?.reviewsCount}{" "}
-                  {reviewsData?.reviewsCount > 1 ? "отзива" : "отзив"}
+                  {t("Total_rating_from")} {reviewsData?.reviewsCount}{" "}
+                  {reviewsData?.reviewsCount > 1
+                    ? t("feedbackPlural")
+                    : t("feedback")}
                 </div>
               </div>
               {reviewsData?.reviews.map((review: any) => (
@@ -178,7 +182,7 @@ const ListingReviews: React.FC<ListingReviewsProps> = ({ targetItemId }) => {
             gap-2
           "
             >
-              Тази обява все още няма отзиви.
+              {t("This_listings_doesnt_have_any_reviews_yet")}
             </div>
           )}
         </div>

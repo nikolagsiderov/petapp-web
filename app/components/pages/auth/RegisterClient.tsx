@@ -11,8 +11,10 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import useRegister from "@/app/context/TRQs/users/mutations/useRegister";
 import useAuthenticateWithGoogle from "@/app/context/TRQs/users/mutations/useAuthenticateWithGoogle";
+import { useTranslation } from "react-i18next";
 
 const RegisterClient = () => {
+  const { t } = useTranslation();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -25,7 +27,7 @@ const RegisterClient = () => {
   const onSignInWithGoogleSuccessCallback = () => {
     setLoading(false);
     router.replace("/");
-    toast.success("Добре дошли");
+    toast.success(t("Welcome"));
   };
 
   const { mutate: signInWithGoogle } = useAuthenticateWithGoogle(
@@ -65,30 +67,24 @@ const RegisterClient = () => {
         setLoading(true);
         await signInWithGoogle({ idToken: credential, platform: "web" });
       } catch (error) {
-        toast.error("Google Sign-In failed!"); // TODO: Handle failure
+        // TODO: Handle failure
       }
     }
   };
 
   const handleGoogleError = (error: any) => {
-    toast.error("Google Sign-In failed!");
-    console.error("Google Login Error:", error);
+    // TODO: Handle failure
   };
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
-      <Heading title="Добре дошли в PawPal" subtitle="Създай акаунт!" />
-      <Input
-        id="email"
-        label="Имейл"
-        disabled={loading}
-        register={register}
-        errors={errors}
-        required
+      <Heading
+        title={`${t("Welcome_to")} PawPal`}
+        subtitle={t("Fill_in_to_create_your_account")}
       />
       <Input
         id="firstName"
-        label="Собствено име"
+        label={t("First_name")}
         disabled={loading}
         register={register}
         errors={errors}
@@ -96,7 +92,15 @@ const RegisterClient = () => {
       />
       <Input
         id="lastName"
-        label="Фамилия"
+        label={t("Last_name")}
+        disabled={loading}
+        register={register}
+        errors={errors}
+        required
+      />
+      <Input
+        id="email"
+        label={t("Email")}
         disabled={loading}
         register={register}
         errors={errors}
@@ -105,7 +109,7 @@ const RegisterClient = () => {
       <Input
         id="password"
         type="password"
-        label="Парола"
+        label={t("Password")}
         disabled={loading}
         register={register}
         errors={errors}
@@ -125,12 +129,12 @@ const RegisterClient = () => {
       />
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="justify-center flex flex-row items-center gap-2">
-          <div>Вече имаш акаунт?</div>
+          <div>{t("Already_have_an_account")}</div>
           <div
             onClick={() => router.push("/auth")}
             className="text-neutral-800 cursor-pointer hover:underline"
           >
-            Влез
+            {t("Sign_in")}
           </div>
         </div>
       </div>
@@ -144,14 +148,14 @@ const RegisterClient = () => {
           <div className={`translate duration-300 h-full translate-y-0`}>
             <div className="translate h-full lg:h-auto md:h-auto border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
               <div className="flex items-center p-6 rounded-t justify-center relative border-b-[1px]">
-                <div className="text-lg font-semibold">Регистрирай се</div>
+                <div className="text-lg font-semibold">{t("Sign_up")}</div>
               </div>
               <div className="relative p-6 flex-auto">{bodyContent}</div>
               <div className="flex flex-col gap-2 p-6">
                 <div className="flex flex-row items-center gap-4 w-full">
                   <Button
                     disabled={loading}
-                    label="Продължи"
+                    label={t("Continue")}
                     onClick={handleSubmit(onSubmit)}
                   />
                 </div>

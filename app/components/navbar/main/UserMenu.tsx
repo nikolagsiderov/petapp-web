@@ -10,11 +10,10 @@ import useBecomeSitterModal from "@/app/hooks/useBecomeSitterModal";
 import { useRouter } from "next/navigation";
 import useOnClickOutsideComponent from "@/app/hooks/useOnClickOutsideComponent";
 import ReactCountryFlag from "react-country-flag";
-import { useAppDispatch, useAppSelector } from "@/app/context/state/hooks";
-import { set as setBGLocalization } from "@/app/context/state/features/bgLocalizationReducer";
 import { FiTag, FiUser, FiGrid, FiLogOut } from "react-icons/fi";
 import { User } from "pawpal-fe-common/users-types";
 import useSignOut from "@/app/hooks/useSignOut";
+import { useTranslation } from "react-i18next";
 
 interface UserMenuProps {
   currentUser?: User | null;
@@ -27,13 +26,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
   hasUserAlreadyListed,
   currentPathIsPetSitting,
 }) => {
-  const dispatch = useAppDispatch();
-  const bgLocalization = useAppSelector((state) => state.bgLocalization.value);
-
-  const handleSetBGLocalization = (payload: string) => {
-    dispatch(setBGLocalization(payload));
-  };
-
+  const { t, i18n } = useTranslation();
   const ref = useRef<HTMLDivElement | null>(null);
   const additionalRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
@@ -65,12 +58,12 @@ const UserMenu: React.FC<UserMenuProps> = ({
             onClick={becomeSitter}
             className="block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
           >
-            Стани гледач
+            {t("Become_pet_sitter")}
           </div>
         )}
         <div className="block text-sm font-semibold p-3 rounded-full hover:bg-neutral-100 transition cursor-pointer">
-          {bgLocalization === "bg" ? (
-            <div onClick={() => handleSetBGLocalization("en")}>
+          {i18n.language === "bg" ? (
+            <div onClick={() => i18n.changeLanguage("en")}>
               <ReactCountryFlag
                 countryCode="GB"
                 svg
@@ -78,11 +71,11 @@ const UserMenu: React.FC<UserMenuProps> = ({
                   width: "1.4em",
                   height: "1.4em",
                 }}
-                title="English"
+                title={t("English")}
               />
             </div>
           ) : (
-            <div onClick={() => handleSetBGLocalization("bg")}>
+            <div onClick={() => i18n.changeLanguage("bg")}>
               <ReactCountryFlag
                 countryCode="BG"
                 svg
@@ -90,7 +83,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
                   width: "1.4em",
                   height: "1.4em",
                 }}
-                title="Български"
+                title={t("Bulgarian")}
               />
             </div>
           )}
@@ -117,31 +110,31 @@ const UserMenu: React.FC<UserMenuProps> = ({
                 <MenuItem
                   onClick={() => router.push("/favorites")}
                   Icon={AiOutlineHeart}
-                  label="Запазени"
+                  label={t("Favorite_listings")}
                 />
                 <MenuItem
                   onClick={() => router.push("/reservations")}
                   Icon={FiTag}
-                  label="Резервации"
+                  label={t("My_reservations")}
                 />
                 <hr />
                 <MenuItem
                   onClick={() => router.push("/my-services")}
                   Icon={FiGrid}
-                  label="Моите услуги"
+                  label={t("Switch_to_my_services")}
                   fontWeightClass={"font-md"}
                 />
                 <MenuItem
                   onClick={() => router.push("/profile")}
                   Icon={FiUser}
-                  label="Профил"
+                  label={t("Profile")}
                   fontWeightClass={"font-md"}
                 />
                 <hr />
                 <MenuItem
                   onClick={() => signOut()}
                   Icon={FiLogOut}
-                  label="Излез"
+                  label={t("Sign_out")}
                   fontWeightClass={"font-light"}
                 />
               </>
@@ -149,13 +142,10 @@ const UserMenu: React.FC<UserMenuProps> = ({
               <>
                 <MenuItem
                   onClick={loginModal.onOpen}
-                  label="Влез"
+                  label={t("Sign_in")}
                   fontWeightClass={"font-md"}
                 />
-                <MenuItem
-                  onClick={registerModal.onOpen}
-                  label="Регистрирай се"
-                />
+                <MenuItem onClick={registerModal.onOpen} label={t("Sign_up")} />
               </>
             )}
           </div>
