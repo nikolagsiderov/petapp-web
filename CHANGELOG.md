@@ -12,7 +12,7 @@
 
 ## Added
 
-- Added Google authentication support
+- Added Google Authentication Support
 
 # [0.2.7]
 
