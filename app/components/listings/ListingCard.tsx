@@ -36,7 +36,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
   listingUserName,
 }) => {
   const router = useRouter();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { data: reviewsData } = useListingReviews(data.id);
   const { getImageSrc } = usePawPalImage();
 
@@ -54,8 +54,14 @@ const ListingCard: React.FC<ListingCardProps> = ({
   );
 
   const category = useMemo(() => {
-    return categories.find((c) => c.value === data.category)?.label;
-  }, [data.category]);
+    const currentCategory = categories.find((c) => c.value === data.category);
+
+    if (i18n.language === "bg") {
+      return currentCategory?.label;
+    } else {
+      return currentCategory?.value;
+    }
+  }, [data.category, i18n.language]);
 
   const price = useMemo(() => {
     if (reservation) {

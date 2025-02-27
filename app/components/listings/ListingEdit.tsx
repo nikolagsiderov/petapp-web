@@ -17,7 +17,7 @@ interface ListingEditProps {
 }
 
 const ListingEdit: React.FC<ListingEditProps> = ({ listing, reservation }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { getImageSrc } = usePawPalImage();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -106,8 +106,8 @@ const ListingEdit: React.FC<ListingEditProps> = ({ listing, reservation }) => {
             <div key={item.label} className="col-span-1">
               <CategoryInput
                 onClick={(category) => setCustomValue("category", category)}
-                selected={category === item.label}
-                label={item.label}
+                selected={category === item.value}
+                label={i18n.language === "bg" ? item.label : item.value}
                 icon={item.icon}
                 value={item.value}
               />

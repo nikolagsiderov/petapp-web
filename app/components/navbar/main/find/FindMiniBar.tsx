@@ -28,7 +28,7 @@ export const categories = [
 ];
 
 const FindMiniBar = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const params = useSearchParams();
   const category = params?.get("category");
   const pathname = usePathname();
@@ -50,7 +50,7 @@ const FindMiniBar = () => {
             {categories.map((item) => (
               <CategoryBox
                 key={item.label}
-                label={item.label}
+                label={i18n.language === "bg" ? item.label : item.value}
                 urgencyClassName={item.className}
                 selected={category === item.label}
                 value={item.value}

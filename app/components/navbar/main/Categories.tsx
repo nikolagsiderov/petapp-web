@@ -9,6 +9,7 @@ import { IoFish } from "react-icons/io5";
 import CategoryBox from "../../CategoryBox";
 import { useSearchParams } from "next/navigation";
 import { MdPestControlRodent } from "react-icons/md";
+import { useTranslation } from "react-i18next";
 
 // TODO: Consider moving all categories outside of FE
 // Maybe store them in DB
@@ -64,6 +65,7 @@ export const categories = [
 ];
 
 const Categories = () => {
+  const { i18n } = useTranslation();
   const params = useSearchParams();
   const category = params?.get("category");
 
@@ -73,7 +75,7 @@ const Categories = () => {
         {categories.map((item) => (
           <CategoryBox
             key={item.label}
-            label={item.label}
+            label={i18n.language === "bg" ? item.label : item.value}
             value={item.value}
             selected={category === item.value}
             imageSrc={item.imageSrc}

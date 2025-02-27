@@ -28,7 +28,7 @@ const toFixedNumber = (num: number) => {
 };
 
 const BecomeSitterModal = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const becomeSitterModal = useBecomeSitterModal();
   const { mutate: createListing } = useCreateListing();
 
@@ -141,7 +141,7 @@ const BecomeSitterModal = () => {
             <CategoryInput
               onClick={(category) => setCustomValue("category", category)}
               selected={category === item.value}
-              label={item.label}
+              label={i18n.language === "bg" ? item.label : item.value}
               value={item.value}
               icon={item.icon}
             />

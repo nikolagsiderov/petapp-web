@@ -10,7 +10,7 @@ import { categories } from "../Categories";
 import { useTranslation } from "react-i18next";
 
 const PetSittingFilter = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const searchModal = useSearchModal();
   const params = useSearchParams();
   const { getByValue } = useTowns();
@@ -100,11 +100,17 @@ const PetSittingFilter = () => {
 
   const categoryLabel = useMemo(() => {
     if (category) {
-      return `${categories.filter((c) => c.value === category)[0].label}`;
+      const currentCategory = categories.filter((c) => c.value === category)[0];
+
+      if (i18n.language === "bg") {
+        return currentCategory?.label;
+      } else {
+        return currentCategory?.value;
+      }
     }
 
     return t("Pet");
-  }, [category]);
+  }, [category, i18n.language]);
 
   return (
     <div
