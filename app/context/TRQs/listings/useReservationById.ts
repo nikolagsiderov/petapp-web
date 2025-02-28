@@ -13,8 +13,7 @@ const useReservationById = (id: string) => {
     queryKey: [useReservationById.name, id],
     queryFn: async () => {
       try {
-        const res = await getReservationByIdAsync(id);
-        return res;
+        return await getReservationByIdAsync(id);
       } catch (error) {
         handleError(error);
       }

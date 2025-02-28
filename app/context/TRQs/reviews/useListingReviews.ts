@@ -13,8 +13,7 @@ const useListingReviews = (targetItemId: string) => {
     queryKey: [useListingReviews.name],
     queryFn: async () => {
       try {
-        const res = await getListingReviewsAsync(targetItemId);
-        return res;
+        return await getListingReviewsAsync(targetItemId);
       } catch (error) {
         handleError(error);
       }

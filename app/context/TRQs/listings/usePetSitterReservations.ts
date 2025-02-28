@@ -13,8 +13,7 @@ const usePetSitterReservations = () => {
     queryKey: [usePetSitterReservations.name],
     queryFn: async () => {
       try {
-        const res = await getPetsitterReservationsAsync();
-        return res;
+        return await getPetsitterReservationsAsync();
       } catch (error) {
         handleError(error);
       }

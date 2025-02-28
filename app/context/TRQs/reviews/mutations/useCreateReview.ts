@@ -13,7 +13,7 @@ const useCreateReview = () => {
 
   return useMutation({
     mutationFn: async (payload: ICreateReviewPayload) =>
-      createReviewAsync(payload),
+      await createReviewAsync(payload),
     onSuccess: () => {
       toast.success(t("You_successfully_posted_your_review"));
     },

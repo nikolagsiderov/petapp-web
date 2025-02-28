@@ -14,7 +14,7 @@ const useRemoveListingFromFavorites = () => {
 
   return useMutation({
     mutationFn: async (targetItemId: string) =>
-      removeListingFromFavoritesAsync(targetItemId),
+      await removeListingFromFavoritesAsync(targetItemId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [useFavoriteListings.name] });
       toast.success(t("The_listing_has_been_removed_from_favorites"));

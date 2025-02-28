@@ -11,8 +11,7 @@ const useListingById = (id: string) => {
     queryKey: [useListingById.name, id],
     queryFn: async () => {
       try {
-        const res = await getListingByIdAsync(id);
-        return res;
+        return await getListingByIdAsync(id);
       } catch (error) {
         handleError(error);
       }

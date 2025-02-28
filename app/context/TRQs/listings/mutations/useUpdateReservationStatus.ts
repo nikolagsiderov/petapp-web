@@ -16,7 +16,7 @@ const useUpdateReservationStatus = () => {
 
   return useMutation({
     mutationFn: async (payload: IUpdateReservationStatusPayload) => {
-      updateReservationStatusAsync(payload);
+      await updateReservationStatusAsync(payload);
       return payload.status;
     },
     onSuccess: (status: string) => {

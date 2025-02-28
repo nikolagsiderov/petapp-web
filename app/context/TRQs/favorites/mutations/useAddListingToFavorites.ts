@@ -14,7 +14,7 @@ const useAddListingToFavorites = () => {
 
   return useMutation({
     mutationFn: async (targetItemId: string) =>
-      addListingToFavoritesAsync(targetItemId),
+      await addListingToFavoritesAsync(targetItemId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [useFavoriteListings.name] });
       toast.success(t("The_listing_has_been_added_to_favorites"));

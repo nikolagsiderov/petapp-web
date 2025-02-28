@@ -13,7 +13,7 @@ const useCreateReservation = () => {
 
   return useMutation({
     mutationFn: async (payload: ICreateReservationPayload) =>
-      createReservationAsync(payload),
+      await createReservationAsync(payload),
     onSuccess: () => {
       toast.success(t("Reservation_request_sent_successfully"));
     },

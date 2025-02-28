@@ -13,8 +13,7 @@ const useCurrentUserListings = () => {
     queryKey: [useCurrentUserListings.name],
     queryFn: async () => {
       try {
-        const res = await getCurrentUserListingsAsync();
-        return res;
+        return await getCurrentUserListingsAsync();
       } catch (error) {
         handleError(error);
       }

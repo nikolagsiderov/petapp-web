@@ -13,8 +13,7 @@ const useFavoriteListings = () => {
     queryKey: [useFavoriteListings.name],
     queryFn: async () => {
       try {
-        const res = await getFavoriteListings();
-        return res;
+        return await getFavoriteListings();
       } catch (error) {
         handleError(error);
       }

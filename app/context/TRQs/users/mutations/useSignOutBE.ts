@@ -5,7 +5,7 @@ import { signOutAsync } from "pawpal-fe-common/users-api";
 
 const useSignOutBE = () => {
   return useMutation({
-    mutationFn: async () => signOutAsync(),
+    mutationFn: async () => await signOutAsync(),
     onError: (error) => {
       // Dismiss
     },

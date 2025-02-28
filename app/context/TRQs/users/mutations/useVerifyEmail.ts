@@ -10,7 +10,7 @@ const useVerifyEmail = () => {
 
   return useMutation({
     mutationFn: async (payload: IVerifyEmailPayload) =>
-      verifyEmailAsync(payload),
+      await verifyEmailAsync(payload),
     onError: (error) => {
       handleError(error ?? null);
     },

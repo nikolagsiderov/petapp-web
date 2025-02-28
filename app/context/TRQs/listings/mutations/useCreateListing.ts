@@ -15,7 +15,7 @@ const useCreateListing = () => {
 
   return useMutation({
     mutationFn: async (payload: ICreateListingPayload) =>
-      createListingAsync(payload),
+      await createListingAsync(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [useListings.name] });
       toast.success(t("You_are_now_a_pet_sitter"));
