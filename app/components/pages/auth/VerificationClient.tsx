@@ -23,7 +23,7 @@ const VerificationClient = ({ id }: { id: string | null | undefined }) => {
   useEffect(() => {
     if (id) {
       // Attempt to open mobile application, if user has it installed
-      const mobileAppUrl = `petapp://verification?id=${id}`;
+      const mobileAppUrl = `petapp://(auth)/verification?id=${id}`;
       window.location.href = mobileAppUrl;
       setTimeout(() => {
         verifyEmail({ userId: id });
