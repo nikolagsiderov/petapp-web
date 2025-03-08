@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { isAuthenticated as isAuthenticatedFetch } from "pawpal-fe-common/context";
+import Loader from "../components/Loader";
 
 interface AuthContextType {
   authStatus: boolean | null;
@@ -24,11 +25,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     fetchInitialAuthStatus();
   }, []);
 
-  return (
-    <AuthContext.Provider value={{ authStatus, setAuthStatus }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  if (authStatus === false || authStatus === true) {
+    return (
+      <AuthContext.Provider value={{ authStatus, setAuthStatus }}>
+        {children}
+      </AuthContext.Provider>
+    );
+  }
+
+  return <Loader />;
 };
 
 // Hook to use Auth Context
