@@ -1,3 +1,9 @@
+# [0.2.13]
+
+## Changed
+
+- Handle on loading state on error in authentication pages & modals
+
 # [0.2.12]
 
 ## Changed

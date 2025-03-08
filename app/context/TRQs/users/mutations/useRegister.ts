@@ -6,7 +6,10 @@ import { useRouter } from "next/navigation";
 import { registerAsync } from "pawpal-fe-common/users-api";
 import { IRegisterPayload } from "pawpal-fe-common/users-interfaces";
 
-const useRegister = (onSuccessCallback?: () => void) => {
+const useRegister = (
+  onSuccessCallback?: () => void,
+  onErrorCallback?: () => void
+) => {
   const { handleError } = useGlobalErrorHandler();
   const router = useRouter();
 
@@ -19,10 +22,14 @@ const useRegister = (onSuccessCallback?: () => void) => {
       if (onSuccessCallback) {
         onSuccessCallback();
       }
-      
+
       router.replace(`/verification-required?email=${email}`);
     },
     onError: (error) => {
+      if (onErrorCallback) {
+        onErrorCallback();
+      }
+
       handleError(error ?? null);
     },
   });

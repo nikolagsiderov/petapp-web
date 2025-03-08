@@ -24,7 +24,14 @@ const RegisterModal = () => {
     registerModal.onClose();
   };
 
-  const { mutate: registerUser } = useRegister(onRegisterUserSuccessCallback);
+  const onRegisterUserErrorCallback = () => {
+    setLoading(false);
+  };
+
+  const { mutate: registerUser } = useRegister(
+    onRegisterUserSuccessCallback,
+    onRegisterUserErrorCallback
+  );
 
   const onSignInWithGoogleSuccessCallback = () => {
     setLoading(false);
