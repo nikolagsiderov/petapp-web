@@ -41,7 +41,7 @@ const ListingHead: React.FC<ListingHeadProps> = ({
             right-5
           "
         >
-          <HeartButton listing={listing} />
+          <HeartButton listing={listing} updateUseListingsQuery />
         </div>
       </div>
     </>

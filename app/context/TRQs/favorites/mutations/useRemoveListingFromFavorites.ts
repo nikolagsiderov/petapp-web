@@ -3,23 +3,34 @@
 import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { removeListingFromFavoritesAsync } from "pawpal-fe-common/favorites-api";
-import toast from "react-hot-toast";
 import useFavoriteListings from "../../listings/useFavoriteListings";
-import { useTranslation } from "react-i18next";
+import { Listing } from "pawpal-fe-common/listings-types";
+import useListings from "../../listings/useListings";
 
 const useRemoveListingFromFavorites = () => {
-  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const { handleError } = useGlobalErrorHandler();
 
   return useMutation({
-    mutationFn: async (targetItemId: string) =>
-      await removeListingFromFavoritesAsync(targetItemId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [useFavoriteListings.name] });
-      toast.success(t("The_listing_has_been_removed_from_favorites"));
+    mutationFn: async ({
+      listing,
+      updateUseListingsQuery,
+    }: {
+      listing: Listing;
+      updateUseListingsQuery?: boolean;
+    }) => {
+      await removeListingFromFavoritesAsync(listing.id);
+      return { listing, updateUseListingsQuery };
     },
-    onError: (error) => {
+    onSuccess: ({ updateUseListingsQuery }) => {
+      queryClient.invalidateQueries({ queryKey: [useFavoriteListings.name] });
+
+      if (updateUseListingsQuery) {
+        queryClient.invalidateQueries({ queryKey: [useListings.name] });
+      }
+    },
+    onError: (error, { listing }) => {
+      listing.isFavorite = true;
       handleError(error ?? null);
     },
   });

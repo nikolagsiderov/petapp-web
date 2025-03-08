@@ -29,9 +29,7 @@ const FavoritesClient = () => {
           lg:pt-28 pt-36 pb-24
         "
       >
-        <Heading
-          title={t("Favorite_listings")}
-        />
+        <Heading title={t("Favorite_listings")} />
         <div
           className="
           mt-10
@@ -50,6 +48,7 @@ const FavoritesClient = () => {
               key={listing.id}
               data={listing}
               listingUserName={`${listing.user.firstName} ${listing.user.lastName}`}
+              fromFavoritesPage
             />
           ))}
         </div>
