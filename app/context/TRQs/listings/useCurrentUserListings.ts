@@ -18,7 +18,7 @@ const useCurrentUserListings = () => {
         handleError(error);
       }
     },
-    enabled: authStatus,
+    enabled: !!authStatus,
   });
 };
 

@@ -19,7 +19,7 @@ const useListingReviews = (targetItemId: string) => {
       }
     },
     refetchOnMount: true,
-    enabled: authStatus,
+    enabled: !!authStatus,
   });
 };
 

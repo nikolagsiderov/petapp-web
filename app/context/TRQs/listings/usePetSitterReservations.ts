@@ -19,7 +19,7 @@ const usePetSitterReservations = () => {
       }
     },
     refetchOnMount: true,
-    enabled: authStatus,
+    enabled: !!authStatus,
   });
 };
 
