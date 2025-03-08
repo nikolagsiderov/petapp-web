@@ -8,7 +8,10 @@ import useCurrentUser from "../useCurrentUser";
 import { useAuth } from "@/app/context/AuthContext";
 import useListings from "../../listings/useListings";
 
-const useAuthenticate = (onSuccessCallback?: () => void) => {
+const useAuthenticate = (
+  onSuccessCallback?: () => void,
+  onErrorCallback?: () => void
+) => {
   const queryClient = useQueryClient();
   const { handleError } = useGlobalErrorHandler();
   const { setAuthStatus } = useAuth();
@@ -30,6 +33,10 @@ const useAuthenticate = (onSuccessCallback?: () => void) => {
       }
     },
     onError: (error) => {
+      if (onErrorCallback) {
+        onErrorCallback();
+      }
+
       handleError(error ?? null);
     },
   });

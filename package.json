@@ -1,6 +1,6 @@
 {
   "name": "petapp",
-  "version": "0.2.12",
+  "version": "0.2.13",
   "private": true,
   "scripts": {
     "dev": "env-cmd -f .env.development next dev",
