@@ -1,3 +1,9 @@
+# [0.2.12]
+
+## Changed
+
+- Separated ListingCard component into three new components for better development
+
 # [0.2.11]
 
 ## Changed
