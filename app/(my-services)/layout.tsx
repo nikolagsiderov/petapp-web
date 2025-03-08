@@ -1,5 +1,6 @@
 import ClientOnly from "../components/ClientOnly";
 import Sidebar from "../components/navbar/my-services/Sidebar";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 export default async function RootLayout({
   children,
@@ -8,8 +9,10 @@ export default async function RootLayout({
 }>) {
   return (
     <ClientOnly>
-      <Sidebar />
-      <div>{children}</div>
+      <ProtectedRoute>
+        <Sidebar />
+        <div>{children}</div>
+      </ProtectedRoute>
     </ClientOnly>
   );
 }

@@ -1,3 +1,9 @@
+# [0.2.11]
+
+## Changed
+
+- Added protected route component, which now validates if user is authenticated to continue page access
+
 # [0.2.10]
 
 ## Changed

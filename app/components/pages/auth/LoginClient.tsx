@@ -6,16 +6,18 @@ import Heading from "@/app/components/Heading";
 import Input from "@/app/components/inputs/Input";
 import { GoogleLogin, GoogleCredentialResponse } from "@react-oauth/google";
 import useAuthenticate from "@/app/context/TRQs/users/mutations/useAuthenticate";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { redirect, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import EmailInput from "../../inputs/EmailInput";
 import { useTranslation } from "react-i18next";
 import Checkbox from "../../inputs/Checkbox";
 import useAuthenticateWithGoogle from "@/app/context/TRQs/users/mutations/useAuthenticateWithGoogle";
+import { useAuth } from "@/app/context/AuthContext";
 
 const LoginClient = () => {
+  const { authStatus } = useAuth();
   const router = useRouter();
   const { t } = useTranslation();
   const [loading, setLoading] = useState<boolean>(false);
@@ -72,6 +74,16 @@ const LoginClient = () => {
   const handleGoogleError = (error: any) => {
     // TODO: Handle failure
   };
+
+  useEffect(() => {
+    if (authStatus) {
+      return redirect("/");
+    }
+  }, [authStatus]);
+
+  if (authStatus) {
+    return null;
+  }
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
