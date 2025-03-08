@@ -1,3 +1,9 @@
+# [0.2.10]
+
+## Changed
+
+- Add/remove to/from favorites now triggers optimistic state update
+
 # [0.2.9]
 
 ## Added

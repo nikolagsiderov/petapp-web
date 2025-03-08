@@ -23,6 +23,7 @@ interface ListingCardProps {
   actionLabel?: ReactNode;
   actionId?: string;
   listingUserName: string;
+  fromFavoritesPage?: boolean;
 }
 
 const ListingCard: React.FC<ListingCardProps> = ({
@@ -34,6 +35,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
   actionLabel,
   actionId = "",
   listingUserName,
+  fromFavoritesPage,
 }) => {
   const router = useRouter();
   const { t, i18n } = useTranslation();
@@ -122,7 +124,10 @@ const ListingCard: React.FC<ListingCardProps> = ({
           </div>
           {!reservation && (
             <div className="absolute top-3 right-3">
-              <HeartButton listing={data} />
+              <HeartButton
+                listing={data}
+                updateUseListingsQuery={fromFavoritesPage}
+              />
             </div>
           )}
         </div>

@@ -10,9 +10,10 @@ import { useAuth } from "../context/AuthContext";
 
 interface IUseFavorite {
   listing: Listing;
+  updateUseListingsQuery?: boolean;
 }
 
-const useFavorite = ({ listing }: IUseFavorite) => {
+const useFavorite = ({ listing, updateUseListingsQuery }: IUseFavorite) => {
   const router = useRouter();
   const loginModal = useLoginModal();
   const { authStatus } = useAuth();
@@ -28,14 +29,24 @@ const useFavorite = ({ listing }: IUseFavorite) => {
       }
 
       if (listing.isFavorite) {
-        remove(listing.id);
+        listing.isFavorite = false;
+        remove({ listing, updateUseListingsQuery });
       } else {
-        post(listing.id);
+        listing.isFavorite = true;
+        post({ listing, updateUseListingsQuery });
       }
 
       router.refresh();
     },
-    [loginModal, router, authStatus, listing, post, remove]
+    [
+      loginModal,
+      router,
+      authStatus,
+      listing,
+      updateUseListingsQuery,
+      post,
+      remove,
+    ]
   );
 
   return {

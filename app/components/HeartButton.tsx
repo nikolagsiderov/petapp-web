@@ -6,11 +6,16 @@ import { Listing } from "pawpal-fe-common/listings-types";
 
 interface HeartButtonProps {
   listing: Listing;
+  updateUseListingsQuery?: boolean;
 }
 
-const HeartButton: React.FC<HeartButtonProps> = ({ listing }) => {
+const HeartButton: React.FC<HeartButtonProps> = ({
+  listing,
+  updateUseListingsQuery,
+}) => {
   const { toggleFavorite } = useFavorite({
-    listing: listing,
+    listing,
+    updateUseListingsQuery,
   });
 
   return (
