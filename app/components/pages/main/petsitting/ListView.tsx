@@ -1,15 +1,13 @@
 "use client";
 
-import ListingCard from "@/app/components/listings/ListingCard";
+import ListingCard from "@/app/components/listings/cards/ListingCard";
 import { Listing } from "pawpal-fe-common/listings-types";
 
 interface ListViewProps {
   listings?: Listing[];
 }
 
-const ListView: React.FC<ListViewProps> = ({
-  listings,
-}) => {
+const ListView: React.FC<ListViewProps> = ({ listings }) => {
   return (
     <div
       className="
@@ -25,11 +23,7 @@ const ListView: React.FC<ListViewProps> = ({
           "
     >
       {listings?.map((listing: any) => (
-        <ListingCard
-          key={listing.id}
-          data={listing}
-          listingUserName={`${listing.user.firstName} ${listing.user.lastName}`}
-        />
+        <ListingCard key={listing.id} listing={listing} />
       ))}
     </div>
   );

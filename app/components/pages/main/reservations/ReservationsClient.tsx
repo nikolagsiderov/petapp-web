@@ -4,10 +4,10 @@ import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 import Heading from "@/app/components/Heading";
 import MainContainer from "@/app/components/MainContainer";
-import ListingCard from "@/app/components/listings/ListingCard";
 import useReservations from "@/app/context/TRQs/listings/useReservations";
 import EmptyState from "@/app/components/EmptyState";
 import { useTranslation } from "react-i18next";
+import ReservationListingCard from "@/app/components/listings/cards/ReservationListingCard";
 
 const ReservationsClient = () => {
   const { t } = useTranslation();
@@ -75,18 +75,18 @@ const ReservationsClient = () => {
           gap-8
         "
         >
-          {reservations.map((reservation: any) => (
-            <ListingCard
-              key={reservation.id}
-              data={reservation.listing}
-              listingUserName={reservation.listing.user.name}
-              reservation={reservation}
-              actionId={reservation.id}
-              onAction={onCancel}
-              disabled={deletingId === reservation.id}
-              actionLabel="Отмени"
-            />
-          ))}
+          {reservations
+            .filter((r: any) => !r.isReviewable)
+            .map((reservation: any) => (
+              <ReservationListingCard
+                key={reservation.id}
+                reservation={reservation}
+                actionId={reservation.id}
+                onAction={onCancel}
+                disabled={deletingId === reservation.id}
+                actionLabel="Отмени"
+              />
+            ))}
         </div>
       </div>
       <div
@@ -96,7 +96,7 @@ const ReservationsClient = () => {
           pb-20
         "
       >
-        <Heading title={t("Past_reservations")} />
+        <Heading title={t("Past")} />
         <div
           className="
           mt-10
@@ -110,17 +110,17 @@ const ReservationsClient = () => {
           gap-8
         "
         >
-          {reservations.map((reservation: any) => (
-            <ListingCard
-              key={reservation.id}
-              data={reservation.listing}
-              listingUserName={reservation.listing.user.name}
-              reservation={reservation}
-              actionId={reservation.id}
-              onAction={onSubmitFeedback}
-              actionLabel={t("Leave_a_review")}
-            />
-          ))}
+          {reservations
+            .filter((r: any) => r.isReviewable)
+            .map((reservation: any) => (
+              <ReservationListingCard
+                key={reservation.id}
+                reservation={reservation}
+                actionId={reservation.id}
+                onAction={onSubmitFeedback}
+                actionLabel={t("Leave_a_review")}
+              />
+            ))}
         </div>
       </div>
     </MainContainer>
