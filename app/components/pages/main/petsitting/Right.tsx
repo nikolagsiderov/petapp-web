@@ -3,7 +3,7 @@
 import ListingCard from "@/app/components/listings/cards/ListingCard";
 import { Listing } from "pawpal-fe-common/listings-types";
 
-const Right = ({ listings }: { listings: Listing[] | null }) => {
+const Right = ({ listings }: { listings: Listing[] | null | undefined }) => {
   return (
     <div className="pb-20">
       <div className="hidden lg:block lg:col-span-1 lg:relative lg:mb-16">
