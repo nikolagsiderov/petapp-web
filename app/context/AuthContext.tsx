@@ -4,8 +4,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { isAuthenticated as isAuthenticatedFetch } from "pawpal-fe-common/context";
 
 interface AuthContextType {
-  isAuthenticated: boolean;
-  authStatus: boolean;
+  authStatus: boolean | null;
   setAuthStatus: (status: boolean) => void;
 }
 
@@ -14,27 +13,19 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-
-  const authStatus = isAuthenticated;
+  const [authStatus, setAuthStatus] = useState<boolean | null>(null);
 
   useEffect(() => {
     const fetchInitialAuthStatus = async () => {
       const status = await isAuthenticatedFetch();
-      setIsAuthenticated(status);
+      setAuthStatus(status);
     };
 
     fetchInitialAuthStatus();
   }, []);
 
-  const setAuthStatus = (status: boolean) => {
-    setIsAuthenticated(status);
-  };
-
   return (
-    <AuthContext.Provider
-      value={{ isAuthenticated, authStatus, setAuthStatus }}
-    >
+    <AuthContext.Provider value={{ authStatus, setAuthStatus }}>
       {children}
     </AuthContext.Provider>
   );

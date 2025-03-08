@@ -19,7 +19,7 @@ const useCurrentUser = () => {
         handleError(error);
       }
     },
-    enabled: authStatus,
+    enabled: !!authStatus,
   });
 };
 
