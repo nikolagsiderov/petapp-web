@@ -8,13 +8,14 @@ import { useTranslation } from "react-i18next";
 interface ListingInfoProps {
   user: any;
   description: string;
-  category:
-    | {
-        icon: IconType;
-        label: string;
-        description: string;
-      }
-    | undefined;
+  category?: {
+    icon: IconType;
+    label: string;
+    value: string;
+    imageSrc: string;
+    description: string;
+    descriptionEN: string;
+  };
   ownerIsWatching: boolean;
 }
 
@@ -64,9 +65,9 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
       <hr />
       {category && (
         <ListingCategory
-          icon={category.icon}
           label={category?.label}
           description={category?.description}
+          imageSrc={category.imageSrc}
         />
       )}
       <hr />
