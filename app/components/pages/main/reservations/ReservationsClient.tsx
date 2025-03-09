@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Heading from "@/app/components/Heading";
 import MainContainer from "@/app/components/MainContainer";
@@ -8,33 +8,14 @@ import useReservations from "@/app/context/TRQs/listings/useReservations";
 import EmptyState from "@/app/components/EmptyState";
 import { useTranslation } from "react-i18next";
 import ReservationListingCard from "@/app/components/listings/cards/ReservationListingCard";
+import dayjs from "dayjs";
+import { ReservationWithListing } from "pawpal-fe-common/listings-types";
 
 const ReservationsClient = () => {
   const { t } = useTranslation();
   const { data: reservations } = useReservations();
 
   const router = useRouter();
-  const [deletingId, setDeletingId] = useState("");
-
-  const onCancel = useCallback(
-    (id: string) => {
-      setDeletingId(id);
-
-      // axios
-      //   .delete(`/api/reservations/${id}`)
-      //   .then(() => {
-      //     toast.success("Резервацията е отменена!");
-      //     router.refresh();
-      //   })
-      //   .catch((error) => {
-      //     toast.error(error?.response?.data?.error);
-      //   })
-      //   .finally(() => {
-      //     setDeletingId("");
-      //   });
-    },
-    [router]
-  );
 
   const onSubmitFeedback = useCallback(
     (id: string) => {
@@ -58,7 +39,7 @@ const ReservationsClient = () => {
         className="
           max-w-screen-lg 
           mx-auto
-          lg:pt-24 pt-32 pb-20
+          pt-32 pb-20
         "
       >
         <Heading title={t("Reservations")} />
@@ -76,15 +57,18 @@ const ReservationsClient = () => {
         "
         >
           {reservations
-            .filter((r: any) => !r.isReviewable)
+            .filter((r: any) =>
+              dayjs(r.fromDate).startOf("day").isAfter(dayjs().endOf("day"))
+            ) // Filter by present and upcoming reservations
+            .sort((a: any, b: any) => {
+              const aDate = dayjs(a.fromDate);
+              const bDate = dayjs(b.fromDate);
+              return aDate.diff(bDate); // Sort by closest date
+            })
             .map((reservation: any) => (
               <ReservationListingCard
                 key={reservation.id}
                 reservation={reservation}
-                actionId={reservation.id}
-                onAction={onCancel}
-                disabled={deletingId === reservation.id}
-                actionLabel="Отмени"
               />
             ))}
         </div>
@@ -111,14 +95,25 @@ const ReservationsClient = () => {
         "
         >
           {reservations
-            .filter((r: any) => r.isReviewable)
-            .map((reservation: any) => (
+            .filter((r: ReservationWithListing) =>
+              dayjs(r.toDate).endOf("day").isBefore(dayjs())
+            ) // Filter by past reservations
+            .sort((a: ReservationWithListing, b: ReservationWithListing) => {
+              const aDate = dayjs(a.toDate);
+              const bDate = dayjs(b.toDate);
+              return bDate.diff(aDate); // Sort by closest date
+            })
+            .map((reservation: ReservationWithListing) => (
               <ReservationListingCard
                 key={reservation.id}
                 reservation={reservation}
-                actionId={reservation.id}
-                onAction={onSubmitFeedback}
-                actionLabel={t("Leave_a_review")}
+                actionId={reservation.isReviewable ? reservation.id : undefined}
+                onAction={
+                  reservation.isReviewable ? onSubmitFeedback : undefined
+                }
+                actionLabel={
+                  reservation.isReviewable ? t("Leave_a_review") : undefined
+                }
               />
             ))}
         </div>

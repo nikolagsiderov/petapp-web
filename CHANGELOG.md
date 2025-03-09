@@ -1,3 +1,21 @@
+# [0.3.0]
+
+## Added
+
+- Upgraded pawpal-fe-common@0.0.197
+- Added two more parameters in Calendar input component which enhance UX
+- Added 'owner is watching current listing' feature
+- Added listing reserved dates as disabled dates in details page when reserving listing
+- Filter and sorting of reservations
+
+## Changed
+
+- Become pet sitter modal now has Continue button disabled by default, enables only when values are present
+- Moved ProtectedRoute to AuthContext
+- CategoryInput component now displays SVG
+- Menu item 'My services' now hidden if user is not a pet sitter
+- On successful creation of listing we now invalidate the current user listings
+
 # [0.2.13]
 
 ## Changed

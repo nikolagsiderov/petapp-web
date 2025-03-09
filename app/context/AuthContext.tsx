@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { isAuthenticated as isAuthenticatedFetch } from "pawpal-fe-common/context";
 import Loader from "../components/Loader";
+import { redirect } from "next/navigation";
 
 interface AuthContextType {
   authStatus: boolean | null;
@@ -43,4 +44,20 @@ export const useAuth = () => {
     throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
+};
+
+export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const { authStatus } = useAuth();
+
+  useEffect(() => {
+    if (!authStatus) {
+      return redirect("/auth");
+    }
+  }, [authStatus]);
+
+  if (!authStatus) {
+    return null;
+  }
+
+  return children;
 };

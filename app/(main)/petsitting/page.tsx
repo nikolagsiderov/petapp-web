@@ -4,8 +4,6 @@ import BecomeSitterModal from "../../components/modals/BecomeSitterModal";
 import PetSittingClient from "@/app/components/pages/main/petsitting/PetSittingClient";
 import { Dayjs } from "dayjs";
 
-export const dynamic = "force-dynamic";
-
 interface PetSittingProps {
   searchParams: {
     userId?: string | null;

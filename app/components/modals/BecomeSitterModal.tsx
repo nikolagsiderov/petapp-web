@@ -33,6 +33,7 @@ const BecomeSitterModal = () => {
   const { mutate: createListing } = useCreateListing();
 
   const [step, setStep] = useState(STEPS.CATEGORY);
+  const [disableContinueBtn, setDisableContinueBtn] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -53,10 +54,18 @@ const BecomeSitterModal = () => {
   });
 
   const category = watch("category");
-  const location = watch("location");
-  const images = watch("images");
 
   const setCustomValue = (id: string, value: any) => {
+    if (step === STEPS.CATEGORY && id === "category" && value) {
+      setDisableContinueBtn(false);
+    } else if (step === STEPS.LOCATION && id === "location" && value) {
+      setDisableContinueBtn(false);
+    } else if (step === STEPS.IMAGES && id === "images" && value) {
+      setDisableContinueBtn(false);
+    } else {
+      setDisableContinueBtn(true);
+    }
+
     setValue(id, value, {
       shouldDirty: true,
       shouldTouch: true,
@@ -70,6 +79,11 @@ const BecomeSitterModal = () => {
 
   const onNext = () => {
     setStep((value) => value + 1);
+    if (step === STEPS.IMAGES || step === STEPS.DESCRIPTION) {
+      setDisableContinueBtn(false);
+    } else {
+      setDisableContinueBtn(true);
+    }
   };
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
@@ -143,7 +157,7 @@ const BecomeSitterModal = () => {
               selected={category === item.value}
               label={i18n.language === "bg" ? item.label : item.value}
               value={item.value}
-              icon={item.icon}
+              imageSrc={item.imageSrc}
             />
           </div>
         ))}
@@ -229,6 +243,7 @@ const BecomeSitterModal = () => {
       secondaryActionLabel={secondaryActionLabel}
       secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
       body={bodyContent}
+      disabled={disableContinueBtn}
     />
   );
 };

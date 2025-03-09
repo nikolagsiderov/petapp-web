@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Range } from "react-date-range";
-import { redirect } from "next/navigation";
 import { differenceInDays } from "date-fns";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import MainContainer from "@/app/components/MainContainer";
@@ -17,6 +16,9 @@ import useListingById from "@/app/context/TRQs/listings/useListingById";
 import EmptyState from "@/app/components/EmptyState";
 import { useAuth } from "@/app/context/AuthContext";
 import { usePawPalImage } from "pawpal-fe-common/hooks";
+import useCurrentUser from "@/app/context/TRQs/users/useCurrentUser";
+import dayjs from "dayjs";
+import { useRouter } from "next/navigation";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -30,12 +32,20 @@ interface ListingClientProps {
 
 const ListingClient: React.FC<ListingClientProps> = ({ id }) => {
   const { data: listing } = useListingById(id);
+  const { data: currentUser } = useCurrentUser();
   // const reviews = await getReviews(params); // TODO: GET reviews and utilize
 
+  const router = useRouter();
   const { getImageSrc } = usePawPalImage();
   const loginModal = useLoginModal();
   const { authStatus } = useAuth();
-  const { mutate: createReservation } = useCreateReservation();
+
+  const onCreatedReservationSuccessCallback = () => {
+    setDateRange(initialDateRange);
+    router.push("/reservations");
+  };
+
+  const { mutate: createReservation } = useCreateReservation(onCreatedReservationSuccessCallback);
 
   const category = useMemo(() => {
     return categories.find((c) => c.value === listing?.category);
@@ -73,15 +83,37 @@ const ListingClient: React.FC<ListingClientProps> = ({ id }) => {
         fromDate: dateRange.startDate!,
         toDate: dateRange.endDate!,
       });
-
-      setDateRange(initialDateRange);
-      redirect("/reservations");
     } else {
       // TODO: Else handle validation message...
     }
 
     setIsLoading(false);
   };
+
+  const isCurrentUserOwnerOfListing = () => {
+    return listing?.user?.id === currentUser?.id;
+  };
+
+  const getDisabledDatesInRange = (start: string, end: string): Date[] => {
+    const dates: Date[] = [];
+    let currentDate = dayjs(start).startOf("day");
+
+    while (
+      currentDate.isBefore(dayjs(end).endOf("day")) ||
+      currentDate.isSame(dayjs(end).endOf("day"))
+    ) {
+      dates.push(currentDate.toDate());
+      currentDate = currentDate.add(1, "day"); // Move to next day
+    }
+
+    dates.push(dayjs().toDate()); // Disable today
+
+    return dates;
+  };
+
+  const disabledDates: Date[] | undefined = listing?.reservedPeriods.flatMap(
+    (period) => getDisabledDatesInRange(period.fromDate, period.toDate)
+  );
 
   if (!listing) {
     return <EmptyState />;
@@ -115,6 +147,7 @@ const ListingClient: React.FC<ListingClientProps> = ({ id }) => {
               user={listing.user}
               category={category}
               description={listing.description}
+              ownerIsWatching={isCurrentUserOwnerOfListing()}
             />
             <div
               className="
@@ -132,7 +165,8 @@ const ListingClient: React.FC<ListingClientProps> = ({ id }) => {
                   dateRange={dateRange}
                   onSubmit={onSubmit}
                   disabled={isLoading}
-                  disabledDates={[]} // TODO: Dates where user does not have availability or have reservations on them... Retrieve info from BE
+                  disabledDates={disabledDates ?? []}
+                  ownerIsWatching={isCurrentUserOwnerOfListing()}
                 />
               </div>
             </div>
