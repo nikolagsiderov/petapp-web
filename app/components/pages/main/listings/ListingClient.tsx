@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Range } from "react-date-range";
-import { redirect } from "next/navigation";
 import { differenceInDays } from "date-fns";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import MainContainer from "@/app/components/MainContainer";
@@ -19,6 +18,7 @@ import { useAuth } from "@/app/context/AuthContext";
 import { usePawPalImage } from "pawpal-fe-common/hooks";
 import useCurrentUser from "@/app/context/TRQs/users/useCurrentUser";
 import dayjs from "dayjs";
+import { useRouter } from "next/navigation";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -35,6 +35,7 @@ const ListingClient: React.FC<ListingClientProps> = ({ id }) => {
   const { data: currentUser } = useCurrentUser();
   // const reviews = await getReviews(params); // TODO: GET reviews and utilize
 
+  const router = useRouter();
   const { getImageSrc } = usePawPalImage();
   const loginModal = useLoginModal();
   const { authStatus } = useAuth();
@@ -78,7 +79,7 @@ const ListingClient: React.FC<ListingClientProps> = ({ id }) => {
       });
 
       setDateRange(initialDateRange);
-      redirect("/reservations");
+      router.push("/reservations");
     } else {
       // TODO: Else handle validation message...
     }
