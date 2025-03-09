@@ -3,6 +3,7 @@
 ## Added
 
 - Upgraded pawpal-fe-common@0.0.195
+- Added two more parameters in Calendar input component which enhance UX
 
 ## Changed
 

@@ -113,6 +113,8 @@ const FilterPetSittersModal = () => {
         <Calendar
           onChange={(value) => setDateRange(value.selection)}
           value={dateRange}
+          direction="horizontal"
+          displayTwoMonths
         />
       </div>
     );

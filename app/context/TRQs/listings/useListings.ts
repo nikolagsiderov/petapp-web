@@ -9,7 +9,7 @@ const useListings = (params: IGetListingsParams) => {
   const { handleError } = useGlobalErrorHandler();
 
   return useQuery({
-    queryKey: [useListings.name],
+    queryKey: [useListings.name, params],
     queryFn: async () => {
       try {
         return await getListingsAsync(params);
