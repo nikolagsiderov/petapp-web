@@ -1,6 +1,6 @@
 import ReviewClient from "@/app/components/pages/main/reservations/review/ReviewClient";
 import ClientOnly from "@/app/components/ClientOnly";
-import ProtectedRoute from "@/app/components/ProtectedRoute";
+import { ProtectedRoute } from "@/app/context/AuthContext";
 
 interface IParams {
   reservationId: string;

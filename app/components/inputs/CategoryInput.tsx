@@ -1,22 +1,25 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
+import Avatar from "../Avatar";
 import { IconType } from "react-icons";
 
 interface CategoryInputProps {
-  icon: IconType;
   label: string;
   value: string;
   selected?: boolean;
   onClick: (value: string) => void;
+  icon?: IconType;
+  imageSrc?: string;
 }
 
 const CategoryInput: React.FC<CategoryInputProps> = ({
-  icon: Icon,
   label,
   value,
   selected,
   onClick,
+  icon: Icon,
+  imageSrc,
 }) => {
   const { i18n } = useTranslation();
   return (
@@ -26,7 +29,15 @@ const CategoryInput: React.FC<CategoryInputProps> = ({
         selected ? "border-black" : "border-neutral-200"
       }`}
     >
-      <Icon size={30} />
+      {imageSrc && (
+        <Avatar
+          src={imageSrc}
+          roundedClass="rounded-none"
+          width={35}
+          height={35}
+        />
+      )}
+      {Icon && <Icon size={30} />}
       <div className="font-semibold">
         {i18n.language === "bg" ? label : value}
       </div>

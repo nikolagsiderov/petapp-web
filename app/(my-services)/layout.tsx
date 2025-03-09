@@ -1,6 +1,6 @@
 import ClientOnly from "../components/ClientOnly";
 import Sidebar from "../components/navbar/my-services/Sidebar";
-import ProtectedRoute from "../components/ProtectedRoute";
+import { ProtectedRoute } from "../context/AuthContext";
 
 export default async function RootLayout({
   children,

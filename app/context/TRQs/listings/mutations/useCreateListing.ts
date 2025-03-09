@@ -7,6 +7,7 @@ import { ICreateListingPayload } from "pawpal-fe-common/listings-interfaces";
 import toast from "react-hot-toast";
 import useListings from "../useListings";
 import { useTranslation } from "react-i18next";
+import useCurrentUserListings from "../useCurrentUserListings";
 
 const useCreateListing = () => {
   const { t } = useTranslation();
@@ -18,6 +19,9 @@ const useCreateListing = () => {
       await createListingAsync(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [useListings.name] });
+      queryClient.invalidateQueries({
+        queryKey: [useCurrentUserListings.name],
+      });
       toast.success(t("You_are_now_a_pet_sitter"));
     },
     onError: (error) => {

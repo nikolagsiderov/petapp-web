@@ -5,14 +5,14 @@ import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
 import { getListingsAsync } from "pawpal-fe-common/listings-api";
 import { IGetListingsParams } from "pawpal-fe-common/listings-interfaces";
 
-const useListings = (searchParams: IGetListingsParams) => {
+const useListings = (params: IGetListingsParams) => {
   const { handleError } = useGlobalErrorHandler();
 
   return useQuery({
     queryKey: [useListings.name],
     queryFn: async () => {
       try {
-        return await getListingsAsync(searchParams);
+        return await getListingsAsync(params);
       } catch (error) {
         handleError(error);
       }
