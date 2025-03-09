@@ -14,6 +14,7 @@ interface ListingReservationProps {
   onSubmit: () => void;
   disabled?: boolean;
   disabledDates: Date[];
+  ownerIsWatching: boolean;
 }
 
 const ListingReservation: React.FC<ListingReservationProps> = ({
@@ -24,6 +25,7 @@ const ListingReservation: React.FC<ListingReservationProps> = ({
   onSubmit,
   disabled,
   disabledDates,
+  ownerIsWatching,
 }) => {
   const { t } = useTranslation();
 
@@ -49,7 +51,11 @@ const ListingReservation: React.FC<ListingReservationProps> = ({
         </div>
         <hr />
         <div className="p-4">
-          <Button disabled={disabled} label={t("Reserve")} onClick={onSubmit} />
+          <Button
+            disabled={disabled}
+            label={ownerIsWatching ? t("Mark_as_unavailable") : t("Reserve")}
+            onClick={onSubmit}
+          />
         </div>
         <hr />
         <div className="p-4 flex flex-row items-center justify-between font-semibold text-lg">

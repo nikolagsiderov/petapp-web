@@ -2,8 +2,10 @@
 
 ## Added
 
-- Upgraded pawpal-fe-common@0.0.195
+- Upgraded pawpal-fe-common@0.0.197
 - Added two more parameters in Calendar input component which enhance UX
+- Added 'owner is watching current listing' feature
+- Added listing reserved dates as disabled dates in details page when reserving listing
 
 ## Changed
 

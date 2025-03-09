@@ -17,6 +17,8 @@ import useListingById from "@/app/context/TRQs/listings/useListingById";
 import EmptyState from "@/app/components/EmptyState";
 import { useAuth } from "@/app/context/AuthContext";
 import { usePawPalImage } from "pawpal-fe-common/hooks";
+import useCurrentUser from "@/app/context/TRQs/users/useCurrentUser";
+import dayjs from "dayjs";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -30,6 +32,7 @@ interface ListingClientProps {
 
 const ListingClient: React.FC<ListingClientProps> = ({ id }) => {
   const { data: listing } = useListingById(id);
+  const { data: currentUser } = useCurrentUser();
   // const reviews = await getReviews(params); // TODO: GET reviews and utilize
 
   const { getImageSrc } = usePawPalImage();
@@ -83,6 +86,31 @@ const ListingClient: React.FC<ListingClientProps> = ({ id }) => {
     setIsLoading(false);
   };
 
+  const isCurrentUserOwnerOfListing = () => {
+    return listing?.user?.id === currentUser?.id;
+  };
+
+  const getDisabledDatesInRange = (start: string, end: string): Date[] => {
+    const dates: Date[] = [];
+    let currentDate = dayjs(start).startOf("day");
+
+    while (
+      currentDate.isBefore(dayjs(end).endOf("day")) ||
+      currentDate.isSame(dayjs(end).endOf("day"))
+    ) {
+      dates.push(currentDate.toDate());
+      currentDate = currentDate.add(1, "day"); // Move to next day
+    }
+
+    dates.push(dayjs().toDate()); // Disable today
+
+    return dates;
+  };
+
+  const disabledDates: Date[] | undefined = listing?.reservedPeriods.flatMap(
+    (period) => getDisabledDatesInRange(period.fromDate, period.toDate)
+  );
+
   if (!listing) {
     return <EmptyState />;
   }
@@ -115,6 +143,7 @@ const ListingClient: React.FC<ListingClientProps> = ({ id }) => {
               user={listing.user}
               category={category}
               description={listing.description}
+              ownerIsWatching={isCurrentUserOwnerOfListing()}
             />
             <div
               className="
@@ -132,7 +161,8 @@ const ListingClient: React.FC<ListingClientProps> = ({ id }) => {
                   dateRange={dateRange}
                   onSubmit={onSubmit}
                   disabled={isLoading}
-                  disabledDates={[]} // TODO: Dates where user does not have availability or have reservations on them... Retrieve info from BE
+                  disabledDates={disabledDates ?? []}
+                  ownerIsWatching={isCurrentUserOwnerOfListing()}
                 />
               </div>
             </div>
