@@ -6,6 +6,7 @@
 - Added two more parameters in Calendar input component which enhance UX
 - Added 'owner is watching current listing' feature
 - Added listing reserved dates as disabled dates in details page when reserving listing
+- Filter and sorting of reservations
 
 ## Changed
 

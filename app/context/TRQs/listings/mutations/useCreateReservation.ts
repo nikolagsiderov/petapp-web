@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import useListingById from "../useListingById";
 
-const useCreateReservation = () => {
+const useCreateReservation = (onSuccessCallback?: () => void) => {
   const { t } = useTranslation();
   const { handleError } = useGlobalErrorHandler();
   const queryClient = useQueryClient();
@@ -23,6 +23,10 @@ const useCreateReservation = () => {
         queryKey: [useListingById.name, listingId],
       });
       toast.success(t("Reservation_request_sent_successfully"));
+
+      if (onSuccessCallback) {
+        onSuccessCallback();
+      }
     },
     onError: (error) => {
       handleError(error ?? null);

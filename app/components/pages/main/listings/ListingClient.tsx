@@ -39,7 +39,13 @@ const ListingClient: React.FC<ListingClientProps> = ({ id }) => {
   const { getImageSrc } = usePawPalImage();
   const loginModal = useLoginModal();
   const { authStatus } = useAuth();
-  const { mutate: createReservation } = useCreateReservation();
+
+  const onCreatedReservationSuccessCallback = () => {
+    setDateRange(initialDateRange);
+    router.push("/reservations");
+  };
+
+  const { mutate: createReservation } = useCreateReservation(onCreatedReservationSuccessCallback);
 
   const category = useMemo(() => {
     return categories.find((c) => c.value === listing?.category);
@@ -77,9 +83,6 @@ const ListingClient: React.FC<ListingClientProps> = ({ id }) => {
         fromDate: dateRange.startDate!,
         toDate: dateRange.endDate!,
       });
-
-      setDateRange(initialDateRange);
-      router.push("/reservations");
     } else {
       // TODO: Else handle validation message...
     }
