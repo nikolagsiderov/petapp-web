@@ -25,7 +25,7 @@ const useRemoveListingFromFavorites = () => {
     onSuccess: ({ updateUseListingsQuery }) => {
       queryClient.invalidateQueries({ queryKey: [useFavoriteListings.name] });
 
-      if (updateUseListingsQuery) {
+      if (!!!updateUseListingsQuery) {
         queryClient.invalidateQueries({ queryKey: [useListings.name] });
       }
     },
