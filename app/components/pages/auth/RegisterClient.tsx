@@ -5,15 +5,17 @@ import ClientOnly from "@/app/components/ClientOnly";
 import Heading from "@/app/components/Heading";
 import Input from "@/app/components/inputs/Input";
 import { GoogleLogin, GoogleCredentialResponse } from "@react-oauth/google";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { redirect, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import useRegister from "@/app/context/TRQs/users/mutations/useRegister";
 import useAuthenticateWithGoogle from "@/app/context/TRQs/users/mutations/useAuthenticateWithGoogle";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "@/app/context/AuthContext";
 
 const RegisterClient = () => {
+  const { authStatus } = useAuth();
   const { t } = useTranslation();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -22,7 +24,11 @@ const RegisterClient = () => {
     setLoading(false);
   };
 
-  const { mutate: registerUser } = useRegister(onRegisterUserSuccessCallback);
+  const onRegisterUserErrorCallback = () => {
+    setLoading(false);
+  };
+
+  const { mutate: registerUser } = useRegister(onRegisterUserSuccessCallback, onRegisterUserErrorCallback);
 
   const onSignInWithGoogleSuccessCallback = () => {
     setLoading(false);
@@ -75,6 +81,16 @@ const RegisterClient = () => {
   const handleGoogleError = (error: any) => {
     // TODO: Handle failure
   };
+
+  useEffect(() => {
+    if (authStatus) {
+      return redirect("/");
+    }
+  }, [authStatus]);
+
+  if (authStatus) {
+    return null;
+  }
 
   const bodyContent = (
     <div className="flex flex-col gap-4">

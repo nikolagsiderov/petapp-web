@@ -19,7 +19,7 @@ const useReservations = () => {
       }
     },
     refetchOnMount: true,
-    enabled: authStatus,
+    enabled: !!authStatus,
   });
 };
 

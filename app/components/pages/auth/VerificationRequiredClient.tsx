@@ -19,7 +19,7 @@ const VerificationRequiredClient = ({
     if (email) {
       toast.success(t("You_have_successfully_signed_up"));
     }
-  }, [email]);
+  }, [email, t]);
 
   if (!email) {
     return (

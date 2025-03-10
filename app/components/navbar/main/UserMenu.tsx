@@ -118,12 +118,14 @@ const UserMenu: React.FC<UserMenuProps> = ({
                   label={t("My_reservations")}
                 />
                 <hr />
-                <MenuItem
-                  onClick={() => router.push("/my-services")}
-                  Icon={FiGrid}
-                  label={t("Switch_to_my_services")}
-                  fontWeightClass={"font-md"}
-                />
+                {hasUserAlreadyListed && (
+                  <MenuItem
+                    onClick={() => router.push("/my-services")}
+                    Icon={FiGrid}
+                    label={t("Switch_to_my_services")}
+                    fontWeightClass={"font-md"}
+                  />
+                )}
                 <MenuItem
                   onClick={() => router.push("/profile")}
                   Icon={FiUser}

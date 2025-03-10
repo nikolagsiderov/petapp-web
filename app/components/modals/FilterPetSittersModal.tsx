@@ -83,7 +83,7 @@ const FilterPetSittersModal = () => {
     }
 
     return t("Continue");
-  }, [step]);
+  }, [step, t]);
 
   const secondaryActionLabel = useMemo(() => {
     if (step === STEPS.LOCATION) {
@@ -91,7 +91,7 @@ const FilterPetSittersModal = () => {
     }
 
     return t("Back");
-  }, [step]);
+  }, [step, t]);
 
   let bodyContent = (
     <div className="flex flex-col gap-8">
@@ -113,6 +113,8 @@ const FilterPetSittersModal = () => {
         <Calendar
           onChange={(value) => setDateRange(value.selection)}
           value={dateRange}
+          direction="horizontal"
+          displayTwoMonths
         />
       </div>
     );

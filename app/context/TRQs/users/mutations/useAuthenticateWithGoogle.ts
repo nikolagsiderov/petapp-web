@@ -8,7 +8,10 @@ import useCurrentUser from "../useCurrentUser";
 import useListings from "../../listings/useListings";
 import { useAuth } from "@/app/context/AuthContext";
 
-const useAuthenticateWithGoogle = (onSuccessCallback?: () => void) => {
+const useAuthenticateWithGoogle = (
+  onSuccessCallback?: () => void,
+  onErrorCallback?: () => void
+) => {
   const queryClient = useQueryClient();
   const { handleError } = useGlobalErrorHandler();
   const { setAuthStatus } = useAuth();
@@ -30,6 +33,10 @@ const useAuthenticateWithGoogle = (onSuccessCallback?: () => void) => {
       }
     },
     onError: (error) => {
+      if (onErrorCallback) {
+        onErrorCallback();
+      }
+
       handleError(error ?? null);
     },
   });

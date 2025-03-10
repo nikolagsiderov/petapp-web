@@ -29,10 +29,17 @@ const LoginModal = () => {
     toast.success(t("Welcome"));
   };
 
-  const { mutate: authenticate } = useAuthenticate(onSignInSuccessCallback);
+  const onSignInErrorCallback = () => {
+    setLoading(false);
+  };
+
+  const { mutate: authenticate } = useAuthenticate(
+    onSignInSuccessCallback,
+    onSignInErrorCallback
+  );
   const { mutate: signInWithGoogle } = useAuthenticateWithGoogle(
-    
-    onSignInSuccessCallback
+    onSignInSuccessCallback,
+    onSignInErrorCallback
   );
 
   const {

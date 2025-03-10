@@ -18,7 +18,7 @@ const useFavoriteListings = () => {
         handleError(error);
       }
     },
-    enabled: authStatus,
+    enabled: !!authStatus,
   });
 };
 

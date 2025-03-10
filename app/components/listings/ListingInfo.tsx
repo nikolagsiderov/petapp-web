@@ -8,19 +8,22 @@ import { useTranslation } from "react-i18next";
 interface ListingInfoProps {
   user: any;
   description: string;
-  category:
-    | {
-        icon: IconType;
-        label: string;
-        description: string;
-      }
-    | undefined;
+  category?: {
+    icon: IconType;
+    label: string;
+    value: string;
+    imageSrc: string;
+    description: string;
+    descriptionEN: string;
+  };
+  ownerIsWatching: boolean;
 }
 
 const ListingInfo: React.FC<ListingInfoProps> = ({
   user,
   description,
   category,
+  ownerIsWatching,
 }) => {
   const { t } = useTranslation();
 
@@ -37,9 +40,15 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
             gap-2
           "
         >
-          <div>
-            {t("The_listing_was_posted_by")} {user?.firstName} {user?.lastName}
-          </div>
+          {ownerIsWatching ? (
+            <div>{t("You_are_now_looking_at_your_own_listing")}</div>
+          ) : (
+            <div>
+              {t("The_listing_was_posted_by")} {user?.firstName}{" "}
+              {user?.lastName}
+            </div>
+          )}
+
           <Avatar width={60} height={60} src={user?.image} />
         </div>
         <div
@@ -56,9 +65,9 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
       <hr />
       {category && (
         <ListingCategory
-          icon={category.icon}
           label={category?.label}
           description={category?.description}
+          imageSrc={category.imageSrc}
         />
       )}
       <hr />

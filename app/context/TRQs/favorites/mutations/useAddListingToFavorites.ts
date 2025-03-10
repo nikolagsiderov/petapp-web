@@ -3,23 +3,34 @@
 import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addListingToFavoritesAsync } from "pawpal-fe-common/favorites-api";
-import toast from "react-hot-toast";
 import useFavoriteListings from "../../listings/useFavoriteListings";
-import { useTranslation } from "react-i18next";
+import { Listing } from "pawpal-fe-common/listings-types";
+import useListings from "../../listings/useListings";
 
 const useAddListingToFavorites = () => {
-  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const { handleError } = useGlobalErrorHandler();
 
   return useMutation({
-    mutationFn: async (targetItemId: string) =>
-      await addListingToFavoritesAsync(targetItemId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [useFavoriteListings.name] });
-      toast.success(t("The_listing_has_been_added_to_favorites"));
+    mutationFn: async ({
+      listing,
+      updateUseListingsQuery,
+    }: {
+      listing: Listing;
+      updateUseListingsQuery?: boolean;
+    }) => {
+      await addListingToFavoritesAsync(listing.id);
+      return { listing, updateUseListingsQuery };
     },
-    onError: (error) => {
+    onSuccess: ({ updateUseListingsQuery }) => {
+      queryClient.invalidateQueries({ queryKey: [useFavoriteListings.name] });
+
+      if (!!!updateUseListingsQuery) {
+        queryClient.invalidateQueries({ queryKey: [useListings.name] });
+      }
+    },
+    onError: (error, { listing }) => {
+      listing.isFavorite = false;
       handleError(error ?? null);
     },
   });

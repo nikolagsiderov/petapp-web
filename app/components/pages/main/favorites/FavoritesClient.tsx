@@ -2,8 +2,8 @@
 
 import EmptyState from "@/app/components/EmptyState";
 import Heading from "@/app/components/Heading";
+import FavoriteListingCard from "@/app/components/listings/cards/FavoriteListingCard";
 import MainContainer from "@/app/components/MainContainer";
-import ListingCard from "@/app/components/listings/ListingCard";
 import useFavoriteListings from "@/app/context/TRQs/listings/useFavoriteListings";
 import { useTranslation } from "react-i18next";
 
@@ -29,9 +29,7 @@ const FavoritesClient = () => {
           lg:pt-28 pt-36 pb-24
         "
       >
-        <Heading
-          title={t("Favorite_listings")}
-        />
+        <Heading title={t("Favorite_listings")} />
         <div
           className="
           mt-10
@@ -45,13 +43,10 @@ const FavoritesClient = () => {
           gap-8
         "
         >
-          {listings.map((listing: any) => (
-            <ListingCard
-              key={listing.id}
-              data={listing}
-              listingUserName={`${listing.user.firstName} ${listing.user.lastName}`}
-            />
-          ))}
+          {listings &&
+            listings.map((listing: any) => (
+              <FavoriteListingCard key={listing.id} listing={listing} />
+            ))}
         </div>
       </div>
     </MainContainer>
