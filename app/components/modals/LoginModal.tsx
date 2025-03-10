@@ -10,9 +10,11 @@ import Heading from "../Heading";
 import Input from "../inputs/Input";
 import toast from "react-hot-toast";
 import useAuthenticate from "@/app/context/TRQs/users/mutations/useAuthenticate";
-import Checkbox from "../inputs/Checkbox";
+import EmailInput from "../inputs/EmailInput";
+import PasswordInput from "../inputs/PasswordInput";
 import { useTranslation } from "react-i18next";
 import useAuthenticateWithGoogle from "@/app/context/TRQs/users/mutations/useAuthenticateWithGoogle";
+import Checkbox from "../inputs/Checkbox";
 
 const LoginModal = () => {
   const { t } = useTranslation();
@@ -29,6 +31,7 @@ const LoginModal = () => {
 
   const { mutate: authenticate } = useAuthenticate(onSignInSuccessCallback);
   const { mutate: signInWithGoogle } = useAuthenticateWithGoogle(
+    
     onSignInSuccessCallback
   );
 
@@ -80,11 +83,8 @@ const LoginModal = () => {
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
-      <Heading
-        title={`${t("Welcome_to")} PawPal`}
-        subtitle={t("Sign_in_to_your_profile")}
-      />
-      <Input
+      <Heading title="Добре дошли в PawPal" subtitle="Влез в своя акаунт!" />
+      <EmailInput
         id="email"
         label={t("Email")}
         disabled={loading}
@@ -92,9 +92,8 @@ const LoginModal = () => {
         errors={errors}
         required
       />
-      <Input
+      <PasswordInput
         id="password"
-        type="password"
         label={t("Password")}
         disabled={loading}
         register={register}

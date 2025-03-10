@@ -11,6 +11,7 @@ import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import EmailInput from "../../inputs/EmailInput";
+import PasswordInput from "../../inputs/PasswordInput";
 import { useTranslation } from "react-i18next";
 import Checkbox from "../../inputs/Checkbox";
 import useAuthenticateWithGoogle from "@/app/context/TRQs/users/mutations/useAuthenticateWithGoogle";
@@ -86,11 +87,10 @@ const LoginClient = () => {
         register={register}
         errors={errors}
         required
-      />
-      <Input
-        id="password"
-        type="password"
-        label={t("Password")}
+      />  
+      <PasswordInput
+        id='password'
+        label={t("Password")}        
         disabled={loading}
         register={register}
         errors={errors}
