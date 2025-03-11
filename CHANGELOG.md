@@ -1,3 +1,10 @@
+# [0.3.1]
+
+## Changed
+
+- Upgraded pawpal-fe-common package to v0.0.208, which fixes session refresh token workflow
+- Removed .env.production configuration as it is not needed during development
+
 # [0.3.0]
 
 ## Added
