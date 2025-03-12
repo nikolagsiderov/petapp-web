@@ -13,6 +13,8 @@ import useRegister from "@/app/context/TRQs/users/mutations/useRegister";
 import useAuthenticateWithGoogle from "@/app/context/TRQs/users/mutations/useAuthenticateWithGoogle";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/app/context/AuthContext";
+import EmailInput from "../../inputs/EmailInput";
+import PasswordInput from "../../inputs/PasswordInput";
 
 const RegisterClient = () => {
   const { authStatus } = useAuth();
@@ -44,25 +46,27 @@ const RegisterClient = () => {
     register,
     handleSubmit,
     formState: { errors },
+    watch
   } = useForm<FieldValues>({
     defaultValues: {
       firstName: "",
       lastName: "",
       email: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    setLoading(true);
-
+    setLoading(true);  
+  
     await registerUser({
       firstName: data.firstName,
       lastName: data.lastName,
       email: data.email,
       password: data.password,
     });
-
+    
     setLoading(false);
   };
 
@@ -92,6 +96,8 @@ const RegisterClient = () => {
     return null;
   }
 
+  const [password, confirmPassword] = watch(["password", "confirmPassword"]);
+
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <Heading
@@ -114,7 +120,7 @@ const RegisterClient = () => {
         errors={errors}
         required
       />
-      <Input
+      <EmailInput
         id="email"
         label={t("Email")}
         disabled={loading}
@@ -122,14 +128,25 @@ const RegisterClient = () => {
         errors={errors}
         required
       />
-      <Input
+      <PasswordInput
         id="password"
-        type="password"
         label={t("Password")}
         disabled={loading}
         register={register}
         errors={errors}
+        hasMinLength
         required
+        confirmWith={confirmPassword}
+      />
+      <PasswordInput
+        id="confirmPassword"
+        label={t("Confirm_Passwords")}
+        disabled={loading}
+        register={register}
+        errors={errors}
+        hasMinLength
+        required
+        confirmWith={password}
       />
     </div>
   );

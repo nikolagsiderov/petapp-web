@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { FieldValues, FieldErrors, UseFormRegister } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
@@ -11,7 +12,7 @@ interface InputProps {
   register: UseFormRegister<FieldValues>;
   errors: FieldErrors;
   hasMinLength?: boolean;
-  hasMaxLength?: boolean;
+  confirmWith?: string;
 }
 
 const PasswordInput: React.FC<InputProps> = ({
@@ -22,9 +23,18 @@ const PasswordInput: React.FC<InputProps> = ({
   register,
   errors,
   hasMinLength,
-  hasMaxLength,
+  confirmWith,
 }) => {
   const { t, i18n } = useTranslation();
+  const [inputValue, setInputValue] = useState("");
+  const [confirmed, setConfirmed] = useState(false);
+
+  const validatePasswordConfirmation = (
+    confirmWith: string | undefined,
+    value: string
+  ) => {
+    setConfirmed(confirmWith == value);
+  };
 
   return (
     <div className="w-full relative">
@@ -34,16 +44,22 @@ const PasswordInput: React.FC<InputProps> = ({
         {...register(id, {
           required,
           ...(hasMinLength && {
-            maxLength: { value: 13, message: "adads" },
-            minLength: { value: 6, message: "At least 6 symbols are required" },
+            minLength: { value: 6, message: t("Min_6_symbols_required") },
           }),
         })}
+        onChange={(e) => {
+          setInputValue(e.target.value);
+          register(id).onChange(e);
+        }}
+        onBlur={() => {
+          validatePasswordConfirmation(confirmWith, inputValue);
+        }}
         placeholder=" "
         type={"password"}
         className={`peer w-full p-4 pt-6 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed pl-4" ${
-          errors[id] ? "border-rose-500" : "border-neutral-300"
+          errors[id] || !confirmed ? "border-rose-500" : "border-neutral-300"
         }
-                ${errors[id] ? "focus:border-rose-500" : "focus:border-black"}`}
+                ${errors[id] || !confirmed ? "focus:border-rose-500" : "focus:border-black"}`}
       />
       <label
         className={`absolute text-md duration-150 transform -translate-y-3 top-5 z-10 origin-[0] left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4
@@ -51,9 +67,9 @@ const PasswordInput: React.FC<InputProps> = ({
       >
         {label}
       </label>
-      {errors?.[id]?.message && (
+      {(errors?.[id]?.message ||  (confirmWith && !confirmed))&& (
         <span className="text-rose-500 text-sm">
-          {t(errors[id]?.message?.toString() ?? "00000")}
+          {t((errors[id]?.message?.toString() || "Password_mismatch") ?? "00000")}
         </span>
       )}
     </div>
