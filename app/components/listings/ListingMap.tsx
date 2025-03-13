@@ -34,6 +34,7 @@ const ListingMap: React.FC<ListingMapProps> = ({ listing }) => {
           zoomControl: false,
           scrollwheel: false,
           disableDoubleClickZoom: true,
+          disableDefaultUI: true,
           styles: mapsStyle,
         }}
       >

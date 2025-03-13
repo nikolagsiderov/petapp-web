@@ -2,6 +2,7 @@
 
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import { useState, useEffect } from "react";
+import { mapsStyle } from "@nikolagsiderov/pawpal-fe-common/constants";
 
 const Left = () => {
   const [userLocation, setUserLocation] = useState<any>(null);
@@ -36,6 +37,7 @@ const Left = () => {
             streetViewControl: false,
             gestureHandling: "cooperative",
             minZoom: 7.2,
+            styles: mapsStyle,
           }}
         ></GoogleMap>
       </div>
