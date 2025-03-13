@@ -8,6 +8,7 @@
 
 - Performance fixes related to image loading & google places library loading
 - Removed old public npm pawpal-fe-common package
+- Updated GitHub Action to sync changelog with Confluence
 
 # [0.3.2]
 
