@@ -30,7 +30,10 @@ const RegisterClient = () => {
     setLoading(false);
   };
 
-  const { mutate: registerUser } = useRegister(onRegisterUserSuccessCallback, onRegisterUserErrorCallback);
+  const { mutate: registerUser } = useRegister(
+    onRegisterUserSuccessCallback,
+    onRegisterUserErrorCallback
+  );
 
   const onSignInWithGoogleSuccessCallback = () => {
     setLoading(false);
@@ -46,7 +49,7 @@ const RegisterClient = () => {
     register,
     handleSubmit,
     formState: { errors },
-    watch
+    watch,
   } = useForm<FieldValues>({
     defaultValues: {
       firstName: "",
@@ -58,16 +61,14 @@ const RegisterClient = () => {
   });
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    setLoading(true);  
-  
+    setLoading(true);
+
     await registerUser({
       firstName: data.firstName,
       lastName: data.lastName,
       email: data.email,
       password: data.password,
     });
-    
-    setLoading(false);
   };
 
   const handleGoogleSignIn = async (response: GoogleCredentialResponse) => {
@@ -96,7 +97,7 @@ const RegisterClient = () => {
     return null;
   }
 
-  const [password, confirmPassword] = watch(["password", "confirmPassword"]);
+  const password = watch("password");
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -136,7 +137,6 @@ const RegisterClient = () => {
         errors={errors}
         hasMinLength
         required
-        confirmWith={confirmPassword}
       />
       <PasswordInput
         id="confirmPassword"
@@ -146,7 +146,7 @@ const RegisterClient = () => {
         errors={errors}
         hasMinLength
         required
-        confirmWith={password}
+        passwordToConfirmWith={password}
       />
     </div>
   );

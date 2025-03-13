@@ -3,7 +3,6 @@
 import Button from "@/app/components/Button";
 import ClientOnly from "@/app/components/ClientOnly";
 import Heading from "@/app/components/Heading";
-import Input from "@/app/components/inputs/Input";
 import { GoogleLogin, GoogleCredentialResponse } from "@react-oauth/google";
 import useAuthenticate from "@/app/context/TRQs/users/mutations/useAuthenticate";
 import { redirect, useRouter } from "next/navigation";
@@ -107,10 +106,10 @@ const LoginClient = () => {
         register={register}
         errors={errors}
         required
-      />  
+      />
       <PasswordInput
-        id='password'
-        label={t("Password")}        
+        id="password"
+        label={t("Password")}
         disabled={loading}
         register={register}
         errors={errors}

@@ -20,7 +20,7 @@ const EmailInput: React.FC<InputProps> = ({
   required,
   errors,
 }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <div className="w-full relative">

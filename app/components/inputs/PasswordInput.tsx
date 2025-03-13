@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { FieldValues, FieldErrors, UseFormRegister } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
@@ -12,7 +11,7 @@ interface InputProps {
   register: UseFormRegister<FieldValues>;
   errors: FieldErrors;
   hasMinLength?: boolean;
-  confirmWith?: string;
+  passwordToConfirmWith?: string;
 }
 
 const PasswordInput: React.FC<InputProps> = ({
@@ -23,18 +22,9 @@ const PasswordInput: React.FC<InputProps> = ({
   register,
   errors,
   hasMinLength,
-  confirmWith,
+  passwordToConfirmWith,
 }) => {
-  const { t, i18n } = useTranslation();
-  const [inputValue, setInputValue] = useState("");
-  const [confirmed, setConfirmed] = useState(false);
-
-  const validatePasswordConfirmation = (
-    confirmWith: string | undefined,
-    value: string
-  ) => {
-    setConfirmed(confirmWith == value);
-  };
+  const { t } = useTranslation();
 
   return (
     <div className="w-full relative">
@@ -43,23 +33,23 @@ const PasswordInput: React.FC<InputProps> = ({
         disabled={disabled}
         {...register(id, {
           required,
+          ...(passwordToConfirmWith && {
+            validate: (value) =>
+              value === passwordToConfirmWith || "Passwords_do_not_match",
+          }),
           ...(hasMinLength && {
-            minLength: { value: 6, message: t("Min_6_symbols_required") },
+            minLength: {
+              value: 6,
+              message: "Password_should_be_at_least_6_symbols",
+            },
           }),
         })}
-        onChange={(e) => {
-          setInputValue(e.target.value);
-          register(id).onChange(e);
-        }}
-        onBlur={() => {
-          validatePasswordConfirmation(confirmWith, inputValue);
-        }}
         placeholder=" "
         type={"password"}
-        className={`peer w-full p-4 pt-6 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed pl-4" ${
-          errors[id] || !confirmed ? "border-rose-500" : "border-neutral-300"
+        className={`peer w-full p-4 pt-6 font-light bg-white border-2 rounded-xl outline-none transition disabled:opacity-70 disabled:cursor-not-allowed pl-4" ${
+          errors[id] ? "border-rose-500" : "border-neutral-300"
         }
-                ${errors[id] || !confirmed ? "focus:border-rose-500" : "focus:border-black"}`}
+        ${errors[id] ? "focus:border-rose-500" : "focus:border-black"}`}
       />
       <label
         className={`absolute text-md duration-150 transform -translate-y-3 top-5 z-10 origin-[0] left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4
@@ -67,9 +57,9 @@ const PasswordInput: React.FC<InputProps> = ({
       >
         {label}
       </label>
-      {(errors?.[id]?.message ||  (confirmWith && !confirmed))&& (
+      {errors?.[id]?.message && (
         <span className="text-rose-500 text-sm">
-          {t((errors[id]?.message?.toString() || "Password_mismatch") ?? "00000")}
+          {t(errors[id]?.message?.toString() ?? "00000")}
         </span>
       )}
     </div>

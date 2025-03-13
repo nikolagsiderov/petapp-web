@@ -7,7 +7,6 @@ import useLoginModal from "@/app/hooks/useLoginModal";
 import { GoogleLogin, GoogleCredentialResponse } from "@react-oauth/google";
 import Modal from "./Modal";
 import Heading from "../Heading";
-import Input from "../inputs/Input";
 import toast from "react-hot-toast";
 import useAuthenticate from "@/app/context/TRQs/users/mutations/useAuthenticate";
 import EmailInput from "../inputs/EmailInput";
@@ -90,7 +89,7 @@ const LoginModal = () => {
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
-      <Heading   
+      <Heading
         title={`${t("Welcome_to")} PawPal`}
         subtitle={t("Sign_in_to_your_profile")}
       />
