@@ -1,8 +1,20 @@
+# [0.4.0]
+
+## Added
+
+- Added new @nikolagsiderov/pawpal-fe-common package from private GitHub packages
+
+## Changed
+
+- Performance fixes related to image loading & google places library loading
+- Removed old public npm pawpal-fe-common package
+
 # [0.3.2]
 
 ## Added
- - Added new PasswordInput component with validations
- - PasswordInput and EmailInput is used in RegisterModal, RegisterClient, LoginModal, LoginClient
+
+- Added new PasswordInput component with validations
+- PasswordInput and EmailInput is used in RegisterModal, RegisterClient, LoginModal, LoginClient
 
 # [0.3.1]
 

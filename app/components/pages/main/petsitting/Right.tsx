@@ -1,7 +1,7 @@
 "use client";
 
 import ListingCard from "@/app/components/listings/cards/ListingCard";
-import { Listing } from "pawpal-fe-common/listings-types";
+import { Listing } from "@nikolagsiderov/pawpal-fe-common/listings-types";
 
 const Right = ({ listings }: { listings: Listing[] | null | undefined }) => {
   return (

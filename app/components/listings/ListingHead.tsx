@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Heading from "../Heading";
 import HeartButton from "../HeartButton";
-import { Listing } from "pawpal-fe-common/listings-types";
+import { Listing } from "@nikolagsiderov/pawpal-fe-common/listings-types";
 
 interface ListingHeadProps {
   address: string;
@@ -31,8 +31,11 @@ const ListingHead: React.FC<ListingHeadProps> = ({
         <Image
           src={imageSrc ? imageSrc : "/images/listing-default-image.png"}
           fill
-          className="object-cover w-full"
+          className="object-cover"
           alt="Image"
+          sizes="(min-width: 1px) 100vw"
+          placeholder="blur"
+          blurDataURL={imageSrc ?? "/images/listing-default-image.png"}
         />
         <div
           className="

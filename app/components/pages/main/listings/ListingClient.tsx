@@ -15,7 +15,7 @@ import useCreateReservation from "@/app/context/TRQs/listings/mutations/useCreat
 import useListingById from "@/app/context/TRQs/listings/useListingById";
 import EmptyState from "@/app/components/EmptyState";
 import { useAuth } from "@/app/context/AuthContext";
-import { usePawPalImage } from "pawpal-fe-common/hooks";
+import { usePawPalImage } from "@nikolagsiderov/pawpal-fe-common/hooks";
 import useCurrentUser from "@/app/context/TRQs/users/useCurrentUser";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
@@ -45,7 +45,9 @@ const ListingClient: React.FC<ListingClientProps> = ({ id }) => {
     router.push("/reservations");
   };
 
-  const { mutate: createReservation } = useCreateReservation(onCreatedReservationSuccessCallback);
+  const { mutate: createReservation } = useCreateReservation(
+    onCreatedReservationSuccessCallback
+  );
 
   const category = useMemo(() => {
     return categories.find((c) => c.value === listing?.category);
@@ -112,7 +114,7 @@ const ListingClient: React.FC<ListingClientProps> = ({ id }) => {
   };
 
   const disabledDates: Date[] | undefined = listing?.reservedPeriods.flatMap(
-    (period) => getDisabledDatesInRange(period.fromDate, period.toDate)
+    (period: any) => getDisabledDatesInRange(period.fromDate, period.toDate)
   );
 
   if (!listing) {

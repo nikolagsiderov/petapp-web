@@ -2,12 +2,12 @@
 
 import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateReservationStatusAsync } from "pawpal-fe-common/listings-api";
-import { IUpdateReservationStatusPayload } from "pawpal-fe-common/listings-interfaces";
+import { updateReservationStatusAsync } from "@nikolagsiderov/pawpal-fe-common/listings-api";
+import { IUpdateReservationStatusPayload } from "@nikolagsiderov/pawpal-fe-common/listings-interfaces";
 import toast from "react-hot-toast";
 import usePetSitterReservations from "../usePetSitterReservations";
 import { useTranslation } from "react-i18next";
-import { reservationStatuses } from "pawpal-fe-common/constants";
+import { reservationStatuses } from "@nikolagsiderov/pawpal-fe-common/constants";
 
 const useUpdateReservationStatus = () => {
   const { t } = useTranslation();

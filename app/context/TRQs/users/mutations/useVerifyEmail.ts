@@ -1,8 +1,8 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import { verifyEmailAsync } from "pawpal-fe-common/users-api";
-import { IVerifyEmailPayload } from "pawpal-fe-common/users-interfaces";
+import { verifyEmailAsync } from "@nikolagsiderov/pawpal-fe-common/users-api";
+import { IVerifyEmailPayload } from "@nikolagsiderov/pawpal-fe-common/users-interfaces";
 import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
 
 const useVerifyEmail = () => {

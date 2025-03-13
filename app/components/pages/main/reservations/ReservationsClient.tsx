@@ -9,7 +9,7 @@ import EmptyState from "@/app/components/EmptyState";
 import { useTranslation } from "react-i18next";
 import ReservationListingCard from "@/app/components/listings/cards/ReservationListingCard";
 import dayjs from "dayjs";
-import { ReservationWithListing } from "pawpal-fe-common/listings-types";
+import { ReservationWithListing } from "@nikolagsiderov/pawpal-fe-common/listings-types";
 
 const ReservationsClient = () => {
   const { t } = useTranslation();

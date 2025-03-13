@@ -3,8 +3,8 @@
 import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { registerAsync } from "pawpal-fe-common/users-api";
-import { IRegisterPayload } from "pawpal-fe-common/users-interfaces";
+import { registerAsync } from "@nikolagsiderov/pawpal-fe-common/users-api";
+import { IRegisterPayload } from "@nikolagsiderov/pawpal-fe-common/users-interfaces";
 
 const useRegister = (
   onSuccessCallback?: () => void,

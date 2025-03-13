@@ -1,6 +1,6 @@
 "use client";
 
-import { Listing } from "pawpal-fe-common/listings-types";
+import { Listing } from "@nikolagsiderov/pawpal-fe-common/listings-types";
 import Left from "./Left";
 import Right from "./Right";
 

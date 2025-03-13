@@ -7,8 +7,8 @@ import HeartButton from "../../HeartButton";
 import { FaStar } from "react-icons/fa6";
 import { categories } from "../../navbar/main/Categories";
 import useListingReviews from "@/app/context/TRQs/reviews/useListingReviews";
-import { Listing } from "pawpal-fe-common/listings-types";
-import { usePawPalImage } from "pawpal-fe-common/hooks";
+import { Listing } from "@nikolagsiderov/pawpal-fe-common/listings-types";
+import { usePawPalImage } from "@nikolagsiderov/pawpal-fe-common/hooks";
 import { useTranslation } from "react-i18next";
 
 interface ListingCardProps {
@@ -54,7 +54,10 @@ const ListingCard: React.FC<ListingCardProps> = ({ horizontal, listing }) => {
                 ? getImageSrc(listing.imageRelativePaths[0])
                 : "/images/listing-default-image.png"
             }
-            className="object-cover h-full w-full group-hover:scale-110 transition"
+            className="object-cover group-hover:scale-110 transition"
+            sizes="(min-width: 1px) 100vw"
+            placeholder="blur"
+            blurDataURL={`${getImageSrc(listing.imageRelativePaths[0])}`}
             fill
           />
           <div className="absolute bottom-3 left-3">

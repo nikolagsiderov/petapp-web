@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
-import { getReservationByIdAsync } from "pawpal-fe-common/listings-api";
+import { getReservationByIdAsync } from "@nikolagsiderov/pawpal-fe-common/listings-api";
 import { useAuth } from "../../AuthContext";
 
 const useReservationById = (id: string) => {

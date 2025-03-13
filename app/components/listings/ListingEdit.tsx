@@ -7,8 +7,11 @@ import { categories } from "../navbar/main/Categories";
 import CategoryInput from "../inputs/CategoryInput";
 import Input from "../inputs/Input";
 import LocationInput from "../inputs/LocationInput";
-import { Listing, Reservation } from "pawpal-fe-common/listings-types";
-import { usePawPalImage } from "pawpal-fe-common/hooks";
+import {
+  Listing,
+  Reservation,
+} from "@nikolagsiderov/pawpal-fe-common/listings-types";
+import { usePawPalImage } from "@nikolagsiderov/pawpal-fe-common/hooks";
 import { useTranslation } from "react-i18next";
 
 interface ListingEditProps {

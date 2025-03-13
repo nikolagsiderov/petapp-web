@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { isAuthenticated as isAuthenticatedFetch } from "pawpal-fe-common/context";
+import { isAuthenticated as isAuthenticatedFetch } from "@nikolagsiderov/pawpal-fe-common/context";
 import Loader from "../components/Loader";
 import { redirect } from "next/navigation";
 

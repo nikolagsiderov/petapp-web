@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
-import { getPetsitterReservationsAsync } from "pawpal-fe-common/listings-api";
+import { getPetsitterReservationsAsync } from "@nikolagsiderov/pawpal-fe-common/listings-api";
 import { useAuth } from "../../AuthContext";
 
 const usePetSitterReservations = () => {

@@ -2,8 +2,8 @@
 
 import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createReservationAsync } from "pawpal-fe-common/listings-api";
-import { ICreateReservationPayload } from "pawpal-fe-common/listings-interfaces";
+import { createReservationAsync } from "@nikolagsiderov/pawpal-fe-common/listings-api";
+import { ICreateReservationPayload } from "@nikolagsiderov/pawpal-fe-common/listings-interfaces";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import useListingById from "../useListingById";

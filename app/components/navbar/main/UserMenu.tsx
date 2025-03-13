@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import useOnClickOutsideComponent from "@/app/hooks/useOnClickOutsideComponent";
 import ReactCountryFlag from "react-country-flag";
 import { FiTag, FiUser, FiGrid, FiLogOut } from "react-icons/fi";
-import { User } from "pawpal-fe-common/users-types";
+import { User } from "@nikolagsiderov/pawpal-fe-common/users-types";
 import useSignOut from "@/app/hooks/useSignOut";
 import { useTranslation } from "react-i18next";
 

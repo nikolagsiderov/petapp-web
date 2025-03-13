@@ -1,10 +1,16 @@
 "use client";
 
-import { Circle, GoogleMap, useJsApiLoader } from "@react-google-maps/api";
+import {
+  Circle,
+  GoogleMap,
+  Libraries,
+  useJsApiLoader,
+} from "@react-google-maps/api";
 import Heading from "../Heading";
-import { Listing } from "pawpal-fe-common/listings-types";
-import { mapsStyle } from "pawpal-fe-common/constants";
+import { Listing } from "@nikolagsiderov/pawpal-fe-common/listings-types";
+import { mapsStyle } from "@nikolagsiderov/pawpal-fe-common/constants";
 import { useTranslation } from "react-i18next";
+import { useMemo } from "react";
 
 interface ListingMapProps {
   listing: Listing;
@@ -12,9 +18,11 @@ interface ListingMapProps {
 
 const ListingMap: React.FC<ListingMapProps> = ({ listing }) => {
   const { t } = useTranslation();
+
+  const libraries = useMemo<Libraries>(() => ["places"], []);
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: "AIzaSyCPASOspif-cElvaiBWxsuLwAHKq9YyKbs",
-    libraries: ["places"],
+    libraries,
   });
 
   return isLoaded ? (
@@ -34,6 +42,7 @@ const ListingMap: React.FC<ListingMapProps> = ({ listing }) => {
           zoomControl: false,
           scrollwheel: false,
           disableDoubleClickZoom: true,
+          disableDefaultUI: true,
           styles: mapsStyle,
         }}
       >
