@@ -2,7 +2,7 @@
 
 ## Added
 
-- Added new @nikolagsiderov/pawpal-fe-common package from private GitHub packages
+- Added @nikolagsiderov/pawpal-fe-common package from private GitHub packages
 
 ## Changed
 
