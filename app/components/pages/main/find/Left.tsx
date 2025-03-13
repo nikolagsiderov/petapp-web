@@ -1,7 +1,7 @@
 "use client";
 
-import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
-import { useState, useEffect } from "react";
+import { GoogleMap, Libraries, useJsApiLoader } from "@react-google-maps/api";
+import { useState, useEffect, useMemo } from "react";
 import { mapsStyle } from "@nikolagsiderov/pawpal-fe-common/constants";
 
 const Left = () => {
@@ -21,9 +21,11 @@ const Left = () => {
   };
 
   const centerCoords = { lat: 42.7587, lng: 25.2058 };
+
+  const libraries = useMemo<Libraries>(() => ["places"], []);
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: "AIzaSyCPASOspif-cElvaiBWxsuLwAHKq9YyKbs",
-    libraries: ["places"],
+    libraries,
   });
 
   return isLoaded ? (

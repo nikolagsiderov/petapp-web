@@ -1,10 +1,15 @@
 "use client";
 
-import { GoogleMap, MarkerF, useJsApiLoader } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  Libraries,
+  MarkerF,
+  useJsApiLoader,
+} from "@react-google-maps/api";
 import { useRouter } from "next/navigation";
 import { mapsStyle } from "@nikolagsiderov/pawpal-fe-common/constants";
 import { Listing } from "@nikolagsiderov/pawpal-fe-common/listings-types";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 interface LeftProps {
   listings?: Listing[];
@@ -32,9 +37,11 @@ const Left: React.FC<LeftProps> = ({ listings }) => {
   };
 
   const centerCoords = { lat: 42.7587, lng: 25.2058 };
+
+  const libraries = useMemo<Libraries>(() => ["places"], []);
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: "AIzaSyCPASOspif-cElvaiBWxsuLwAHKq9YyKbs",
-    libraries: ["places"],
+    libraries,
   });
 
   return isLoaded ? (

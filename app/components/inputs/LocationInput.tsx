@@ -1,11 +1,15 @@
 "use client";
 
-import { useJsApiLoader, Autocomplete } from "@react-google-maps/api";
+import {
+  useJsApiLoader,
+  Autocomplete,
+  Libraries,
+} from "@react-google-maps/api";
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { useGooglePublicAddress as parseGooglePublicAddress } from "@nikolagsiderov/pawpal-fe-common/hooks";
 import { useTranslation } from "react-i18next";
@@ -28,9 +32,10 @@ const LocationInput: React.FC<LocationInputProps> = ({ onChange }) => {
   const [privateAddress, setPrivateAddress] = useState<any>(null);
   const [publicAddress, setPublicAddress] = useState<string>("");
 
+  const libraries = useMemo<Libraries>(() => ["places"], []);
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: "AIzaSyCPASOspif-cElvaiBWxsuLwAHKq9YyKbs",
-    libraries: ["places"],
+    libraries,
   });
 
   const {

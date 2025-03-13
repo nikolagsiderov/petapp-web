@@ -54,7 +54,10 @@ const ListingCard: React.FC<ListingCardProps> = ({ horizontal, listing }) => {
                 ? getImageSrc(listing.imageRelativePaths[0])
                 : "/images/listing-default-image.png"
             }
-            className="object-cover h-full w-full group-hover:scale-110 transition"
+            className="object-cover group-hover:scale-110 transition"
+            sizes="(min-width: 1px) 100vw"
+            placeholder="blur"
+            blurDataURL={`${getImageSrc(listing.imageRelativePaths[0])}`}
             fill
           />
           <div className="absolute bottom-3 left-3">
