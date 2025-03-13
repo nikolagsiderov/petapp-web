@@ -49,7 +49,7 @@ const EmailInput: React.FC<InputProps> = ({
       </label>
       {errors?.[id]?.message && (
         <span className="text-rose-500 text-sm">
-          {t(errors[id]?.message?.toString()) ?? ""}
+          {t(errors[id]?.message?.toString() ?? "00000")}
         </span>
       )}
     </div>
