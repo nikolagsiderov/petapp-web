@@ -90,7 +90,10 @@ const LoginModal = () => {
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
-      <Heading title="Добре дошли в PawPal" subtitle="Влез в своя акаунт!" />
+      <Heading   
+        title={`${t("Welcome_to")} PawPal`}
+        subtitle={t("Sign_in_to_your_profile")}
+      />
       <EmailInput
         id="email"
         label={t("Email")}
