@@ -13,6 +13,8 @@ import useRegister from "@/app/context/TRQs/users/mutations/useRegister";
 import useAuthenticateWithGoogle from "@/app/context/TRQs/users/mutations/useAuthenticateWithGoogle";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/app/context/AuthContext";
+import EmailInput from "../../inputs/EmailInput";
+import PasswordInput from "../../inputs/PasswordInput";
 
 const RegisterClient = () => {
   const { authStatus } = useAuth();
@@ -28,7 +30,10 @@ const RegisterClient = () => {
     setLoading(false);
   };
 
-  const { mutate: registerUser } = useRegister(onRegisterUserSuccessCallback, onRegisterUserErrorCallback);
+  const { mutate: registerUser } = useRegister(
+    onRegisterUserSuccessCallback,
+    onRegisterUserErrorCallback
+  );
 
   const onSignInWithGoogleSuccessCallback = () => {
     setLoading(false);
@@ -44,12 +49,14 @@ const RegisterClient = () => {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm<FieldValues>({
     defaultValues: {
       firstName: "",
       lastName: "",
       email: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
@@ -62,8 +69,6 @@ const RegisterClient = () => {
       email: data.email,
       password: data.password,
     });
-
-    setLoading(false);
   };
 
   const handleGoogleSignIn = async (response: GoogleCredentialResponse) => {
@@ -92,6 +97,8 @@ const RegisterClient = () => {
     return null;
   }
 
+  const password = watch("password");
+
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <Heading
@@ -114,7 +121,7 @@ const RegisterClient = () => {
         errors={errors}
         required
       />
-      <Input
+      <EmailInput
         id="email"
         label={t("Email")}
         disabled={loading}
@@ -122,14 +129,24 @@ const RegisterClient = () => {
         errors={errors}
         required
       />
-      <Input
+      <PasswordInput
         id="password"
-        type="password"
         label={t("Password")}
         disabled={loading}
         register={register}
         errors={errors}
+        hasMinLength
         required
+      />
+      <PasswordInput
+        id="confirmPassword"
+        label={t("Confirm_Passwords")}
+        disabled={loading}
+        register={register}
+        errors={errors}
+        hasMinLength
+        required
+        passwordToConfirmWith={password}
       />
     </div>
   );

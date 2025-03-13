@@ -3,7 +3,6 @@
 import Button from "@/app/components/Button";
 import ClientOnly from "@/app/components/ClientOnly";
 import Heading from "@/app/components/Heading";
-import Input from "@/app/components/inputs/Input";
 import { GoogleLogin, GoogleCredentialResponse } from "@react-oauth/google";
 import useAuthenticate from "@/app/context/TRQs/users/mutations/useAuthenticate";
 import { redirect, useRouter } from "next/navigation";
@@ -11,6 +10,7 @@ import { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import EmailInput from "../../inputs/EmailInput";
+import PasswordInput from "../../inputs/PasswordInput";
 import { useTranslation } from "react-i18next";
 import Checkbox from "../../inputs/Checkbox";
 import useAuthenticateWithGoogle from "@/app/context/TRQs/users/mutations/useAuthenticateWithGoogle";
@@ -107,9 +107,8 @@ const LoginClient = () => {
         errors={errors}
         required
       />
-      <Input
+      <PasswordInput
         id="password"
-        type="password"
         label={t("Password")}
         disabled={loading}
         register={register}

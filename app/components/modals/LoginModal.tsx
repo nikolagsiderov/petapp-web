@@ -7,12 +7,13 @@ import useLoginModal from "@/app/hooks/useLoginModal";
 import { GoogleLogin, GoogleCredentialResponse } from "@react-oauth/google";
 import Modal from "./Modal";
 import Heading from "../Heading";
-import Input from "../inputs/Input";
 import toast from "react-hot-toast";
 import useAuthenticate from "@/app/context/TRQs/users/mutations/useAuthenticate";
-import Checkbox from "../inputs/Checkbox";
+import EmailInput from "../inputs/EmailInput";
+import PasswordInput from "../inputs/PasswordInput";
 import { useTranslation } from "react-i18next";
 import useAuthenticateWithGoogle from "@/app/context/TRQs/users/mutations/useAuthenticateWithGoogle";
+import Checkbox from "../inputs/Checkbox";
 
 const LoginModal = () => {
   const { t } = useTranslation();
@@ -92,7 +93,7 @@ const LoginModal = () => {
         title={`${t("Welcome_to")} PawPal`}
         subtitle={t("Sign_in_to_your_profile")}
       />
-      <Input
+      <EmailInput
         id="email"
         label={t("Email")}
         disabled={loading}
@@ -100,9 +101,8 @@ const LoginModal = () => {
         errors={errors}
         required
       />
-      <Input
+      <PasswordInput
         id="password"
-        type="password"
         label={t("Password")}
         disabled={loading}
         register={register}
