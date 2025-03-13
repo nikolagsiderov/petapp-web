@@ -49,7 +49,7 @@ const RegisterModal = () => {
     register,
     handleSubmit,
     formState: { errors },
-    watch
+    watch,
   } = useForm<FieldValues>({
     defaultValues: {
       firstName: "",
@@ -90,8 +90,8 @@ const RegisterModal = () => {
     registerModal.onClose();
     loginModal.onOpen();
   }, [registerModal, loginModal]);
-  
-  const [password, confirmPassword] = watch(["password", "confirmPassword"]);
+
+  const password = watch("password");
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -131,7 +131,6 @@ const RegisterModal = () => {
         errors={errors}
         required
         hasMinLength
-        confirmWith={confirmPassword}
       />
       <PasswordInput
         id="confirmPassword"
@@ -141,7 +140,7 @@ const RegisterModal = () => {
         errors={errors}
         required
         hasMinLength
-        confirmWith={password}
+        passwordToConfirmWith={password}
       />
     </div>
   );
