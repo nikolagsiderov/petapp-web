@@ -12,6 +12,8 @@ import useLoginModal from "@/app/hooks/useLoginModal";
 import useRegister from "@/app/context/TRQs/users/mutations/useRegister";
 import useAuthenticateWithGoogle from "@/app/context/TRQs/users/mutations/useAuthenticateWithGoogle";
 import { useTranslation } from "react-i18next";
+import PasswordInput from "../inputs/PasswordInput";
+import EmailInput from "../inputs/EmailInput";
 
 const RegisterModal = () => {
   const { t } = useTranslation();
@@ -47,6 +49,7 @@ const RegisterModal = () => {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm<FieldValues>({
     defaultValues: {
       firstName: "",
@@ -88,6 +91,8 @@ const RegisterModal = () => {
     loginModal.onOpen();
   }, [registerModal, loginModal]);
 
+  const password = watch("password");
+
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <Heading
@@ -110,7 +115,7 @@ const RegisterModal = () => {
         errors={errors}
         required
       />
-      <Input
+      <EmailInput
         id="email"
         label={t("Email")}
         disabled={loading}
@@ -118,14 +123,24 @@ const RegisterModal = () => {
         errors={errors}
         required
       />
-      <Input
+      <PasswordInput
         id="password"
-        type="password"
         label={t("Password")}
         disabled={loading}
         register={register}
         errors={errors}
         required
+        hasMinLength
+      />
+      <PasswordInput
+        id="confirmPassword"
+        label={t("confirm_password")}
+        disabled={loading}
+        register={register}
+        errors={errors}
+        required
+        hasMinLength
+        passwordToConfirmWith={password}
       />
     </div>
   );

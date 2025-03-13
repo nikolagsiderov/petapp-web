@@ -10,15 +10,19 @@ interface InputProps {
   required?: boolean;
   register: UseFormRegister<FieldValues>;
   errors: FieldErrors;
+  hasMinLength?: boolean;
+  passwordToConfirmWith?: string;
 }
 
-const EmailInput: React.FC<InputProps> = ({
+const PasswordInput: React.FC<InputProps> = ({
   id,
   label,
   disabled,
-  register,
   required,
+  register,
   errors,
+  hasMinLength,
+  passwordToConfirmWith,
 }) => {
   const { t } = useTranslation();
 
@@ -29,13 +33,19 @@ const EmailInput: React.FC<InputProps> = ({
         disabled={disabled}
         {...register(id, {
           required,
-          pattern: {
-            value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
-            message: "10002",
-          },
+          ...(passwordToConfirmWith && {
+            validate: (value) =>
+              value === passwordToConfirmWith || "Passwords_do_not_match",
+          }),
+          ...(hasMinLength && {
+            minLength: {
+              value: 6,
+              message: "Password_should_be_at_least_6_symbols",
+            },
+          }),
         })}
         placeholder=" "
-        type={"email"}
+        type={"password"}
         className={`peer w-full p-4 pt-6 font-light bg-white border-2 rounded-xl outline-none transition disabled:opacity-70 disabled:cursor-not-allowed pl-4" ${
           errors[id] ? "border-rose-500" : "border-neutral-300"
         }
@@ -55,5 +65,4 @@ const EmailInput: React.FC<InputProps> = ({
     </div>
   );
 };
-
-export default EmailInput;
+export default PasswordInput;

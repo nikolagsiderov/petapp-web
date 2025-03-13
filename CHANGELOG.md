@@ -1,3 +1,9 @@
+# [0.3.2]
+
+## Added
+ - Added new PasswordInput component with validations
+ - PasswordInput and EmailInput is used in RegisterModal, RegisterClient, LoginModal, LoginClient
+
 # [0.3.1]
 
 ## Changed
