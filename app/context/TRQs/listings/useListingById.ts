@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
-import { getListingByIdAsync } from "pawpal-fe-common/listings-api";
+import { getListingByIdAsync } from "@nikolagsiderov/pawpal-fe-common/listings-api";
 
 const useListingById = (id: string) => {
   const { handleError } = useGlobalErrorHandler();

@@ -5,7 +5,7 @@ import { useCallback } from "react";
 import useLoginModal from "./useLoginModal";
 import useAddListingToFavorites from "../context/TRQs/favorites/mutations/useAddListingToFavorites";
 import useRemoveListingFromFavorites from "../context/TRQs/favorites/mutations/useRemoveListingFromFavorites";
-import { Listing } from "pawpal-fe-common/listings-types";
+import { Listing } from "@nikolagsiderov/pawpal-fe-common/listings-types";
 import { useAuth } from "../context/AuthContext";
 
 interface IUseFavorite {

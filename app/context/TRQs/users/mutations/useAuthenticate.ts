@@ -2,8 +2,8 @@
 
 import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { authenticateAsync } from "pawpal-fe-common/users-api";
-import { IAuthenticatePayload } from "pawpal-fe-common/users-interfaces";
+import { authenticateAsync } from "@nikolagsiderov/pawpal-fe-common/users-api";
+import { IAuthenticatePayload } from "@nikolagsiderov/pawpal-fe-common/users-interfaces";
 import useCurrentUser from "../useCurrentUser";
 import { useAuth } from "@/app/context/AuthContext";
 import useListings from "../../listings/useListings";

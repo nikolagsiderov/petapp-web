@@ -1,6 +1,6 @@
 "use client";
 
-import { Reservation } from "pawpal-fe-common/listings-types";
+import { Reservation } from "@nikolagsiderov/pawpal-fe-common/listings-types";
 import ReservationsTableRows from "./ReservationsTableRows";
 import { useTranslation } from "react-i18next";
 

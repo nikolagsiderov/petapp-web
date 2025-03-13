@@ -5,7 +5,7 @@ import Heading from "@/app/components/Heading";
 import MyServicesContainer from "@/app/components/MyServicesContainer";
 import ReservationsTable from "@/app/components/pages/my-services/reservations/ReservationsTable";
 import usePetSitterReservations from "@/app/context/TRQs/listings/usePetSitterReservations";
-import { reservationStatuses } from "pawpal-fe-common/constants";
+import { reservationStatuses } from "@nikolagsiderov/pawpal-fe-common/constants";
 import { useTranslation } from "react-i18next";
 
 const ReservationRequests = () => {

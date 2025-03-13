@@ -2,8 +2,8 @@
 
 import { GoogleMap, MarkerF, useJsApiLoader } from "@react-google-maps/api";
 import { useRouter } from "next/navigation";
-import { mapsStyle } from "pawpal-fe-common/constants";
-import { Listing } from "pawpal-fe-common/listings-types";
+import { mapsStyle } from "@nikolagsiderov/pawpal-fe-common/constants";
+import { Listing } from "@nikolagsiderov/pawpal-fe-common/listings-types";
 import { useState, useEffect } from "react";
 
 interface LeftProps {

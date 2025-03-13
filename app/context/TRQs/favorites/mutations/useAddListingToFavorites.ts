@@ -2,9 +2,9 @@
 
 import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addListingToFavoritesAsync } from "pawpal-fe-common/favorites-api";
+import { addListingToFavoritesAsync } from "@nikolagsiderov/pawpal-fe-common/favorites-api";
 import useFavoriteListings from "../../listings/useFavoriteListings";
-import { Listing } from "pawpal-fe-common/listings-types";
+import { Listing } from "@nikolagsiderov/pawpal-fe-common/listings-types";
 import useListings from "../../listings/useListings";
 
 const useAddListingToFavorites = () => {

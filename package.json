@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@nikolagsiderov/pawpal-fe-common": "^0.0.212",
     "@react-google-maps/api": "^2.19.3",
     "@react-oauth/google": "^0.12.1",
     "@tanstack/react-query": "^5.66.3",
@@ -20,7 +21,6 @@
     "env-cmd": "^10.1.0",
     "i18next": "^24.0.5",
     "next": "^14.2.19",
-    "pawpal-fe-common": "^0.0.208",
     "query-string": "^8.2.0",
     "react": "^18",
     "react-country-flag": "^3.1.0",

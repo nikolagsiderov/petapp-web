@@ -7,8 +7,8 @@ import HeartButton from "../../HeartButton";
 import { FaStar } from "react-icons/fa6";
 import { categories } from "../../navbar/main/Categories";
 import useListingReviews from "@/app/context/TRQs/reviews/useListingReviews";
-import { Listing } from "pawpal-fe-common/listings-types";
-import { usePawPalImage } from "pawpal-fe-common/hooks";
+import { Listing } from "@nikolagsiderov/pawpal-fe-common/listings-types";
+import { usePawPalImage } from "@nikolagsiderov/pawpal-fe-common/hooks";
 import { useTranslation } from "react-i18next";
 
 interface ListingCardProps {

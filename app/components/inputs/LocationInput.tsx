@@ -7,7 +7,7 @@ import usePlacesAutocomplete, {
 } from "use-places-autocomplete";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useGooglePublicAddress as parseGooglePublicAddress } from "pawpal-fe-common/hooks";
+import { useGooglePublicAddress as parseGooglePublicAddress } from "@nikolagsiderov/pawpal-fe-common/hooks";
 import { useTranslation } from "react-i18next";
 
 export type Location = {

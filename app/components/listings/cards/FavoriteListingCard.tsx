@@ -5,8 +5,8 @@ import { useMemo } from "react";
 import Image from "next/image";
 import HeartButton from "../../HeartButton";
 import { categories } from "../../navbar/main/Categories";
-import { Listing } from "pawpal-fe-common/listings-types";
-import { usePawPalImage } from "pawpal-fe-common/hooks";
+import { Listing } from "@nikolagsiderov/pawpal-fe-common/listings-types";
+import { usePawPalImage } from "@nikolagsiderov/pawpal-fe-common/hooks";
 import { useTranslation } from "react-i18next";
 
 const FavoriteListingCard = ({ listing }: { listing: Listing }) => {

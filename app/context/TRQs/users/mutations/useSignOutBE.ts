@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import { signOutAsync } from "pawpal-fe-common/users-api";
+import { signOutAsync } from "@nikolagsiderov/pawpal-fe-common/users-api";
 
 const useSignOutBE = () => {
   return useMutation({

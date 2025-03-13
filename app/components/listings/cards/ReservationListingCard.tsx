@@ -6,9 +6,9 @@ import { format } from "date-fns";
 import Image from "next/image";
 import Button from "../../Button";
 import { categories } from "../../navbar/main/Categories";
-import { reservationStatuses } from "pawpal-fe-common/constants";
-import { ReservationWithListing } from "pawpal-fe-common/listings-types";
-import { usePawPalImage } from "pawpal-fe-common/hooks";
+import { reservationStatuses } from "@nikolagsiderov/pawpal-fe-common/constants";
+import { ReservationWithListing } from "@nikolagsiderov/pawpal-fe-common/listings-types";
+import { usePawPalImage } from "@nikolagsiderov/pawpal-fe-common/hooks";
 import { useTranslation } from "react-i18next";
 
 interface ReservationListingCardProps {

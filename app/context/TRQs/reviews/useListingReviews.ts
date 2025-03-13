@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import useGlobalErrorHandler from "@/app/hooks/useGlobalErrorHandler";
-import { getListingReviewsAsync } from "pawpal-fe-common/reviews-api";
+import { getListingReviewsAsync } from "@nikolagsiderov/pawpal-fe-common/reviews-api";
 import { useAuth } from "../../AuthContext";
 
 const useListingReviews = (targetItemId: string) => {
