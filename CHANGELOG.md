@@ -1,3 +1,10 @@
+# [0.4.1]
+
+## Added
+
+- Upgraded @nikolagsiderov/pawpal-fe-common to v0.0.228, which now supports environment variables
+- Added and set-up environment variables
+
 # [0.4.0]
 
 ## Added
