@@ -21,7 +21,7 @@ jobs:
       - name: Install markdown-it & markdown-it-confluence
         run: npm install markdown-it markdown-it-confluence
         env:
-          GITHUB_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
+          GH_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
 
       - name: Read CHANGELOG.md and Convert to Confluence Storage Format
         run: |

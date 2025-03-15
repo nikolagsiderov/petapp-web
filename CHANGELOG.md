@@ -5,6 +5,10 @@
 - Upgraded @nikolagsiderov/pawpal-fe-common to v0.0.228, which now supports environment variables
 - Added and set-up environment variables
 
+## Changed
+
+- GitHub Packages token variable now as GH_PACKAGES_TOKEN
+
 # [0.4.0]
 
 ## Added
