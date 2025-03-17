@@ -134,7 +134,7 @@ const RegisterModal = () => {
       />
       <PasswordInput
         id="confirmPassword"
-        label={t("confirm_password")}
+        label={t("Confirm_password")}
         disabled={loading}
         register={register}
         errors={errors}

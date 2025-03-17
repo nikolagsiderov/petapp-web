@@ -32,7 +32,7 @@ const PetSittingFilter = () => {
     }
 
     return t("Where");
-  }, [address, getByValue]);
+  }, [address, getByValue, t]);
 
   const locationSecondaryLabel = useMemo(() => {
     if (address) {
@@ -40,7 +40,7 @@ const PetSittingFilter = () => {
     }
 
     return t("Select_location");
-  }, [address]);
+  }, [address, t]);
 
   const locationLabelIsTextLarger = useMemo(() => {
     if (address) {
@@ -64,7 +64,7 @@ const PetSittingFilter = () => {
     }
 
     return t("When");
-  }, [startDate, endDate]);
+  }, [startDate, endDate, t]);
 
   const durationSecondaryLabel = useMemo(() => {
     if (startDate && endDate) {
@@ -80,7 +80,7 @@ const PetSittingFilter = () => {
     }
 
     return t("Select_dates");
-  }, [startDate, endDate]);
+  }, [startDate, endDate, t]);
 
   const durationLabelIsTextLarger = useMemo(() => {
     if (startDate && endDate) {
@@ -110,7 +110,7 @@ const PetSittingFilter = () => {
     }
 
     return t("Pet");
-  }, [category, i18n.language]);
+  }, [category, i18n.language, t]);
 
   return (
     <div

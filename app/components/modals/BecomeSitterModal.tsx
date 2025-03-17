@@ -133,7 +133,7 @@ const BecomeSitterModal = () => {
     }
 
     return t("Continue");
-  }, [step]);
+  }, [step, t]);
 
   const secondaryActionLabel = useMemo(() => {
     if (step === STEPS.CATEGORY) {
@@ -141,7 +141,7 @@ const BecomeSitterModal = () => {
     }
 
     return t("Back");
-  }, [step]);
+  }, [step, t]);
 
   let bodyContent = (
     <div className="flex flex-col gap-8">

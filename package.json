@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@nikolagsiderov/pawpal-fe-common": "^0.0.247",
+    "@nikolagsiderov/pawpal-fe-common": "^0.0.248",
     "@react-google-maps/api": "^2.19.3",
     "@react-oauth/google": "^0.12.1",
     "@tanstack/react-query": "^5.66.3",

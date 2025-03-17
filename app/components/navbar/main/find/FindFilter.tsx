@@ -31,7 +31,7 @@ const FindFilter = () => {
     }
 
     return t("Where");
-  }, [address, getByValue]);
+  }, [address, getByValue, t]);
 
   const locationSecondaryLabel = useMemo(() => {
     if (address) {
@@ -39,7 +39,7 @@ const FindFilter = () => {
     }
 
     return t("Last_known_location");
-  }, [address]);
+  }, [address, t]);
 
   const locationLabelIsTextLarger = useMemo(() => {
     if (address) {
@@ -63,7 +63,7 @@ const FindFilter = () => {
     }
 
     return t("When");
-  }, [startDate, endDate]);
+  }, [startDate, endDate, t]);
 
   const durationSecondaryLabel = useMemo(() => {
     if (startDate && endDate) {
@@ -79,7 +79,7 @@ const FindFilter = () => {
     }
 
     return t("Last_seen");
-  }, [startDate, endDate]);
+  }, [startDate, endDate, t]);
 
   const durationLabelIsTextLarger = useMemo(() => {
     if (startDate && endDate) {
@@ -103,7 +103,7 @@ const FindFilter = () => {
     }
 
     return t("All_reports");
-  }, [category]);
+  }, [category, t]);
 
   return (
     <div

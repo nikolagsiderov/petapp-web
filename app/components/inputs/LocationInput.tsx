@@ -13,6 +13,7 @@ import { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { useGooglePublicAddress as parseGooglePublicAddress } from "@nikolagsiderov/pawpal-fe-common/hooks";
 import { useTranslation } from "react-i18next";
+import EmptyState from "../EmptyState";
 
 export type Location = {
   publicAddress: string;
@@ -34,7 +35,7 @@ const LocationInput: React.FC<LocationInputProps> = ({ onChange }) => {
 
   const libraries = useMemo<Libraries>(() => ["places"], []);
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyCPASOspif-cElvaiBWxsuLwAHKq9YyKbs",
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY ?? "",
     libraries,
   });
 
@@ -80,17 +81,26 @@ const LocationInput: React.FC<LocationInputProps> = ({ onChange }) => {
     };
 
     updateAddressesStateAsync();
-  }, [privateAddress, publicAddress]);
+  }, [privateAddress, publicAddress, clearSuggestions, onChange, setValue]);
 
-  return isLoaded ? (
-    <Autocomplete onPlaceChanged={onPlaceChanged} onLoad={onLoad}>
-      <input
-        placeholder={t("Enter_address")}
-        className="w-full py-2 px-4 text-gray-900 placeholder:text-gray-400 focus:outline-0 border-gray-400 focus:border-gray-700 border-2 rounded sm:text-sm/6"
-      />
-    </Autocomplete>
-  ) : (
-    <></>
+  if (process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY) {
+    return isLoaded ? (
+      <Autocomplete onPlaceChanged={onPlaceChanged} onLoad={onLoad}>
+        <input
+          placeholder={t("Enter_address")}
+          className="w-full py-2 px-4 text-gray-900 placeholder:text-gray-400 focus:outline-0 border-gray-400 focus:border-gray-700 border-2 rounded sm:text-sm/6"
+        />
+      </Autocomplete>
+    ) : (
+      <></>
+    );
+  }
+
+  return (
+    <EmptyState
+      title="Environment variable 'GOOGLE_PLACES_API_KEY' is missing"
+      subtitle="Please provide a valid 'GOOGLE_PLACES_API_KEY' in the environment variables"
+    />
   );
 };
 

@@ -32,7 +32,7 @@ const ReservationsTableRows = ({ request, index }: TableRowsProps) => {
       toast.success(t("Reservation_request_accepted"));
       router.refresh();
     },
-    [router, updateReservationStatus]
+    [router, updateReservationStatus, t]
   );
 
   const onCancel = useCallback(
@@ -45,7 +45,7 @@ const ReservationsTableRows = ({ request, index }: TableRowsProps) => {
       toast.success(t("Reservation_request_rejected"));
       router.refresh();
     },
-    [router, updateReservationStatus]
+    [router, updateReservationStatus, t]
   );
 
   const handleReservationDate = (request: Reservation) => {

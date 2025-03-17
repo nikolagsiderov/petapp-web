@@ -140,7 +140,7 @@ const RegisterClient = () => {
       />
       <PasswordInput
         id="confirmPassword"
-        label={t("Confirm_Passwords")}
+        label={t("Confirm_password")}
         disabled={loading}
         register={register}
         errors={errors}

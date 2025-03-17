@@ -83,7 +83,7 @@ const FindModal = () => {
     }
 
     return t("Continue");
-  }, [step]);
+  }, [step, t]);
 
   const secondaryActionLabel = useMemo(() => {
     if (step === STEPS.LOCATION) {
@@ -91,7 +91,7 @@ const FindModal = () => {
     }
 
     return t("Back");
-  }, [step]);
+  }, [step, t]);
 
   let bodyContent = (
     <div className="flex flex-col gap-8">

@@ -15,7 +15,9 @@ const AppClient = ({
   return (
     <AuthProvider>
       <TanStackReactQueryProvider>
-        <GoogleOAuthProvider clientId="508483481007-bnvs2k6jpc0ei0t075ecps22b5cbga8f.apps.googleusercontent.com">
+        <GoogleOAuthProvider
+          clientId={process.env.NEXT_PUBLIC_WEB_GOOGLE_OAUTH_CLIENT_ID ?? ""}
+        >
           <ClientOnly>
             <ToasterProvider />
             <div>{children}</div>

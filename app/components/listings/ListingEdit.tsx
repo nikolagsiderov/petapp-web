@@ -57,32 +57,7 @@ const ListingEdit: React.FC<ListingEditProps> = ({ listing, reservation }) => {
     });
   };
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    setIsLoading(true);
-
-    // axios
-    //   .post("/api/listings", data)
-    //   .then(() => {
-    //     toast.success("Обявата е успешно създадена!");
-    //     router.refresh();
-    //     reset();
-    //   })
-    //   .catch((error) => {
-    //     if (
-    //       error &&
-    //       error.response &&
-    //       error.response.data &&
-    //       error.response.data.message
-    //     ) {
-    //       toast.error(error.response.data.message);
-    //     } else {
-    //       toast.error("Нещо се обърка.");
-    //     }
-    //   })
-    //   .finally(() => {
-    //     setIsLoading(false);
-    //   });
-  };
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {};
 
   return (
     <>
