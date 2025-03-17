@@ -2,8 +2,8 @@
 
 ## Added
 
-- Upgraded @nikolagsiderov/pawpal-fe-common to v0.0.228, which now supports environment variables
-- Added and set-up environment variables
+- Upgraded @nikolagsiderov/pawpal-fe-common to v0.0.247, which now supports environment variables
+- Setup environment variables
 
 ## Changed
 

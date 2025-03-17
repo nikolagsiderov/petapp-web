@@ -1,7 +1,10 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { isAuthenticated as isAuthenticatedFetch } from "@nikolagsiderov/pawpal-fe-common/context";
+import {
+  getEnvironmentConfig,
+  isAuthenticated as isAuthenticatedFetch,
+} from "@nikolagsiderov/pawpal-fe-common/context";
 import Loader from "../components/Loader";
 import { redirect } from "next/navigation";
 
@@ -15,16 +18,21 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const env = getEnvironmentConfig();
   const [authStatus, setAuthStatus] = useState<boolean | null>(null);
 
   useEffect(() => {
     const fetchInitialAuthStatus = async () => {
-      const status = await isAuthenticatedFetch();
-      setAuthStatus(status);
+      if (env.USERS_API_URL !== undefined) {
+        const status = await isAuthenticatedFetch();
+        setAuthStatus(status);
+      } else {
+        setAuthStatus(false);
+      }
     };
 
     fetchInitialAuthStatus();
-  }, []);
+  }, [env]);
 
   if (authStatus === false || authStatus === true) {
     return (

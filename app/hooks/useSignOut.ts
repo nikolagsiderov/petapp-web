@@ -11,7 +11,7 @@ const useSignOut = () => {
   const queryClient = useQueryClient();
   const { mutate: signOutRequest } = useSignOutBE();
 
-  const signOut = async () => {
+  const signOut = () => {
     setAuthStatus(false);
     signOutRequest();
 
