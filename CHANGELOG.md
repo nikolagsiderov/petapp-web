@@ -1,3 +1,9 @@
+# [0.4.2]
+
+## Added
+
+- Upgraded @nikolagsiderov/pawpal-fe-common to v0.0.249, with support for all current response validation codes
+
 # [0.4.1]
 
 ## Added
