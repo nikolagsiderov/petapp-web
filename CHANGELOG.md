@@ -1,3 +1,9 @@
+# [0.4.3]
+
+## Added
+
+- Added skeleton loading state for listings details page
+
 # [0.4.2]
 
 ## Added
