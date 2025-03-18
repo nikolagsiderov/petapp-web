@@ -15,7 +15,6 @@ import useCreateReservation from "@/app/context/TRQs/listings/mutations/useCreat
 import useListingById from "@/app/context/TRQs/listings/useListingById";
 import EmptyState from "@/app/components/EmptyState";
 import { useAuth } from "@/app/context/AuthContext";
-import { usePawPalImage } from "@nikolagsiderov/pawpal-fe-common/hooks";
 import useCurrentUser from "@/app/context/TRQs/users/useCurrentUser";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
@@ -31,12 +30,11 @@ interface ListingClientProps {
 }
 
 const ListingClient: React.FC<ListingClientProps> = ({ id }) => {
-  const { data: listing } = useListingById(id);
+  const { data: listing, isLoading } = useListingById(id);
   const { data: currentUser } = useCurrentUser();
   // const reviews = await getReviews(params); // TODO: GET reviews and utilize
 
   const router = useRouter();
-  const { getImageSrc } = usePawPalImage();
   const loginModal = useLoginModal();
   const { authStatus } = useAuth();
 
@@ -53,7 +51,8 @@ const ListingClient: React.FC<ListingClientProps> = ({ id }) => {
     return categories.find((c) => c.value === listing?.category);
   }, [listing?.category]);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitReservationLoading, setIsSubmitReservationLoading] =
+    useState(false);
   const [totalPrice, setTotalPrice] = useState(listing?.price);
   const [dateRange, setDateRange] = useState<Range>(initialDateRange);
 
@@ -74,7 +73,7 @@ const ListingClient: React.FC<ListingClientProps> = ({ id }) => {
       return loginModal.onOpen();
     }
 
-    setIsLoading(true);
+    setIsSubmitReservationLoading(true);
 
     if (listing && listing.id && dateRange.startDate && dateRange.endDate) {
       dateRange.startDate.setHours(22);
@@ -89,7 +88,7 @@ const ListingClient: React.FC<ListingClientProps> = ({ id }) => {
       // TODO: Else handle validation message...
     }
 
-    setIsLoading(false);
+    setIsSubmitReservationLoading(false);
   };
 
   const isCurrentUserOwnerOfListing = () => {
@@ -117,68 +116,85 @@ const ListingClient: React.FC<ListingClientProps> = ({ id }) => {
     (period: any) => getDisabledDatesInRange(period.fromDate, period.toDate)
   );
 
-  if (!listing) {
+  if (isLoading) {
+    return (
+      <MainContainer>
+        <div className="max-w-screen-lg mx-auto lg:pt-24 pt-32 pb-20">
+          <div className="flex flex-col gap-6 animate-pulse">
+            <div className="mt-4 h-4 w-[70%] rounded-md bg-gray-200" />
+            <div className="h-[60vh] w-full rounded-xl bg-gray-200" />
+            <div className="mt-4 w-full grid grid-cols-6 gap-4 items-start">
+              <div className="col-span-3">
+                <div className="flex items-center gap-4 mb-12">
+                  <div className="h-6 w-[32rem] rounded-md bg-gray-200" />
+                  <div className="h-[4rem] w-[5rem] rounded-full bg-gray-200" />
+                </div>
+                <div className="flex items-center gap-4 mb-12">
+                  <div className="h-[4rem] w-[4rem] rounded-full bg-gray-200" />
+                  <div>
+                    <div className="mb-2 h-6 w-[12rem] rounded-md bg-gray-200" />
+                    <div className="h-4 w-[20rem] rounded-md bg-gray-200" />
+                  </div>
+                </div>
+                <div className="items-center mb-12">
+                  <div className="mb-2 h-4 w-full rounded-md bg-gray-200" />
+                  <div className="mb-2 h-4 w-full rounded-md bg-gray-200" />
+                  <div className="mb-2 h-4 w-full rounded-md bg-gray-200" />
+                  <div className="mb-2 h-4 w-full rounded-md bg-gray-200" />
+                  <div className="mb-2 h-4 w-full rounded-md bg-gray-200" />
+                  <div className="h-4 w-[20rem] rounded-md bg-gray-200" />
+                </div>
+              </div>
+              <div className="justify-self-end col-span-3 w-[26rem] h-96 rounded-xl bg-gray-200" />
+            </div>
+            <div className="my-4 h-4 w-[70%] rounded-md bg-gray-200" />
+            <div className="h-[60vh] w-full rounded-xl bg-gray-200" />
+            <div className="mt-4 h-4 w-[50%] rounded-md bg-gray-200" />
+          </div>
+        </div>
+      </MainContainer>
+    );
+  }
+
+  if (!isLoading && !listing) {
     return <EmptyState />;
   }
 
-  return (
-    <MainContainer>
-      <div
-        className="
-          max-w-screen-lg 
-          mx-auto
-          lg:pt-24 pt-32 pb-20
-        "
-      >
-        <div className="flex flex-col gap-6">
-          <ListingHead
-            imageSrc={getImageSrc(listing.imageRelativePaths[0])}
-            address={listing.address}
-            listing={listing}
-          />
-          <div
-            className="
-              grid
-              grid-cols-1
-              md:grid-cols-7
-              md:gap-10
-              mt-4
-            "
-          >
-            <ListingInfo
-              user={listing.user}
-              category={category}
-              description={listing.description}
-              ownerIsWatching={isCurrentUserOwnerOfListing()}
-            />
-            <div
-              className="
-                order-first
-                mb-8
-                md:order-last
-                md:col-span-3
-              "
-            >
-              <div className="lg:sticky lg:top-[7rem]">
-                <ListingReservation
-                  price={listing.price}
-                  totalPrice={totalPrice ?? 0}
-                  onChangeDate={(value) => setDateRange(value)}
-                  dateRange={dateRange}
-                  onSubmit={onSubmit}
-                  disabled={isLoading}
-                  disabledDates={disabledDates ?? []}
-                  ownerIsWatching={isCurrentUserOwnerOfListing()}
-                />
+  if (!isLoading && listing) {
+    return (
+      <MainContainer>
+        <div className="max-w-screen-lg mx-auto lg:pt-24 pt-32 pb-20">
+          <div className="flex flex-col gap-6">
+            <ListingHead listing={listing} />
+            <div className="grid grid-cols-1 md:grid-cols-7 md:gap-10 mt-4">
+              <ListingInfo
+                user={listing.user}
+                category={category}
+                description={listing.description}
+                ownerIsWatching={isCurrentUserOwnerOfListing()}
+              />
+              <div className="order-first mb-8 md:order-last md:col-span-3">
+                <div className="lg:sticky lg:top-[7rem]">
+                  <ListingReservation
+                    price={listing.price}
+                    totalPrice={totalPrice ?? 0}
+                    onChangeDate={(value) => setDateRange(value)}
+                    dateRange={dateRange}
+                    onSubmit={onSubmit}
+                    disabled={isSubmitReservationLoading}
+                    disabledDates={disabledDates ?? []}
+                    ownerIsWatching={isCurrentUserOwnerOfListing()}
+                  />
+                </div>
               </div>
             </div>
+            <ListingReviews targetItemId={listing.id} />
+            <ListingMap listing={listing} />
           </div>
-          <ListingReviews targetItemId={listing.id} />
-          <ListingMap listing={listing} />
         </div>
-      </div>
-    </MainContainer>
-  );
+      </MainContainer>
+    );
+  }
 };
 
 export default ListingClient;

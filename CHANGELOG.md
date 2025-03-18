@@ -1,3 +1,10 @@
+# [0.4.3]
+
+## Added
+
+- Added skeleton loading state for listings details page
+- Added Loader component when loading state for favorites & reservations pages
+
 # [0.4.2]
 
 ## Added

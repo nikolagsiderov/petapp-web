@@ -4,21 +4,18 @@ import Image from "next/image";
 import Heading from "../Heading";
 import HeartButton from "../HeartButton";
 import { Listing } from "@nikolagsiderov/pawpal-fe-common/listings-types";
+import { usePawPalImage } from "@nikolagsiderov/pawpal-fe-common/hooks";
 
 interface ListingHeadProps {
-  address: string;
-  imageSrc: string;
   listing: Listing;
 }
 
-const ListingHead: React.FC<ListingHeadProps> = ({
-  address,
-  imageSrc,
-  listing,
-}) => {
+const ListingHead: React.FC<ListingHeadProps> = ({ listing }) => {
+  const { getImageSrc } = usePawPalImage();
+
   return (
     <>
-      <Heading subtitle={address} />
+      <Heading subtitle={listing.address} />
       <div
         className="
           w-full
@@ -29,13 +26,19 @@ const ListingHead: React.FC<ListingHeadProps> = ({
         "
       >
         <Image
-          src={imageSrc ? imageSrc : "/images/listing-default-image.png"}
+          src={
+            getImageSrc(listing.imageRelativePaths[0]) ??
+            "/images/listing-default-image.png"
+          }
           fill
           className="object-cover"
           alt="Image"
           sizes="(min-width: 1px) 100vw"
           placeholder="blur"
-          blurDataURL={imageSrc ?? "/images/listing-default-image.png"}
+          blurDataURL={
+            getImageSrc(listing.imageRelativePaths[0]) ??
+            "/images/listing-default-image.png"
+          }
         />
         <div
           className="
