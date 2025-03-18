@@ -3,15 +3,20 @@
 import EmptyState from "@/app/components/EmptyState";
 import Heading from "@/app/components/Heading";
 import FavoriteListingCard from "@/app/components/listings/cards/FavoriteListingCard";
+import Loader from "@/app/components/Loader";
 import MainContainer from "@/app/components/MainContainer";
 import useFavoriteListings from "@/app/context/TRQs/listings/useFavoriteListings";
 import { useTranslation } from "react-i18next";
 
 const FavoritesClient = () => {
   const { t } = useTranslation();
-  const { data: listings } = useFavoriteListings();
+  const { data: listings, isLoading } = useFavoriteListings();
 
-  if (!listings || listings.length === 0) {
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (!isLoading && (!listings || listings.length === 0)) {
     return (
       <EmptyState
         title={t("No_favorite_listings")}
