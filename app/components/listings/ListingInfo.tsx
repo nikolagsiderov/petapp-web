@@ -25,7 +25,7 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
   category,
   ownerIsWatching,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   return (
     <div className="col-span-4 flex flex-col gap-8">
@@ -51,22 +51,16 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
 
           <Avatar width={60} height={60} src={user?.image} />
         </div>
-        <div
-          className="
-            flex 
-            flex-row 
-            items-center 
-            gap-4 
-            font-light
-            text-neutral-500
-          "
-        ></div>
       </div>
       <hr />
       {category && (
         <ListingCategory
-          label={category?.label}
-          description={category?.description}
+          label={i18n.language === "bg" ? category?.label : category?.value}
+          description={
+            i18n.language === "bg"
+              ? category?.description
+              : category?.descriptionEN
+          }
           imageSrc={category.imageSrc}
         />
       )}
