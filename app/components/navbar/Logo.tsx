@@ -17,7 +17,7 @@ const Logo: React.FC<LogoProps> = ({ includeCompanyName }) => {
       className="block cursor-pointer"
       height="50"
       width="50"
-      src="/images/logo.png"
+      src="/images/dog banner.png"
     />
   );
 };

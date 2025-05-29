@@ -3,8 +3,8 @@
 import React from "react";
 import useScrollingEffect from "@/app/hooks/useScroll";
 import { useRouter } from "next/navigation";
-import { IoMdLocate } from "react-icons/io";
-import { IoMdPaw } from "react-icons/io";
+import { FaHandshakeSimple } from "react-icons/fa6";
+import { MdOutlineAttachMoney } from "react-icons/md";
 import useBottomNavigation from "@/app/hooks/useBottomNavigation";
 
 const BottomNav = () => {
@@ -24,16 +24,16 @@ const BottomNav = () => {
           className="flex items-center"
         >
           {isPetSitting ? (
-            <IoMdPaw className="fill-rose-500" size={24} />
+            <MdOutlineAttachMoney className="fill-sky-700" size={24} />
           ) : (
-            <IoMdPaw size={24} />
+            <MdOutlineAttachMoney size={24} />
           )}
         </div>
         <div onClick={() => router.push("/find")} className="flex items-center">
           {isFindActive ? (
-            <IoMdLocate className="fill-rose-500" size={24} />
+            <FaHandshakeSimple className="fill-sky-700" size={24} />
           ) : (
-            <IoMdLocate size={24} />
+            <FaHandshakeSimple size={24} />
           )}
         </div>
       </div>

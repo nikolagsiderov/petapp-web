@@ -35,12 +35,12 @@ const PasswordInput: React.FC<InputProps> = ({
           required,
           ...(passwordToConfirmWith && {
             validate: (value) =>
-              value === passwordToConfirmWith || "Passwords_do_not_match",
+              value === passwordToConfirmWith || "Паролите не съвпадат",
           }),
           ...(hasMinLength && {
             minLength: {
               value: 6,
-              message: "Password_should_be_at_least_6_symbols",
+              message: "Паролата трябва да е поне 6 символа",
             },
           }),
         })}

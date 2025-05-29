@@ -1,7 +1,7 @@
 "use client";
 
-import { IoMdLocate } from "react-icons/io";
-import { IoMdPaw } from "react-icons/io";
+import { FaHandshakeSimple } from "react-icons/fa6";
+import { MdOutlineAttachMoney } from "react-icons/md";
 import { useRouter, usePathname } from "next/navigation";
 import { useTranslation } from "react-i18next";
 
@@ -23,8 +23,8 @@ const NavigationMenu = () => {
         } py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer`}
       >
         <div className="flex flex-row gap-1 justify-center items-center">
-          <IoMdPaw size={24} className="fill-rose-500" />
-          {t("Pet_SittingOrStay")}
+          <MdOutlineAttachMoney size={24} className="fill-sky-700" />
+          Купи/продай
         </div>
       </div>
       <div
@@ -34,8 +34,8 @@ const NavigationMenu = () => {
         } py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer`}
       >
         <div className="flex flex-row gap-1 justify-center items-center">
-          <IoMdLocate size={24} className="fill-rose-500" />
-          {t("LostOrFound")}
+          <FaHandshakeSimple size={24} className="fill-sky-700" />
+          Предложи услуга
         </div>
       </div>
     </div>

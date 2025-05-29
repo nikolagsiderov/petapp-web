@@ -11,7 +11,9 @@ const Hero = () => {
       <div className="text-4xl lg:text-6xl leading-tight lg:leading-tight">
         {t("Welcome_to")}
         <br />
-        <h1 className="text-rose-500 font-black tracking-tighter">PawPal</h1>
+        <h1 className="text-sky-700 font-black tracking-tighter">
+          ServiceFinder
+        </h1>
       </div>
       <br />
       <h6 className="font-light text-sm">{t("Follow_us_on_social_media")}</h6>
@@ -27,14 +29,18 @@ const Hero = () => {
         </div>
       </div>
       <br />
-      <div className="bg-clip-border rounded-lg p-6 bg-rose-500">
+      <div className="bg-clip-border rounded-lg p-6 bg-sky-700">
         <h2 className="font-extrabold text-2xl relative text-white">
-          {t("The_best_Bulgarian_platform_for_pets")}
+          Най-добрата българска платформа за услуги!
         </h2>
       </div>
       <div className="flex flex-col items-center justify-start gap-4 mt-12">
-        <h3 className="font-md text-xl">{t("HeroDescription")}</h3>
-        <h3 className="font-md text-xl">{t("HeroDescription2")}</h3>
+        <h3 className="font-md text-xl">
+          Разгледай най-добрите оферти за услуги!
+        </h3>
+        <h3 className="font-md text-xl">
+          Бързо и лесно продай, подари или предложи услуга!
+        </h3>
       </div>
     </div>
   );

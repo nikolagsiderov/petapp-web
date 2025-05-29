@@ -59,10 +59,10 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({
   return (
     <div
       onClick={handleClick}
-      className={`flex flex-col items-center justify-center gap-1 p-3 border-b-2 hover:text-rose-500 transition cursor-pointer ${
-        selected ? "border-b-rose-500" : "border-transparent"
+      className={`flex flex-col items-center justify-center gap-1 p-3 border-b-2 hover:text-sky-700 transition cursor-pointer ${
+        selected ? "border-b-sky-700" : "border-transparent"
       }
-    ${selected ? "text-rose-500" : "text-neutral-700"}`}
+    ${selected ? "text-sky-700" : "text-neutral-700"}`}
     >
       {pathname === "/petsitting" && (
         <>

@@ -13,7 +13,7 @@ const Footer = () => {
         <MainContainer>
           <div className="flex flex-row overflow-hidden justify-between items-center gap-2 md:text-xs">
             <div>
-              © {new Date().getFullYear()} PawPal v
+              © {new Date().getFullYear()} ServiceFinder v
               {process.env.NEXT_PUBLIC_VERSION}
             </div>
             <div className="font-black">·</div>

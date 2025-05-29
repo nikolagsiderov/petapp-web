@@ -96,7 +96,7 @@ const LoginClient = () => {
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <Heading
-        title={`${t("Welcome_to")} PawPal`}
+        title={`${t("Welcome_to")} ServiceFinder`}
         subtitle={t("Sign_in_to_your_profile")}
       />
       <EmailInput

@@ -102,7 +102,7 @@ const RegisterClient = () => {
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <Heading
-        title={`${t("Welcome_to")} PawPal`}
+        title={"Добре дошли в ServiceFinder"}
         subtitle={t("Fill_in_to_create_your_account")}
       />
       <Input

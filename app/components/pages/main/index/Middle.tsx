@@ -1,9 +1,9 @@
 "use client";
 
-import { IoMdHeart } from "react-icons/io";
+import { MdOutlineAttachMoney } from "react-icons/md";
+import { FaEuroSign } from "react-icons/fa";
 import { IoMdLocate } from "react-icons/io";
-import { FaDog } from "react-icons/fa";
-import { IoMdPaw } from "react-icons/io";
+import { FaHandsHelping } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 
 const Middle = () => {
@@ -34,13 +34,13 @@ const Middle = () => {
             className="
             rounded-full
             border-8
-            border-rose-500
+            border-sky-700
             p-4"
           >
-            <IoMdPaw size={64} className="fill-rose-500" />
+            <MdOutlineAttachMoney size={64} className="fill-sky-700" />
           </div>
-          <h3 className="text-3xl font-bold">{t("Pet_SittingOrStay")}</h3>
-          <p>{t("PetSittingDescription")}</p>
+          <h3 className="text-3xl font-bold">Купи</h3>
+          <p>Най-големия пазар на дребни и едри стоки в България!</p>
         </div>
         <div
           className="
@@ -54,13 +54,13 @@ const Middle = () => {
             className="
           rounded-full
           border-8
-          border-rose-500
+          border-sky-700
           p-4"
           >
-            <FaDog size={64} className="fill-rose-500" />
+            <FaEuroSign size={64} className="fill-sky-700" />
           </div>
-          <h3 className="text-3xl font-bold">{t("Find_a_home")}</h3>
-          <p>{t("FindAHomeDescription")}</p>
+          <h3 className="text-3xl font-bold">Продай</h3>
+          <p>Бързо и лесно продай стоката си на изгодна цена!</p>
         </div>
         <div
           className="
@@ -74,13 +74,16 @@ const Middle = () => {
             className="
           rounded-full
           border-8
-          border-rose-500
+          border-sky-700
           p-4"
           >
-            <IoMdLocate size={64} className="fill-rose-500" />
+            <IoMdLocate size={64} className="fill-sky-700" />
           </div>
-          <h3 className="text-3xl font-bold">{t("LostOrFound")}</h3>
-          <p>{t("LostFoundDescription")}</p>
+          <h3 className="text-3xl font-bold">Търсиш услуга?</h3>
+          <p>
+            Най-лесното и бързо място да намериш човек, който да ти помогне -
+            било то с боядисване или смяна на ангренажен ремък!
+          </p>
         </div>
         <div
           className="
@@ -94,13 +97,16 @@ const Middle = () => {
             className="
           rounded-full
           border-8
-          border-rose-500
+          border-sky-700
           p-4"
           >
-            <IoMdHeart size={64} className="fill-rose-500" />
+            <FaHandsHelping size={64} className="fill-sky-700" />
           </div>
-          <h3 className="text-3xl font-bold">{t("Find_a_partner")}</h3>
-          <p>{t("FindAPartnerDescription")}</p>
+          <h3 className="text-3xl font-bold">Предлагаш услуга?</h3>
+          <p>
+            Можеш да сменяш крушки? Знаеш руски? Или просто искаш да помогнеш -
+            тук е мястото!
+          </p>
         </div>
       </div>
     </section>
