@@ -53,14 +53,6 @@ const UserMenu: React.FC<UserMenuProps> = ({
   return (
     <div className="relative" ref={additionalRef}>
       <div className="flex flex-row items-center text-center gap-2">
-        {!hasUserAlreadyListed && currentPathIsPetSitting && (
-          <div
-            onClick={becomeSitter}
-            className="block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
-          >
-            {t("Become_pet_sitter")}
-          </div>
-        )}
         <div className="block text-sm font-semibold p-3 rounded-full hover:bg-neutral-100 transition cursor-pointer">
           {i18n.language === "bg" ? (
             <div onClick={() => i18n.changeLanguage("en")}>
@@ -94,7 +86,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
         >
           <AiOutlineMenu />
           <div className="hidden md:block">
-            <Avatar src={currentUser?.externalProfilePictureUrl ?? null} />
+            <Avatar src={"/images/anton.jpg"} />
           </div>
         </div>
       </div>

@@ -6,23 +6,15 @@ import FavoriteListingCard from "@/app/components/listings/cards/FavoriteListing
 import Loader from "@/app/components/Loader";
 import MainContainer from "@/app/components/MainContainer";
 import useFavoriteListings from "@/app/context/TRQs/listings/useFavoriteListings";
+import useListings from "@/app/context/TRQs/listings/useListings";
 import { useTranslation } from "react-i18next";
 
 const FavoritesClient = () => {
   const { t } = useTranslation();
-  const { data: listings, isLoading } = useFavoriteListings();
+  const { data: listings, isLoading } = useListings();
 
   if (isLoading) {
     return <Loader />;
-  }
-
-  if (!isLoading && (!listings || listings.length === 0)) {
-    return (
-      <EmptyState
-        title={t("No_favorite_listings")}
-        subtitle={t("It_looks_like_you_havent_added_any_listings_to_favorites")}
-      />
-    );
   }
 
   return (

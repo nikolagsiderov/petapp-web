@@ -109,7 +109,7 @@ const PetSittingFilter = () => {
       }
     }
 
-    return t("Pet");
+    return "Категория";
   }, [category, i18n.language, t]);
 
   return (
@@ -126,19 +126,9 @@ const PetSittingFilter = () => {
             {locationSecondaryLabel}
           </div>
         </div>
-        <div className="hidden sm:block flex flex-col border-x-[1px] flex-1">
-          <div
-            className={`${durationLabelIsTextLarger} font-semibold px-8 text-center`}
-          >
-            {durationLabel}
-          </div>
-          <div className="text-sm font-light px-8">
-            {durationSecondaryLabel}
-          </div>
-        </div>
         <div className="text-sm pl-8 pr-2 text-gray-600 flex flex-row items-center gap-3">
           <div className="hidden sm:block">{categoryLabel}</div>
-          <div className="p-2 bg-rose-500 rounded-full text-white">
+          <div className="p-2 bg-sky-700 rounded-full text-white">
             <BiSearch size={18} />
           </div>
         </div>

@@ -78,7 +78,7 @@ const Left: React.FC<LeftProps> = ({ listings }) => {
                       color: "white",
                       fontSize: "14px",
                       className:
-                        "bg-rose-500 font-bold py-2 px-3 rounded-full cursor-pointer",
+                        "bg-sky-700 font-bold py-2 px-3 rounded-full cursor-pointer",
                     }}
                     onClick={() => handleMapSelect(listing.id)}
                   ></MarkerF>
